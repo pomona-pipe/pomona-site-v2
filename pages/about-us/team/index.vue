@@ -3,6 +3,9 @@
     <v-flex>
       <v-container>
           <!-- check product categories exists -->
+          <div>
+              <h1>This is the TEAM page</h1>
+          </div>
           <v-layout
             row
             wrap

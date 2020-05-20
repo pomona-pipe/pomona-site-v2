@@ -3,30 +3,30 @@
     <v-app-bar app fixed color="#303030" dark shrink-on-scroll dense>
         <img src="~/assets/logo_xlarge.png"  class="pomona_logo"/> 
       <div>
-        <v-menu v-for="link in navLinks" :key="link" open-on-hover top offset-y>
+        <v-menu v-for="link in navLinks" :key="link" open-on-hover bottom offset-y>
           <!-- non-repeat -->
           <template v-slot:activator="{ on }">
             <v-btn
               :nuxt="true"
-              :to="{path: `/${link['non-repeat'].link.value.document.uid}`}"
-              color="primary"
+              :to="{path: link.title.path }"
+              color="#303030"
               dark
               v-on="on"
-            >{{ link['non-repeat'].label.value[0].text }}</v-btn>
+            >{{ link.title.text }}</v-btn>
           </template>
 
           <!-- repeat -->
-          <v-list>
+          <v-list v-if="Object.keys(link).includes('sub_nav')">
             <v-list-item
-              v-for="dropdown in link.repeat"
+              v-for="dropdown in link.sub_nav"
               :key="dropdown"
               :nuxt="true"
-              :to="{path: `/products/${dropdown.sub_nav_link.value.document.uid}`}"
+              :to="{path: dropdown.path }"
               text
               rounded
               class="my-2"
             >
-              <v-list-item-title>{{ dropdown.sub_nav_link_label.value[0].text }}</v-list-item-title>
+              <v-list-item-title>{{ dropdown.text }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>

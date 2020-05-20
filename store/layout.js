@@ -1,56 +1,59 @@
 export const state = () => ({
   mobileDrawer: false,
-  navLinks: [{
-    repeat: [{
-        sub_nav_link_label: {
-          type: "StructuredText",
-          value: [{
-            type: "paragraph",
-            text: "Bridges & Structures",
-            spans: []
-          }]
-        },
-        sub_nav_link: {
-          type: "Link.document",
-          value: {
-            document: {
-              id: "XrmovRAAAPuZs9HK",
-              type: "product_categories",
-              tags: [],
-              lang: "en-us",
-              slug: "bridges--structures",
-              uid: "bridges-and-structures"
-            },
-            isBroken: false
-          }
-        }
+  navLinks: [
+    {
+      title: {
+        text: "Home",
+        path: "/"
       }
-
-    ],
-    "non-repeat": {
-      label: {
-        value: [{
-          type: "paragraph",
-          text: "Products",
-          spans: [ ]
-        }]
+    },
+    {
+      title: {
+        text: "Products",
+        path: "/products"
       },
-      link: {
-        type: "Link.document",
-        value: {
-          document: {
-            id: "XsLLnxAAAMq025VU",
-            type: "category_page",
-            tags: [],
-            lang: "en-us",
-            slug: "product-categories",
-            uid: "products",
-          },
-          isBroken: false
-        }
-      }
+      sub_nav: [{
+          text: "Bridges & Structures",
+          path: "/products/bridges-and-structures"
+        },
+        {
+          text: "Pipe",
+          path: "/products/pipe"
+        },
+        {
+          text: "Stormwater Management",
+          path: "/products/stormwater-management"
+        },
+        {
+          text: "Geosynthetics",
+          path: "/products/geosynthetics"
+        },
+        {
+          text: "Masonry",
+          path: "/products/masonry"
+        },
+        {
+          text: "Other Products",
+          path: "/products/other-products"
+        },
+      ]
+    },
+    {
+      title: {
+        text: "About Us",
+        path: "/about-us"
+      },
+      sub_nav: [{
+          text: "Team",
+          path: "/about-us/team"
+        },
+        {
+          text: "Contact",
+          path: "/about-us/contact"
+        },
+      ]
     }
-  }],
+  ],
 })
 
 export const mutations = {
