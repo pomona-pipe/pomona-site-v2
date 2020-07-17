@@ -29,13 +29,13 @@ export default class DetailPage extends Vue {
     $prismic: IPrismic
     error: any
   }) {
-    const pageName = store.state.layout.pageName
-    const storeProduct = find(store.state.products.products, ['uid', pageName])
+    const pageUid = store.state.layout.pageUid
+    const storeProduct = find(store.state.products.products, ['uid', pageUid])
     // check if product is already in store
     if (storeProduct) return
     // attempt to fetch product
     try {
-      const result = await $prismic.api.getByUID('products', pageName)
+      const result = await $prismic.api.getByUID('products', pageUid)
       store.commit('products/addProduct', result)
     } catch (e) {
       // Returns error page
@@ -45,8 +45,8 @@ export default class DetailPage extends Vue {
 
   // retrieve correct document from store
   created() {
-    const pageName = this.$store.state.layout.pageName
-    this.document = find(this.$store.state.products.products, ['uid', pageName])
+    const pageUid = this.$store.state.layout.pageUid
+    this.document = find(this.$store.state.products.products, ['uid', pageUid])
   }
 }
 </script>

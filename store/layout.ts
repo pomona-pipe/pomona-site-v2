@@ -2,6 +2,7 @@
 import { IPrismic } from '~/shims'
 
 interface IState {
+  pageUid: string | null
   pageName: string | null
   isMobile: boolean | null
   mobileDrawer: boolean
@@ -9,6 +10,7 @@ interface IState {
 }
 
 export const state: () => IState = () => ({
+  pageUid: null,
   pageName: null,
   isMobile: null,
   mobileDrawer: false,
@@ -16,9 +18,12 @@ export const state: () => IState = () => ({
 })
 
 export const mutations = {
+  setPageUid(state: IState, payload: string) {
+    const pageUid = payload.split('/').slice(-1)[0] || 'home'
+    state.pageUid = pageUid
+  },
   setPageName(state: IState, payload: string) {
-    const pageName = payload.split('/').slice(-1)[0] || 'home'
-    state.pageName = pageName
+    state.pageName = parseNameFromUid(payload)
   },
   setIsMobile(state: IState, value: boolean) {
     state.isMobile = value
@@ -43,4 +48,20 @@ export const actions = {
     const mainNavigation = await $prismic.api.query(byMainNavigation, {})
     commit('setMainNavigation', mainNavigation.results[0].data.nav)
   }
+}
+
+function parseNameFromUid(uid: string) {
+  const words = uid.split('-')
+  const conversions: { [key: string]: string } = {
+    and: '&'
+  }
+  words.forEach((word, index) => {
+    // capitalize first letter
+    words[index] = word.charAt(0).toUpperCase() + word.substr(1)
+    // convert key words to symbols
+    if (Object.keys(conversions).includes(word)) {
+      words[index] = conversions[word]
+    }
+  })
+  return words.join(' ')
 }

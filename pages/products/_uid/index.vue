@@ -13,7 +13,7 @@
               <v-flex v-for="product in products" :key="product.data.id" xs12 md6 lg3>
                 <v-hover v-slot:default="{ hover }" open-delay="200">
                   <v-card
-                    :to="`./${pageName}/${product.uid}`"
+                    :to="`./${pageUid}/${product.uid}`"
                     :elevation="hover ? 16 : 2"
                     class="mx-auto"
                     max-width="344"
@@ -39,36 +39,21 @@ import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import { IPrismic } from '~/shims'
 
-const pageCategoriesMap = {
-  'bridges-and-structures': 'Bridges & Structures',
-  'headwall-systems': 'Headwall Systems',
-  pipe: 'Pipe',
-  'stormwater-management': 'Stormwater Management',
-  'water-control-structures': 'Water Control Structures',
-  'slip-lining': 'Slip Lining',
-  masonry: 'Masonry',
-  'other-products': 'Other Products'
-}
-
-type categoryPage = keyof typeof pageCategoriesMap
-
 @Component({
   computed: {
-    ...mapState('layout', ['pageName'])
+    ...mapState('layout', ['pageUid', 'pageName'])
   }
 })
 export default class ProductCategoryPage extends Vue {
   get products() {
-    const pageName: categoryPage = this.$store.state.layout.pageName
-    const category = pageCategoriesMap[pageName]
+    const category = this.$store.state.layout.pageName
     return this.$store.state.products.products.filter(
       (product: any) => product.data.product_category === category
     )
   }
 
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
-    const pageName: categoryPage = store.state.layout.pageName
-    const category = pageCategoriesMap[pageName]
+    const category = store.state.layout.pageName
     const productsExist = find(
       store.state.products.products,
       (product) => product.data.product_category === category

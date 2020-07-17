@@ -156,7 +156,8 @@ export default class DefaultLayout extends Vue {
     store: Store<any>
     $prismic: IPrismic
   }) {
-    store.commit('layout/setPageName', route.path)
+    store.commit('layout/setPageUid', route.path)
+    store.commit('layout/setPageName', store.state.layout.pageUid)
     await store.dispatch('layout/getMainNavigation', $prismic)
   }
 }
