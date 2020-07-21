@@ -1,6 +1,6 @@
 <template>
   <v-app v-resize="checkIsMobile">
-    <v-app-bar app fixed color="#303030" dark hide-on-scroll scroll-off-screen scroll-threshold="100" dense prominent>
+    <v-app-bar app fixed color="#303030" dark hide-on-scroll scroll-threshold="100" dense prominent>
       <div class="d-flex justify-space-between align-center flex-no-wrap appBarContent">
         <!-- Mobile Hamburger Menu Button -->
         <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="mobileDrawer = !mobileDrawer"></v-app-bar-nav-icon>
