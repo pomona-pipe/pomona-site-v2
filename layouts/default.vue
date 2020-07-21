@@ -1,5 +1,5 @@
 <template>
-  <v-app v-resize="checkIsMobile" v-bind:class="{ noScroll: mobileDrawer}">
+  <v-app v-resize="checkIsMobile">
     <v-app-bar app fixed color="#303030" dark hide-on-scroll scroll-off-screen scroll-threshold="100" dense prominent>
       <div class="d-flex justify-space-between align-center flex-no-wrap appBarContent">
         <!-- Mobile Hamburger Menu Button -->
@@ -99,7 +99,7 @@
       </v-list>
     </v-navigation-drawer>
     <!-- Application Content -->
-    <v-content>
+    <v-content :class="{ noScroll: mobileDrawer }">
       <v-container fluid>
         <nuxt />
       </v-container>
