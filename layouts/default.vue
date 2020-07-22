@@ -63,7 +63,7 @@
     <!-- Workaround for z-index of drawer overlay -->
     <v-overlay :value="mobileDrawer"></v-overlay>
     <!-- Mobile Navigation Drawer -->
-    <v-navigation-drawer v-model="mobileDrawer" app fixed hide-overlay disable-resize-watcher class="pb-12">
+    <v-navigation-drawer v-model="mobileDrawer" app fixed hide-overlay disable-resize-watcher class="pb-16">
       <v-list nav dense>
         <v-list-item-group>
           <v-list-item two-line to="/" active-class="deep-purple--text text--accent-4">
