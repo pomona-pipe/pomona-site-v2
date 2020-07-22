@@ -63,7 +63,7 @@
     <!-- Workaround for z-index of drawer overlay -->
     <v-overlay :value="mobileDrawer"></v-overlay>
     <!-- Mobile Navigation Drawer -->
-    <v-navigation-drawer v-model="mobileDrawer" app hide-overlay disable-resize-watcher>
+    <v-navigation-drawer v-model="mobileDrawer" app fixed hide-overlay disable-resize-watcher>
       <v-list nav dense>
         <v-list-item-group>
           <v-list-item two-line to="/" active-class="deep-purple--text text--accent-4">
@@ -99,11 +99,11 @@
       </v-list>
     </v-navigation-drawer>
     <!-- Application Content -->
-    <v-content :class="{ noScroll: mobileDrawer }">
+    <v-main>
       <v-container fluid>
         <nuxt />
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 <style lang="css" scoped>
@@ -114,11 +114,6 @@
 .appBarContent {
   width: 100%;
   height: 100%;
-}
-.noScroll {
-  position: fixed;
-  top: 0px;
-  left: 0px;
 }
 </style>
 

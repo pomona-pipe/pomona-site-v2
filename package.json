@@ -22,7 +22,7 @@
     "nuxt-ts": "^2.8.1",
     "prismic-javascript": "^2.7.1",
     "prismic-vue": "^2.0.1",
-    "vuetify": "^2.0.0"
+    "vuetify": "^2.3.5"
   },
   "devDependencies": {
     "@mdi/font": "^5.1.45",
