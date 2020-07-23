@@ -1,63 +1,7 @@
 <template>
   <v-app v-resize="checkIsMobile" :class="{ 'no-scroll': mobileDrawer }">
     <Header />
-    <!-- Workaround for z-index of drawer overlay -->
-    <v-overlay :value="mobileDrawer"></v-overlay>
-    <!-- Mobile Navigation Drawer -->
-    <v-navigation-drawer
-      v-model="mobileDrawer"
-      app
-      fixed
-      hide-overlay
-      disable-resize-watcher
-      class="pb-16"
-    >
-      <v-list nav dense>
-        <v-list-item-group>
-          <v-list-item
-            two-line
-            to="/"
-            active-class="deep-purple--text text--accent-4"
-          >
-            <v-list-item-icon class="mr-4 align-self-center">
-              <v-icon x-large>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>Home</v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-        <v-list-group
-          v-for="navOption in mainNavigation"
-          :key="navOption.primary.link.id"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <!-- Dropdown title -->
-          <template v-slot:activator>
-            <v-list-item two-line :nuxt="true">{{
-              navOption.primary.label[0].text
-            }}</v-list-item>
-          </template>
-          <!-- Sub Nav Options -->
-          <v-list-item
-            v-for="subNavOption in navOption.items"
-            :key="subNavOption.sub_nav_link.id"
-            :nuxt="true"
-            :to="{
-              path:
-                navOption.primary.link.uid === subNavOption.sub_nav_link.uid
-                  ? `/${navOption.primary.link.uid}`
-                  : `/${navOption.primary.link.uid}/${subNavOption.sub_nav_link.uid}`
-            }"
-            active-class="deep-purple--text text--accent-4"
-            two-line
-            exact
-          >
-            <v-list-item-subtitle>{{
-              subNavOption.sub_nav_link_label[0].text
-            }}</v-list-item-subtitle>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
-    </v-navigation-drawer>
+    <MobileDrawer />
     <!-- Application Content -->
     <v-main>
       <v-container fluid>
@@ -83,10 +27,12 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import { IPrismic } from '~/shims'
 import Header from '~/components/Layout/Header.vue'
+import MobileDrawer from '~/components/Navigation/MobileDrawer.vue'
 
 @Component({
   components: {
-    Header
+    Header,
+    MobileDrawer
   },
   computed: {
     ...mapState('layout', ['mainNavigation', 'isMobile']),
