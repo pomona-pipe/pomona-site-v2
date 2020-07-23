@@ -1,7 +1,7 @@
 <template>
   <v-app v-resize="checkIsMobile" :class="{ 'no-scroll': mobileDrawer }">
     <Header />
-    <MobileDrawer />
+    <MobileDrawer v-show="isMobile" />
     <!-- Application Content -->
     <v-main>
       <v-container fluid>
@@ -49,9 +49,6 @@ import MobileDrawer from '~/components/Navigation/MobileDrawer.vue'
 export default class DefaultLayout extends Vue {
   checkIsMobile() {
     const isMobile = window.innerWidth < this.$vuetify.breakpoint.thresholds.sm
-    if (!isMobile) {
-      this.$store.commit('layout/setMobileDrawer', false)
-    }
     this.$store.commit('layout/setIsMobile', isMobile)
   }
 
