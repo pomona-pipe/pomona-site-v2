@@ -25,51 +25,7 @@
       </div>
       <div class="d-flex">
         <!-- Desktop Navigation Menu -->
-        <div v-show="!isMobile" id="desktop-menu">
-          <v-menu
-            v-for="navOption in mainNavigation"
-            :key="navOption.primary.link.id"
-            open-on-hover
-            bottom
-            offset-y
-          >
-            <!-- Non-repeat Section -->
-            <template v-slot:activator="{ on }">
-              <v-btn
-                :nuxt="true"
-                :to="{ path: `/${navOption.primary.link.uid}` }"
-                color="#303030"
-                dark
-                height="48px"
-                v-on="on"
-                >{{ navOption.primary.label[0].text }}</v-btn
-              >
-            </template>
-
-            <!-- Repeat Section -->
-            <v-list>
-              <v-list-item
-                v-for="subNavOption in navOption.items"
-                :key="subNavOption.sub_nav_link.id"
-                :nuxt="true"
-                :to="{
-                  path:
-                    navOption.primary.link.uid === subNavOption.sub_nav_link.uid
-                      ? `/${navOption.primary.link.uid}`
-                      : `/${navOption.primary.link.uid}/${subNavOption.sub_nav_link.uid}`
-                }"
-                text
-                rounded
-                active-class="deep-purple--text text--accent-4"
-                exact
-              >
-                <v-list-item-title>
-                  {{ subNavOption.sub_nav_link_label[0].text }}
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </div>
+        <DesktopMenu v-show="!isMobile" />
         <!-- Search Icon -->
         <v-btn icon>
           <v-icon>mdi-magnify</v-icon>
@@ -93,10 +49,14 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
+import DesktopMenu from '~/components/Navigation/DesktopMenu.vue'
 
 @Component({
+  components: {
+    DesktopMenu
+  },
   computed: {
-    ...mapState('layout', ['isMobile', 'mainNavigation']),
+    ...mapState('layout', ['isMobile']),
     mobileDrawer: {
       get() {
         return this.$store.state.layout.mobileDrawer
