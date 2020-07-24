@@ -1,5 +1,6 @@
 <template>
   <v-row cols="12">
+    <!-- Hero Banner -->
     <v-col sm="12" class="px-0 py-0">
       <v-img
         :src="aboutUs[0].data.main_image.url"
@@ -8,38 +9,22 @@
       >
         <v-row align="center" class="fill-height">
           <v-col align="center">
-            <h2 class="subheader">{{ aboutUs[0].data.main_title[0].text }}</h2>
-            <h1 class="header">{{ aboutUs[0].data.main_image.alt }}</h1>
+            <h2 class="grey--text text--lighten-2">
+              {{ aboutUs[0].data.main_title[0].text }}
+            </h2>
+            <h1 class="white--text">{{ aboutUs[0].data.main_image.alt }}</h1>
           </v-col>
         </v-row>
       </v-img>
     </v-col>
-    <v-col class="center align column">
-      <v-row cols="12" justify="center" >
-        <v-col sm="12" align="center">
-          <h1>{{ aboutUs[0].data.summary_title[0].text }}</h1>
-        </v-col>
-        <v-col sm="12">
-          <p class="paragraph">{{ aboutUs[0].data.company_summary[0].text }}</p>
-        </v-col>
-      </v-row>
+    <!-- Page Content -->
+    <v-col sm="10" offset-sm="1" class="text-center">
+      <h1 class="my-2">{{ aboutUs[0].data.summary_title[0].text }}</h1>
+      <p class="text-h6">{{ aboutUs[0].data.company_summary[0].text }}</p>
     </v-col>
   </v-row>
 </template>
 <style lang="css" scoped>
-.subheader {
-  color: #cccccc;
-}
-.header {
-  color: #ffffff
-}
-.paragraph {
-  color: #666666;
-  padding-left: 10%;
-  padding-right: 10%;
-  font-size: x-large;
-}
-
 </style>
 
 <script lang="ts">
