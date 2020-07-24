@@ -3,8 +3,8 @@
     <Header />
     <MobileDrawer v-show="isMobile" />
     <!-- Application Content -->
-    <v-main>
-      <v-container fluid>
+    <v-main >
+      <v-container fluid class="py-0">
         <nuxt />
       </v-container>
     </v-main>
