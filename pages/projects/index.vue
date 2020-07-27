@@ -9,7 +9,7 @@
             height="100%"
             class="d-flex flex-column justify-space-between"
           >
-            <v-img :src="project.data.project_image.url"></v-img>
+            <v-img :src="project.data.project_image.listing_page.url"></v-img>
 
             <v-card-title>
               {{
