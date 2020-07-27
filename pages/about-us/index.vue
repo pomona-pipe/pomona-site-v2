@@ -9,9 +9,7 @@
       >
         <v-row align="center" class="fill-height">
           <v-col align="center">
-            <h2 class="grey--text text--lighten-2">
-              {{ aboutUs[0].data.main_title[0].text }}
-            </h2>
+            <h2 class="grey--text text--lighten-2">{{ aboutUs[0].data.main_title[0].text }}</h2>
             <h1 class="white--text">{{ aboutUs[0].data.main_image.alt }}</h1>
           </v-col>
         </v-row>
@@ -20,7 +18,10 @@
     <!-- Page Content -->
     <v-col sm="10" offset-sm="1" class="text-center">
       <h1 class="my-2">{{ aboutUs[0].data.summary_title[0].text }}</h1>
-      <p class="text-h6">{{ aboutUs[0].data.company_summary[0].text }}</p>
+      <!-- <p class="text-h6">{{ aboutUs[0].data.company_summary[0].text }}</p> -->
+      <div v-for="el in aboutUs[0].data.company_summary" :key="el.id">
+        <p>{{ el.text }}</p>
+      </div>
     </v-col>
   </v-row>
 </template>
