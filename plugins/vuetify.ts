@@ -1,49 +1,14 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import { Context } from '@nuxt/types'
-import colors from 'vuetify/es5/util/colors'
-import { Theme, VuetifyThemeVariant } from 'vuetify/types/services/theme'
+import theme from '~/settings/theme'
 import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader version "^2.1.1" ,
 Vue.use(Vuetify)
 
-interface IExtendedTheme extends VuetifyThemeVariant {
-  brandGrey: string
-  mainBackground: string
-  headerBackground: string
-}
-
 export default (ctx: Context) => {
   const vuetify = new Vuetify({
-    theme: {
-      dark: false,
-      themes: {
-        light: {
-          primary: colors.blue.lighten2,
-          secondary: '#003c60',
-          accent: colors.lightBlue.lighten2,
-          error: colors.red.lighten2,
-          warning: colors.amber.lighten2,
-          info: colors.lightBlue.lighten2,
-          success: colors.green.lighten2,
-          brandGrey: '#E6E6E6',
-          mainBackground: '#fafafa',
-          headerBackground: '#fafafa'
-        } as Partial<IExtendedTheme>,
-        dark: {
-          primary: colors.blue.darken2,
-          secondary: '#003c60',
-          accent: colors.deepPurple.darken2,
-          error: colors.red.darken2,
-          warning: colors.amber.darken2,
-          info: colors.lightBlue.darken2,
-          success: colors.green.darken2,
-          brandGrey: '#E6E6E6',
-          mainBackground: '#fafafa',
-          headerBackground: '#fafafa'
-        } as Partial<IExtendedTheme>
-      }
-    } as Theme
+    theme
   })
 
   ctx.app.vuetify = vuetify
