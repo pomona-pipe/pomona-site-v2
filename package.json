@@ -19,7 +19,7 @@
     "@types/prismic-dom": "^2.1.1",
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.14.0",
     "nuxt-ts": "^2.8.1",
     "prismic-javascript": "^2.7.1",
     "prismic-vue": "^2.0.1",
@@ -27,7 +27,8 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.1.45",
-    "@nuxt/typescript-build": "^0.6.0",
+    "@nuxt/types": "^2.14.0",
+    "@nuxt/typescript-build": "^0.6.7",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
