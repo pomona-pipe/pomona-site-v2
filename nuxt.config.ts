@@ -25,8 +25,9 @@ export default {
   loading: { color: '#fff' },
   /*
    ** Global CSS
+   ** vuetify css loaded before app styles to enable overwriting
    */
-  css: [],
+  css: ['vuetify/dist/vuetify.css', '~/assets/style/app.scss'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -42,6 +43,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@/modules/static',
     '@/modules/crawler',
+    '@nuxtjs/style-resources',
     '@nuxtjs/axios',
     '@nuxtjs/prismic'
   ],
@@ -57,11 +59,11 @@ export default {
    */
   axios: {},
   /*
-   ** vuetify module configuration
+   ** style-resources for sharing scss vars across files
    ** https://github.com/nuxt-community/vuetify-module
    */
-  vuetify: {
-    customVariables: ['~/assets/variables.scss']
+  styleResources: {
+    scss: ['~/assets/style/variables.scss']
   },
   /*
    ** Build configuration
