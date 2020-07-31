@@ -1,19 +1,31 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <v-container>
-        <h1>This is the Contact page</h1>
-        <v-row cols="12">
-          <v-col sm="6">
-            <v-img :src="contact[0].data.main_image.url"></v-img>
-          </v-col>
-          <v-col sm="6">
-            <h1>{{ contact[0].data.main_title[0].text }}</h1>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-flex>
-  </v-layout>
+  <div id="contact-page" class="page">
+    <!-- Hero Banner -->
+    <v-row>
+      <v-col class="px-0 py-0">
+        <v-img
+          :src="contact[0].data.main_image.url"
+          gradient="to top right, rgba(36, 36, 36, 0.9), rgba(25,32,72,.7)"
+          max-height="250px"
+          class="white--text"
+        >
+          <v-row align="center" class="fill-height">
+            <v-col align="center">
+              <div class="grey--text text--lighten-2">
+                <prismic-rich-text :field="contact[0].data.main_title" />
+              </div>
+            </v-col>
+          </v-row>
+        </v-img>
+      </v-col>
+    </v-row>
+    <!-- Contact Form -->
+    <v-row>
+      <v-col>
+        <h2 class="text-center">Contact Form Goes Here</h2>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script lang="ts">
