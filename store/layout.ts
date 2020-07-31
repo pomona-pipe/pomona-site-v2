@@ -45,8 +45,26 @@ export const actions = {
       'document.type',
       'main_navigation'
     )
-    const mainNavigation = await $prismic.api.query(byMainNavigation, {})
-    commit('setMainNavigation', mainNavigation.results[0].data.nav)
+    const response = await $prismic.api.query(byMainNavigation, {})
+    let mainNavigation = response.results[0].data.nav
+    // ensure nav options have a label and a link
+    mainNavigation = mainNavigation.filter(
+      (option: any) =>
+        option.primary.label.length > 0 &&
+        option.primary.label[0].text &&
+        option.primary.link.id
+    )
+    // ensure subnav options have a label and a link
+    mainNavigation = mainNavigation.map((option: any) => {
+      option.items = option.items.filter(
+        (suboption: any) =>
+          suboption.sub_nav_link_label.length > 0 &&
+          suboption.sub_nav_link_label[0].text &&
+          suboption.sub_nav_link.id
+      )
+      return option
+    })
+    commit('setMainNavigation', mainNavigation)
   }
 }
 
