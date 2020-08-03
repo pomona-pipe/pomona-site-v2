@@ -48,7 +48,7 @@ import MobileDrawer from '~/components/Navigation/MobileDrawer.vue'
 })
 export default class DefaultLayout extends Vue {
   checkIsMobile() {
-    const isMobile = window.innerWidth < this.$vuetify.breakpoint.thresholds.sm
+    const isMobile = window.innerWidth < this.$vuetify.breakpoint.thresholds.md
     this.$store.commit('layout/setIsMobile', isMobile)
   }
 
