@@ -31,7 +31,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@plugins/vuetify.ts'],
+  plugins: ['@plugins/vuetify.ts', '@plugins/prismic-links.client.ts'],
   /*
    ** Nuxt.js dev-modules
    */

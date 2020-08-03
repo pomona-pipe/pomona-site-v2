@@ -16,7 +16,7 @@ export default function(type: string, element: any, content: string) {
     const url = prismicDOM.Link.url(element.data, linkResolver)
 
     if (element.data.link_type === 'Document') {
-      result = `<nuxt-link to="${url}">${content}</nuxt-link>`
+      result = `<a href="${url}" data-nuxt-link>${content}</a>`
     } else {
       const target = element.data.target
         ? `target="'${element.data.target}'" rel="noopener"`
@@ -36,7 +36,7 @@ export default function(type: string, element: any, content: string) {
       const url = prismicDOM.Link.url(element.linkTo, linkResolver)
 
       if (element.linkTo.link_type === 'Document') {
-        result = `<nuxt-link to="${url}">${result}</nuxt-link>`
+        result = `<a href="${url}" data-nuxt-link>${content}</a>`
       } else {
         const target = element.linkTo.target
           ? `target="${element.linkTo.target}" rel="noopener"`
