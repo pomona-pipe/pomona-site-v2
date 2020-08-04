@@ -21,6 +21,6 @@ export default function(context: Context) {
   const routes = Object.values(redirects)
   const result = find(routes, { path: route.path })
   if (result) {
-    return redirect(302, result.redirect)
+    return redirect(result.redirect)
   }
 }
