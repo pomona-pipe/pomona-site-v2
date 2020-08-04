@@ -47,6 +47,12 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/prismic'
   ],
+  /*
+   ** Nuxt.js router
+   */
+  router: {
+    middleware: 'redirects'
+  },
   // This is where you configure your settings for the new plugin
   prismic: {
     endpoint: 'https://pomona.cdn.prismic.io/api/v2',
