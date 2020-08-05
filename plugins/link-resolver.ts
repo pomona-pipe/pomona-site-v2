@@ -72,10 +72,11 @@ export default function(doc: DocumentLink) {
       return `/projects/${uid}`
 
     case 'contact_page':
+      return 'about-us/contact'
     case 'team_page':
-      return `/about-us/${uid}`
+      return 'about-us/team'
 
     default:
-      return `/${uid}`
+      return '/not-found'
   }
 }
