@@ -1,31 +1,29 @@
 <template>
-  <span>
-    <nuxt-link to="/about-us">
-      <p>Our Company</p>
-    </nuxt-link>
-    <nuxt-link to="/about-us/contact">
-      <p>Contact</p>
-    </nuxt-link>
-    <nuxt-link to="/about-us/team">
-      <p>Team</p>
-    </nuxt-link>
-  </span>
+  <div>
+    <p v-for="footerLink in footerNavigation[0].data.group_2" :key="footerLink.id">
+      <prismic-link :field="footerLink.link">{{footerLink.label}}</prismic-link>
+    </p>
+  </div>
 </template>
 
 <style scoped lang="scss">
 a {
-    text-decoration: none;
-    color: #BDBDBD;
-    &:hover {
-        color: #ffffff;
-    }
+  text-decoration: none;
+  color: #bdbdbd;
+  &:hover {
+    color: #ffffff;
+  }
 }
 </style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { mapState } from 'vuex'
 
-
-@Component({})
-export default class Group2Links extends Vue {}
+@Component({
+  computed: {
+    ...mapState('layout', ['footerNavigation'])
+  }
+})
+export default class Group1Links extends Vue {}
 </script>

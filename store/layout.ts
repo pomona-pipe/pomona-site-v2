@@ -7,6 +7,7 @@ interface IState {
   isMobile: boolean | null
   mobileDrawer: boolean
   mainNavigation: any[]
+  footerNavigation: any[]
 }
 
 export const state: () => IState = () => ({
@@ -14,7 +15,8 @@ export const state: () => IState = () => ({
   pageName: null,
   isMobile: null,
   mobileDrawer: false,
-  mainNavigation: []
+  mainNavigation: [],
+  footerNavigation: []
 })
 
 export const mutations = {
@@ -36,6 +38,9 @@ export const mutations = {
   },
   setMainNavigation(state: IState, payload: any[]) {
     state.mainNavigation = payload
+  },
+  setFooterNavigation(state: IState, payload: any[]) {
+    state.footerNavigation = payload
   }
 }
 
@@ -65,8 +70,17 @@ export const actions = {
       return option
     })
     commit('setMainNavigation', mainNavigation)
+  },
+  async getFooterNavigation({ commit }: { commit: any }, $prismic: IPrismic) {
+    const byFooterNavigation = $prismic.predicates.at(
+      'document.type',
+      'footer_navigation'
+    )
+    const footerNavigation = await $prismic.api.query(byFooterNavigation, {})
+    commit('setFooterNavigation', footerNavigation.results.map((result) => result))
   }
 }
+
 
 function parseNameFromUid(uid: string) {
   const words = uid.split('-')
