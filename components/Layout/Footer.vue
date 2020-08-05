@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <!-- Company Logo -->
-        <v-col>
+        <v-col class="text-center text-sm-left">
           <nuxt-link to="/">
             <img src="/logo_xlarge.png" class="pomona_logo" />
           </nuxt-link>
@@ -69,7 +69,7 @@ footer {
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
-import FooterMenu from '~/components/Navigation/FooterMenu.vue'
+import FooterMenu from '~/components/Navigation/FooterMenu/FooterMenu.vue'
 
 @Component({
   components: {
