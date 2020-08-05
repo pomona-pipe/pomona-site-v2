@@ -42,6 +42,9 @@ export default function(doc: DocumentLink) {
   const { uid } = doc
 
   switch (doc.type) {
+    case 'category_page':
+      return '/products'
+
     case 'product_categories':
       return `/products/${uid}`
 
@@ -68,14 +71,22 @@ export default function(doc: DocumentLink) {
       // initial href value - overwritten after api call
       return `/products/product_category/${uid}`
 
+    case 'projects_page':
+      return '/projects'
+
     case 'projects':
       return `/projects/${uid}`
 
+    case 'about_us_page':
+      return '/about-us'
+
     case 'contact_page':
+      return '/about-us/contact'
+
     case 'team_page':
-      return `/about-us/${uid}`
+      return '/about-us/team'
 
     default:
-      return `/${uid}`
+      return '/not-found'
   }
 }
