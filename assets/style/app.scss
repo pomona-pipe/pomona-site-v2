@@ -5,6 +5,13 @@
 // html {
 //   font-size: $font-size-root;
 // }
+
+// elements
 p:empty {
   height: 1em;
+}
+
+// vuetify
+.v-card__title {
+  word-break: break-word;
 }
