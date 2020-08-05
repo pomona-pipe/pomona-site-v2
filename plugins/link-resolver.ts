@@ -71,8 +71,12 @@ export default function(doc: DocumentLink) {
     case 'projects':
       return `/projects/${uid}`
 
+    case 'about_us_page':
+      return '/about-us'
+
     case 'contact_page':
       return 'about-us/contact'
+
     case 'team_page':
       return 'about-us/team'
 
