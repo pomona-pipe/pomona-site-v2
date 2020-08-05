@@ -42,7 +42,7 @@ export default function(doc: DocumentLink) {
   const { uid } = doc
 
   switch (doc.type) {
-    case 'categories_page':
+    case 'category_page':
       return '/products'
 
     case 'product_categories':
