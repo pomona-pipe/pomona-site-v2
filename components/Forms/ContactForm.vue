@@ -49,6 +49,8 @@
         <v-text-field
           v-model="fields.company"
           :error-messages="companyErrors"
+          :maxlength="50"
+          :counter="50"
           label="Company Name"
           required
           @input="$v.fields.company.$touch()"
@@ -56,6 +58,28 @@
         ></v-text-field>
       </v-col>
       <!-- phone # and Zip Code Section -->
+      <v-col sm="6" md="4">
+        <v-text-field
+          v-model="fields.phone"
+          v-mask="'(###) ### - ####'"
+          :error-messages="phoneErrors"
+          label="Phone Number"
+          required
+          @input="$v.fields.phone.$touch()"
+          @blur="$v.fields.phone.$touch()"
+        ></v-text-field>
+      </v-col>
+      <v-col sm="6" md="4">
+        <v-text-field
+          v-model="fields.zip"
+          v-mask="'#####'"
+          :error-messages="zipErrors"
+          label="Zip Code"
+          required
+          @input="$v.fields.zip.$touch()"
+          @blur="$v.fields.zip.$touch()"
+        ></v-text-field>
+      </v-col>
       <!-- Subject and Message Section  -->
       <v-col sm="12" md="12">
         <v-text-field
@@ -94,7 +118,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import axios from 'axios'
 import { validationMixin } from 'vuelidate'
 import { required, numeric, email } from 'vuelidate/lib/validators'
-// import { InputFacade, facade, filter } from 'vue-input-facade'
+import { mask } from '@titou10/v-mask'
 
 interface ContactFields {
   firstName: string
@@ -114,6 +138,7 @@ interface FormData extends ContactFields {
 
 @Component({
   mixins: [validationMixin],
+  directives: { mask },
   // validations structure must match component data
   validations: {
     fields: {
@@ -121,8 +146,8 @@ interface FormData extends ContactFields {
       lastName: { required },
       email: { required, email },
       company: { required },
-      // zip: { required, numeric },
-      // phone: { required, numeric },
+      zip: { required, numeric },
+      phone: { required, numeric },
       subject: { required },
       message: { required }
     }
@@ -162,6 +187,22 @@ interface FormData extends ContactFields {
       // required check
       if (!this.$v.fields.company!.required)
         errors.push('Company Name is required')
+      return errors
+    },
+    phoneErrors() {
+      const errors: string[] = []
+      // do not error on initial load state
+      if (!this.$v.fields.phone!.$dirty) return errors
+      // required check
+      if (!this.$v.fields.phone!.required) errors.push('Phone Number is required')
+      return errors
+    },
+    zipErrors() {
+      const errors: string[] = []
+      // do not error on initial load state
+      if (!this.$v.fields.zip!.$dirty) return errors
+      // required check
+      if (!this.$v.fields.zip!.required) errors.push('Zip Code is required')
       return errors
     },
     subjectErrors() {
