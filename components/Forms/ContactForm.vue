@@ -95,9 +95,9 @@
       </v-col>
       <v-col sm="12" md="12">
         <v-textarea
+          v-model="fields.message"
           rows="2"
           auto-grow
-          v-model="fields.message"
           :error-messages="messageErrors"
           :maxlength="750"
           :counter="750"
@@ -117,7 +117,12 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import axios from 'axios'
 import { validationMixin } from 'vuelidate'
-import { required, numeric, email } from 'vuelidate/lib/validators'
+import {
+  CustomRule,
+  required,
+  minLength,
+  email
+} from 'vuelidate/lib/validators'
 import { mask } from '@titou10/v-mask'
 
 interface ContactFields {
@@ -136,6 +141,13 @@ interface FormData extends ContactFields {
   'form-name': string
 }
 
+const phone: CustomRule = (phone: string) => {
+  const regex = new RegExp(
+    /^[\\(]{0,1}([2-9]){1}\d{2}[\\)]{0,1}[ ]?([^0-1]){1}(\d){2}[ ]?[-]?[ ]?(\d){4}[ ]*((x){0,1}(\d){1,5}){0,1}$/
+  )
+  return regex.test(phone)
+}
+
 @Component({
   mixins: [validationMixin],
   directives: { mask },
@@ -146,8 +158,8 @@ interface FormData extends ContactFields {
       lastName: { required },
       email: { required, email },
       company: { required },
-      zip: { required, numeric },
-      phone: { required, numeric },
+      zip: { required, minLength: minLength(5) },
+      phone: { required, phone, minLength: minLength(10) },
       subject: { required },
       message: { required }
     }
@@ -177,7 +189,7 @@ interface FormData extends ContactFields {
       if (!this.$v.fields.email!.$dirty) return errors
       // required check
       if (!this.$v.fields.email!.required) errors.push('E-mail is required')
-      if (!this.$v.fields.email!.email) errors.push('Must be valid e-mail')
+      if (!this.$v.fields.email!.email) errors.push('Must be a valid e-mail')
       return errors
     },
     companyErrors() {
@@ -194,7 +206,11 @@ interface FormData extends ContactFields {
       // do not error on initial load state
       if (!this.$v.fields.phone!.$dirty) return errors
       // required check
-      if (!this.$v.fields.phone!.required) errors.push('Phone Number is required')
+      if (!this.$v.fields.phone!.required)
+        errors.push('Phone Number is required')
+      // valid US phone check
+      if (!this.$v.fields.phone!.phone)
+        errors.push('Must be a valid US phone number')
       return errors
     },
     zipErrors() {
@@ -203,6 +219,9 @@ interface FormData extends ContactFields {
       if (!this.$v.fields.zip!.$dirty) return errors
       // required check
       if (!this.$v.fields.zip!.required) errors.push('Zip Code is required')
+      // min-length check
+      if (!this.$v.fields.zip!.minLength)
+        errors.push('Zip Code must be 5 digits')
       return errors
     },
     subjectErrors() {
@@ -238,9 +257,9 @@ export default class ContactForm extends Vue {
   }
 
   checkError() {
-    const keys = Object.keys(this.$v)
+    const keys = Object.keys(this.$v.fields)
     keys.find((key) => {
-      if (!key.startsWith('$') && this.$v[key].$error) {
+      if (!key.startsWith('$') && this.$v.fields[key]!.$error) {
         // eslint-disable-next-line no-console
         console.error('Error on property', key)
       }
@@ -259,14 +278,11 @@ export default class ContactForm extends Vue {
   }
 
   handleSubmit() {
-    console.log(this.$v)
-    console.log(this.fields)
     this.$v.$touch()
     if (this.$v.$error) {
       this.checkError()
       return
     }
-    console.log('Form is valid')
     const axiosConfig = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
@@ -279,8 +295,14 @@ export default class ContactForm extends Vue {
         }),
         axiosConfig
       )
-      .then(() => console.log('Form submitted!'))
-      .catch((error) => console.error(error))
+      .then(() => {
+        console.log('Form submitted!')
+        // TODO: show a success toast/message and clear form
+      })
+      .catch((error) => {
+        console.error(error)
+        // TODO: show an error toast/message and clear form
+      })
   }
 }
 </script>
