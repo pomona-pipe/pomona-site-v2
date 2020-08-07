@@ -25,6 +25,7 @@
         <h2 class="text-center">Contact Form Goes Here</h2>
       </v-col>
     </v-row>
+    <ContactForm />
   </div>
 </template>
 
@@ -32,9 +33,10 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import { IPrismic } from '~/shims'
+import ContactForm from '~/components/Forms/ContactForm.vue'
 
 @Component({
-  components: {},
+  components: { ContactForm },
   computed: mapState('pages', ['contact'])
 })
 export default class Index extends Vue {
