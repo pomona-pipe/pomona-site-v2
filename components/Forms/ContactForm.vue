@@ -9,7 +9,7 @@
     <input type="hidden" name="form-name" :value="formName" />
     <v-row cols="12">
       <!-- Name Section -->
-      <v-col sm="6" md="4">
+      <v-col sm="12" md="4">
         <v-text-field
           v-model="fields.firstName"
           :error-messages="firstNameErrors"
@@ -21,7 +21,7 @@
           @blur="$v.fields.firstName.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col sm="6" md="4">
+      <v-col sm="12" md="4">
         <v-text-field
           v-model="fields.lastName"
           :error-messages="lastNameErrors"
@@ -34,7 +34,7 @@
         ></v-text-field>
       </v-col>
       <!-- email & company section -->
-      <v-col sm="6" md="4">
+      <v-col sm="12" md="4">
         <v-text-field
           v-model="fields.email"
           :error-messages="emailErrors"
@@ -45,7 +45,7 @@
           @blur="$v.fields.email.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col sm="6" md="4">
+      <v-col sm="12" md="4">
         <v-text-field
           v-model="fields.company"
           :error-messages="companyErrors"
@@ -58,7 +58,7 @@
         ></v-text-field>
       </v-col>
       <!-- phone # and Zip Code Section -->
-      <v-col sm="6" md="4">
+      <v-col sm="12" md="4">
         <v-text-field
           v-model="fields.phone"
           type="tel"
@@ -70,10 +70,10 @@
           @blur="$v.fields.phone.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col sm="6" md="4">
+      <v-col sm="12" md="4">
         <v-text-field
           v-model="fields.zip"
-          type="numeric"
+          type="number"
           v-mask="'#####'"
           :error-messages="zipErrors"
           label="Zip Code"
