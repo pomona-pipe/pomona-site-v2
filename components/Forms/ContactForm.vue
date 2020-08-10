@@ -7,9 +7,9 @@
     @submit.prevent="handleSubmit"
   >
     <input type="hidden" name="form-name" :value="formName" />
-    <v-row cols="12">
+    <v-row>
       <!-- Name Section -->
-      <v-col sm="12" md="4">
+      <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.firstName"
           :error-messages="firstNameErrors"
@@ -21,7 +21,7 @@
           @blur="$v.fields.firstName.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col sm="12" md="4">
+      <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.lastName"
           :error-messages="lastNameErrors"
@@ -34,7 +34,7 @@
         ></v-text-field>
       </v-col>
       <!-- email & company section -->
-      <v-col sm="12" md="4">
+      <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.email"
           :error-messages="emailErrors"
@@ -45,7 +45,7 @@
           @blur="$v.fields.email.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col sm="12" md="4">
+      <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.company"
           :error-messages="companyErrors"
@@ -58,7 +58,7 @@
         ></v-text-field>
       </v-col>
       <!-- phone # and Zip Code Section -->
-      <v-col sm="12" md="4">
+      <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.phone"
           type="tel"
@@ -70,10 +70,11 @@
           @blur="$v.fields.phone.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col sm="12" md="4">
+      <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.zip"
-          type="number"
+          inputmode="numeric"
+          pattern="\d*"
           v-mask="'#####'"
           :error-messages="zipErrors"
           label="Zip Code"
@@ -83,7 +84,7 @@
         ></v-text-field>
       </v-col>
       <!-- Subject and Message Section  -->
-      <v-col sm="12" md="12">
+      <v-col cols="12" sm="12" md="12">
         <v-text-field
           v-model="fields.subject"
           :error-messages="subjectErrors"
@@ -95,7 +96,7 @@
           @blur="$v.fields.subject.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col sm="12" md="12">
+      <v-col cols="12" sm="12" md="12">
         <v-textarea
           v-model="fields.message"
           rows="2"
