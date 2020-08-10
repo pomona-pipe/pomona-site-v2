@@ -12,6 +12,7 @@
       <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.firstName"
+          name="First Name"
           :error-messages="firstNameErrors"
           :maxlength="20"
           :counter="20"
@@ -24,6 +25,7 @@
       <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.lastName"
+          name="Last Name"
           :error-messages="lastNameErrors"
           :maxlength="20"
           :counter="20"
@@ -37,6 +39,7 @@
       <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.email"
+          name="E-mail"
           :error-messages="emailErrors"
           label="E-mail"
           email
@@ -48,6 +51,7 @@
       <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.company"
+          name="Company"
           :error-messages="companyErrors"
           :maxlength="50"
           :counter="50"
@@ -61,6 +65,7 @@
       <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.phone"
+          name="Phone Number"
           type="tel"
           v-mask="'(###) ### - ####'"
           :error-messages="phoneErrors"
@@ -73,6 +78,7 @@
       <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="fields.zip"
+          name="Zip Code"
           inputmode="numeric"
           pattern="\d*"
           v-mask="'#####'"
@@ -87,6 +93,7 @@
       <v-col cols="12" sm="12" md="12">
         <v-text-field
           v-model="fields.subject"
+          name="Subject"
           :error-messages="subjectErrors"
           :maxlength="50"
           :counter="50"
@@ -99,6 +106,7 @@
       <v-col cols="12" sm="12" md="12">
         <v-textarea
           v-model="fields.message"
+          name="Message"
           rows="2"
           auto-grow
           :error-messages="messageErrors"
