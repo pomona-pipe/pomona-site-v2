@@ -61,6 +61,7 @@
       <v-col sm="6" md="4">
         <v-text-field
           v-model="fields.phone"
+          type="tel"
           v-mask="'(###) ### - ####'"
           :error-messages="phoneErrors"
           label="Phone Number"
@@ -72,6 +73,7 @@
       <v-col sm="6" md="4">
         <v-text-field
           v-model="fields.zip"
+          type="numeric"
           v-mask="'#####'"
           :error-messages="zipErrors"
           label="Zip Code"
