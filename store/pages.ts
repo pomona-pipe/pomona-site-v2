@@ -2,9 +2,9 @@
 import { IPrismic } from '~/shims'
 
 interface IState {
-  aboutUs: any []
-  team: any []
-  contact: any []
+  aboutUs: any[]
+  team: any[]
+  contact: any[]
 }
 
 export const state: () => IState = () => ({
@@ -21,34 +21,33 @@ export const mutations = {
     state.team = payload
   },
   setContact(state: IState, payload: any[]) {
-      state.contact = payload
+    state.contact = payload
   }
 }
 
 export const actions = {
   async getAboutUs({ commit }: { commit: any }, $prismic: IPrismic) {
-    const byAboutUs = $prismic.predicates.at(
-      'document.type',
-      'about_us_page'
-    )
+    const byAboutUs = $prismic.predicates.at('document.type', 'about_us_page')
     const aboutUs = await $prismic.api.query(byAboutUs, {})
-    commit('setAboutUs', aboutUs.results.map((result) => result))
+    commit(
+      'setAboutUs',
+      aboutUs.results.map((result) => result)
+    )
   },
   async getTeam({ commit }: { commit: any }, $prismic: IPrismic) {
-    const byTeam = $prismic.predicates.at(
-      'document.type',
-      'team_page'
-    )
+    const byTeam = $prismic.predicates.at('document.type', 'team_page')
     const team = await $prismic.api.query(byTeam, {})
-    commit('setTeam', team.results.map((result) => result))
+    commit(
+      'setTeam',
+      team.results.map((result) => result)
+    )
   },
   async getContact({ commit }: { commit: any }, $prismic: IPrismic) {
-      const byContact = $prismic.predicates.at(
-          'document.type',
-          'contact_page'
-      )
-      const contact = await $prismic.api.query(byContact, {})
-      commit('setContact', contact.results.map((result) => result))
+    const byContact = $prismic.predicates.at('document.type', 'contact_page')
+    const contact = await $prismic.api.query(byContact, {})
+    commit(
+      'setContact',
+      contact.results.map((result) => result)
+    )
   }
-
 }
