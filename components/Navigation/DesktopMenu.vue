@@ -2,7 +2,7 @@
   <div id="desktop-menu">
     <v-menu
       v-for="navOption in mainNavigation"
-      :key="navOption.primary.link.id"
+      :key="`desktop-${navOption.primary.link.id}`"
       open-on-hover
       bottom
       offset-y
@@ -24,7 +24,7 @@
       <v-list v-if="navOption.items.length > 0">
         <v-list-item
           v-for="subNavOption in navOption.items"
-          :key="subNavOption.sub_nav_link.id"
+          :key="`desktop-${subNavOption.sub_nav_link.id}`"
           :nuxt="true"
           :to="{
             path:
