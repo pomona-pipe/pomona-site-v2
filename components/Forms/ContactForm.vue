@@ -264,7 +264,7 @@ const phone: CustomRule = (phone: string) => {
   }
 })
 export default class ContactForm extends Vue {
-  formName = 'test'
+  formName = 'Contact Form'
 
   fields: ContactFields = {
     firstName: '',
