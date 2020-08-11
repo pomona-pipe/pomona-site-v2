@@ -11,9 +11,9 @@
       <!-- Name Section -->
       <v-col cols="12" sm="6" md="4">
         <v-text-field
-          id="first_name"
+          id="firstName"
           v-model="fields.firstName"
-          name="first_name"
+          name="firstName"
           :error-messages="firstNameErrors"
           :maxlength="20"
           :counter="20"
@@ -25,9 +25,9 @@
       </v-col>
       <v-col cols="12" sm="6" md="4">
         <v-text-field
-          id="last_name"
+          id="lastName"
           v-model="fields.lastName"
-          name="last_name"
+          name="lastName"
           :error-messages="lastNameErrors"
           :maxlength="20"
           :counter="20"
@@ -68,9 +68,9 @@
       <!-- phone # and Zip Code Section -->
       <v-col cols="12" sm="6" md="4">
         <v-text-field
-          id="phone_number"
+          id="phone"
           v-model="fields.phone"
-          name="phone_number"
+          name="phone"
           type="tel"
           v-mask="'(###) ### - ####'"
           :error-messages="phoneErrors"
@@ -82,9 +82,9 @@
       </v-col>
       <v-col cols="12" sm="6" md="4">
         <v-text-field
-          id="zip_code"
+          id="zip"
           v-model="fields.zip"
-          name="zip_code"
+          name="zip"
           inputmode="numeric"
           pattern="\d*"
           v-mask="'#####'"
