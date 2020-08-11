@@ -21,11 +21,10 @@
     </v-row>
     <!-- Contact Form -->
     <v-row>
-      <v-col>
-        <h2 class="text-center">Contact Form Goes Here</h2>
+      <v-col cols="12" md="10" offset-md="1" lg="8" offset-lg="2">
+        <ContactForm />
       </v-col>
     </v-row>
-    <ContactForm />
   </div>
 </template>
 

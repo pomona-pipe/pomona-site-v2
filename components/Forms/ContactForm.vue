@@ -126,8 +126,10 @@
           @blur="$v.fields.message.$touch()"
         ></v-textarea>
       </v-col>
+      <v-col>
+        <v-btn block large color="primary" type="submit">Submit</v-btn>
+      </v-col>
     </v-row>
-    <v-btn type="submit">Submit</v-btn>
   </v-form>
 </template>
 <style lang="css" scoped></style>
