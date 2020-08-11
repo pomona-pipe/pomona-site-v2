@@ -11,8 +11,9 @@
       <!-- Name Section -->
       <v-col cols="12" sm="6" md="4">
         <v-text-field
+          id="first_name"
           v-model="fields.firstName"
-          name="First Name"
+          name="first_name"
           :error-messages="firstNameErrors"
           :maxlength="20"
           :counter="20"
@@ -24,8 +25,9 @@
       </v-col>
       <v-col cols="12" sm="6" md="4">
         <v-text-field
+          id="last_name"
           v-model="fields.lastName"
-          name="Last Name"
+          name="last_name"
           :error-messages="lastNameErrors"
           :maxlength="20"
           :counter="20"
@@ -38,8 +40,9 @@
       <!-- email & company section -->
       <v-col cols="12" sm="6" md="4">
         <v-text-field
+          id="email"
           v-model="fields.email"
-          name="E-mail"
+          name="email"
           :error-messages="emailErrors"
           label="E-mail"
           email
@@ -50,8 +53,9 @@
       </v-col>
       <v-col cols="12" sm="6" md="4">
         <v-text-field
+          id="company"
           v-model="fields.company"
-          name="Company"
+          name="company"
           :error-messages="companyErrors"
           :maxlength="50"
           :counter="50"
@@ -64,8 +68,9 @@
       <!-- phone # and Zip Code Section -->
       <v-col cols="12" sm="6" md="4">
         <v-text-field
+          id="phone_number"
           v-model="fields.phone"
-          name="Phone Number"
+          name="phone_number"
           type="tel"
           v-mask="'(###) ### - ####'"
           :error-messages="phoneErrors"
@@ -77,8 +82,9 @@
       </v-col>
       <v-col cols="12" sm="6" md="4">
         <v-text-field
+          id="zip_code"
           v-model="fields.zip"
-          name="Zip Code"
+          name="zip_code"
           inputmode="numeric"
           pattern="\d*"
           v-mask="'#####'"
@@ -92,8 +98,9 @@
       <!-- Subject and Message Section  -->
       <v-col cols="12" sm="12" md="12">
         <v-text-field
+          id="subject"
           v-model="fields.subject"
-          name="Subject"
+          name="subject"
           :error-messages="subjectErrors"
           :maxlength="50"
           :counter="50"
@@ -105,8 +112,9 @@
       </v-col>
       <v-col cols="12" sm="12" md="12">
         <v-textarea
+          id="message"
           v-model="fields.message"
-          name="Message"
+          name="message"
           rows="2"
           auto-grow
           :error-messages="messageErrors"
