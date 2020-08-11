@@ -3,9 +3,6 @@
     <v-flex>
       <v-container>
         <!-- check product categories exists -->
-        <div>
-          <h1>{{ pageName }}</h1>
-        </div>
         <v-layout
           v-if="products.length > 0"
           row
@@ -58,7 +55,7 @@ import { IPrismic } from '~/shims'
 
 @Component({
   computed: {
-    ...mapState('layout', ['pageUid', 'pageName'])
+    ...mapState('layout', ['pageUid'])
   }
 })
 export default class ProductCategoryPage extends Vue {
