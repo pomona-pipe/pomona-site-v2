@@ -39,7 +39,7 @@ export const actions = {
     { $prismic, catId }: { $prismic: IPrismic; catId: string }
   ) {
     const byCategory = $prismic.predicates.at(
-      'my.products.product_category_new',
+      'my.products.product_category',
       catId
     )
     const product = await $prismic.api.query(byCategory, {})

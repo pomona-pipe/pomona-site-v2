@@ -62,7 +62,7 @@ export default class ProductCategoryPage extends Vue {
   get products() {
     const pageUid = this.$store.state.layout.pageUid
     return this.$store.state.products.products.filter(
-      (product: any) => product.data.product_category_new.uid === pageUid
+      (product: any) => product.data.product_category.uid === pageUid
     )
   }
 
@@ -78,7 +78,7 @@ export default class ProductCategoryPage extends Vue {
     const { uid } = params
     const productsExist = find(
       store.state.products.products,
-      (product) => product.data.product_category_new.uid === uid
+      (product) => product.data.product_category.uid === uid
     )
     if (productsExist) return
     const catId = find(
