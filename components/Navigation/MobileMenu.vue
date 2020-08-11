@@ -1,9 +1,13 @@
 <template>
   <v-list nav dense>
     <v-list-item-group>
-      <v-list-item two-line to="/" active-class="deep-purple--text text--accent-4">
+      <v-list-item
+        two-line
+        to="/"
+        active-class="deep-purple--text text--accent-4"
+      >
         <v-list-item-icon class="mr-4 align-self-center">
-          <v-icon x-large>mdi-home</v-icon>
+          <v-icon>{{ mdiHome }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>Home</v-list-item-content>
       </v-list-item>
@@ -19,9 +23,7 @@
           active-class="deep-purple--text text--accent-4"
         >
           <v-list-item-content>
-            {{
-            navOption.primary.label[0].text
-            }}
+            {{ navOption.primary.label[0].text }}
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -31,9 +33,7 @@
         <!-- Dropdown title -->
         <template v-slot:activator>
           <v-list-item two-line :nuxt="true">
-            {{
-            navOption.primary.label[0].text
-            }}
+            {{ navOption.primary.label[0].text }}
           </v-list-item>
         </template>
         <!-- Dropdown Items -->
@@ -42,19 +42,17 @@
           :key="subNavOption.sub_nav_link.id"
           :nuxt="true"
           :to="{
-          path:
-            navOption.primary.link.uid === subNavOption.sub_nav_link.uid
-              ? `/${navOption.primary.link.uid}`
-              : `/${navOption.primary.link.uid}/${subNavOption.sub_nav_link.uid}`
-        }"
+            path:
+              navOption.primary.link.uid === subNavOption.sub_nav_link.uid
+                ? `/${navOption.primary.link.uid}`
+                : `/${navOption.primary.link.uid}/${subNavOption.sub_nav_link.uid}`
+          }"
           active-class="deep-purple--text text--accent-4"
           two-line
           exact
         >
           <v-list-item-subtitle>
-            {{
-            subNavOption.sub_nav_link_label[0].text
-            }}
+            {{ subNavOption.sub_nav_link_label[0].text }}
           </v-list-item-subtitle>
         </v-list-item>
       </v-list-group>
@@ -67,11 +65,14 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
+import { mdiHome } from '@mdi/js'
 
 @Component({
   computed: {
     ...mapState('layout', ['mainNavigation'])
   }
 })
-export default class MobileMenu extends Vue {}
+export default class MobileMenu extends Vue {
+  mdiHome = mdiHome
+}
 </script>

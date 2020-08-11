@@ -17,8 +17,13 @@
       <!-- Social Media Icons -->
       <v-row class="text-center">
         <v-col>
-          <v-btn x-large icon target="_blank" href="https://www.facebook.com/pomonapipe/">
-            <v-icon>mdi-facebook</v-icon>
+          <v-btn
+            x-large
+            icon
+            target="_blank"
+            href="https://www.facebook.com/pomonapipe/"
+          >
+            <v-icon>{{ mdiFacebook }}</v-icon>
           </v-btn>
           <v-btn
             x-large
@@ -26,11 +31,16 @@
             target="_blank"
             href=" https://www.linkedin.com/company/pomona-pipe-products-company/about/"
           >
-            <v-icon>mdi-linkedin</v-icon>
+            <v-icon>{{ mdiLinkedin }}</v-icon>
           </v-btn>
 
-          <v-btn x-large icon target="_blank" href="https://twitter.com/pomonapipe">
-            <v-icon>mdi-twitter</v-icon>
+          <v-btn
+            x-large
+            icon
+            target="_blank"
+            href="https://twitter.com/pomonapipe"
+          >
+            <v-icon>{{ mdiTwitter }}</v-icon>
           </v-btn>
 
           <v-btn
@@ -39,14 +49,17 @@
             target="_blank"
             href="https://www.youtube.com/channel/UCU-5iXYqGmWH3w0BZ0tq9RA"
           >
-            <v-icon>mdi-youtube</v-icon>
+            <v-icon>{{ mdiYoutube }}</v-icon>
           </v-btn>
         </v-col>
       </v-row>
       <v-divider></v-divider>
       <!-- legal info -->
       <v-row class="text-center">
-        <v-col>&copy; {{ new Date().getFullYear() }} Pomona Pipe Products, Inc. All rights reserved</v-col>
+        <v-col
+          >&copy; {{ new Date().getFullYear() }} Pomona Pipe Products, Inc. All
+          rights reserved</v-col
+        >
       </v-row>
     </v-container>
   </v-footer>
@@ -54,7 +67,7 @@
 
 <style scoped lang="scss">
 footer {
-    color: #BDBDBD !important;
+  color: #bdbdbd !important;
 }
 .pomona_logo {
   max-height: 40px;
@@ -69,6 +82,7 @@ footer {
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
+import { mdiFacebook, mdiTwitter, mdiLinkedin, mdiYoutube } from '@mdi/js'
 import FooterMenu from '~/components/Navigation/FooterMenu/FooterMenu.vue'
 
 @Component({
@@ -79,5 +93,11 @@ import FooterMenu from '~/components/Navigation/FooterMenu/FooterMenu.vue'
     ...mapState('layout', ['mainNavigation'])
   }
 })
-export default class Footer extends Vue {}
+export default class Footer extends Vue {
+  mdiFacebook = mdiFacebook
+  mdiTwitter = mdiTwitter
+  mdiLinkedin = mdiLinkedin
+  mdiYoutube = mdiYoutube
+
+}
 </script>

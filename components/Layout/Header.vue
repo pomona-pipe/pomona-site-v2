@@ -14,6 +14,7 @@
     >
       <!-- Mobile Hamburger Menu Button -->
       <v-app-bar-nav-icon
+        default="mdiMenu"
         v-show="isMobile"
         @click.stop="mobileDrawer = !mobileDrawer"
       ></v-app-bar-nav-icon>
@@ -28,7 +29,7 @@
         <DesktopMenu v-show="!isMobile" />
         <!-- Search Icon -->
         <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
+          <v-icon>{{ mdiMagnify }}</v-icon>
         </v-btn>
       </div>
     </div>
@@ -49,6 +50,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
+import { mdiMenu, mdiMagnify } from '@mdi/js'
 import DesktopMenu from '~/components/Navigation/DesktopMenu.vue'
 
 @Component({
@@ -67,5 +69,8 @@ import DesktopMenu from '~/components/Navigation/DesktopMenu.vue'
     }
   }
 })
-export default class Header extends Vue {}
+export default class Header extends Vue {
+  mdiMenu = mdiMenu
+  mdiMagnify = mdiMagnify
+}
 </script>

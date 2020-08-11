@@ -8,12 +8,8 @@ Vue.use(Vuetify)
 export default (ctx: Context) => {
   const vuetify = new Vuetify({
     theme,
-    /*
-     ** TODO: update to svg mdi icons
-     ** https://vuetifyjs.com/en/customization/icons/
-     */
     icons: {
-      iconfont: 'mdi'
+      iconfont: 'mdiSvg'
     }
   })
 

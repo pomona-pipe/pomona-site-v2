@@ -13,6 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mdi/js": "^5.5.55",
     "@nuxt/typescript-runtime": "^1.0.0",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/prismic": "^1.2.1",
