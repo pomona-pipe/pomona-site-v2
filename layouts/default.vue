@@ -67,9 +67,12 @@ export default class DefaultLayout extends Vue {
   }) {
     store.commit('layout/setPageUid', route.path)
     store.commit('layout/setPageName', store.state.layout.pageUid)
-    await store.dispatch('layout/getMainNavigation', $prismic)
-    await store.dispatch('layout/getFooterNavigation', $prismic)
-    await store.dispatch('products/getProductCategories', $prismic)
+    if (store.state.layout.mainNavigation.length === 0)
+      await store.dispatch('layout/getMainNavigation', $prismic)
+    if (store.state.layout.footerNavigation.length === 0)
+      await store.dispatch('layout/getFooterNavigation', $prismic)
+    if (store.state.products.productCategories.length === 0)
+      await store.dispatch('products/getProductCategories', $prismic)
   }
 }
 </script>
