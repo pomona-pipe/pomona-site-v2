@@ -26,7 +26,9 @@ export const actions = {
       'document.type',
       'product_categories'
     )
-    const productCategories = await $prismic.api.query(byCategories, {orderings: '[my.product_categories.order_number]'})
+    const productCategories = await $prismic.api.query(byCategories, {
+      orderings: '[my.product_categories.order_number]'
+    })
     commit(
       'setProductCategories',
       productCategories.results.map((result) => result)
@@ -34,11 +36,11 @@ export const actions = {
   },
   async getProductsByCategory(
     { commit }: { commit: any },
-    { $prismic, category }: { $prismic: IPrismic; category: string }
+    { $prismic, catId }: { $prismic: IPrismic; catId: string }
   ) {
     const byCategory = $prismic.predicates.at(
-      'my.products.product_category',
-      category
+      'my.products.product_category_new',
+      catId
     )
     const product = await $prismic.api.query(byCategory, {})
     commit(
