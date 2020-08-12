@@ -21,7 +21,7 @@
       <!-- Company Logo -->
       <div>
         <nuxt-link to="/">
-          <img src="/logo_xlarge.png" class="pomona_logo" />
+          <img src="/images/logo_xlarge.png" class="pomona_logo" />
         </nuxt-link>
       </div>
       <div class="d-flex">

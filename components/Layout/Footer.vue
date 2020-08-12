@@ -5,7 +5,7 @@
         <!-- Company Logo -->
         <v-col class="text-center text-sm-left">
           <nuxt-link to="/">
-            <img src="/logo_xlarge.png" class="pomona_logo" />
+            <img src="/images/logo_xlarge.png" class="pomona_logo" />
           </nuxt-link>
         </v-col>
       </v-row>
