@@ -2,7 +2,11 @@
   <section>
     <v-row cols="12">
       <v-col sm="6">
-        <v-img :src="document.data.project_image.detail_page.url"></v-img>
+        <v-img
+          :src="
+            document.data.project_image.detail_page.url || placeholders.file
+          "
+        ></v-img>
       </v-col>
       <v-col sm="6">
         <h1 align="center">{{ document.data.project_name[0].text }}</h1>
@@ -25,7 +29,9 @@ import { find } from 'lodash'
 import moment from 'moment'
 import { IPrismicDocument } from '~/shims'
 @Component({
-  ...mapState('layout', ['pageUid'])
+  computed: {
+    ...mapState('layout', ['pageUid', 'placeholders'])
+  }
 })
 export default class DetailPage extends Vue {
   document: IPrismicDocument | null = null

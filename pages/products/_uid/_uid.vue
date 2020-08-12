@@ -2,7 +2,9 @@
   <section>
     <v-row cols="12">
       <v-col sm="6">
-        <v-img :src="document.data.cover_image.url"></v-img>
+        <v-img
+          :src="document.data.cover_image.url || placeholders.file"
+        ></v-img>
       </v-col>
       <v-col sm="6">
         <h1>{{ document.data.name[0].text }}</h1>
@@ -13,10 +15,14 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store } from 'vuex'
+import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
-@Component({})
+@Component({
+  computed: {
+    ...mapState('layout', ['placeholders'])
+  }
+})
 export default class DetailPage extends Vue {
   document: IPrismicDocument | null = null
 

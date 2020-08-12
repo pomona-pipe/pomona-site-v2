@@ -30,7 +30,7 @@
                     height="100%"
                   >
                     <v-img
-                      :src="product.data.cover_image.url"
+                      :src="product.data.cover_image.url || placeholders.file"
                       height="200px"
                     ></v-img>
 
@@ -55,7 +55,7 @@ import { IPrismic } from '~/shims'
 
 @Component({
   computed: {
-    ...mapState('layout', ['pageUid'])
+    ...mapState('layout', ['pageUid', 'placeholders'])
   }
 })
 export default class ProductCategoryPage extends Vue {
