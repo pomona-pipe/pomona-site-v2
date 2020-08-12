@@ -371,8 +371,6 @@ export default class ContactForm extends Vue {
 
     this.submissionState.inProgress = true
     
-
-    return
     const axiosConfig = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
