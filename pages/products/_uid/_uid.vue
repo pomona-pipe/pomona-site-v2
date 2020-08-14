@@ -3,12 +3,21 @@
     <v-row cols="12">
       <v-col sm="6">
         <v-img
+          v-if="document.data.body[0].items.length === 1"
+          height="500"
           :src="document.data.cover_image.url || placeholders.file"
         ></v-img>
+        <v-carousel v-else-if="document.data.body[0].items.length > 1" cycle show-arrows-on-hover>
+          <v-carousel-item
+            v-for="image in document.data.body[0].items"
+            :key="image.id"
+            :src="image.section_image.url"
+          ></v-carousel-item>
+        </v-carousel>
       </v-col>
       <v-col sm="6">
-        <h1>{{ document.data.name[0].text }}</h1>
-        <p>{{ document.data.description[0].text }}</p>
+        <h1>{{ document.data.body[0].primary.section_title[0].text }}</h1>
+        <p>{{ document.data.body[0].primary.section_text[0].text }}</p>
       </v-col>
     </v-row>
   </section>
