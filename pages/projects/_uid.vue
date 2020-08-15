@@ -20,10 +20,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { mapState } from 'vuex'
+import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import moment from 'moment'
-import { IPrismicDocument } from '~/shims'
+import { IPrismic, IPrismicDocument } from '~/shims'
 @Component({
   ...mapState('layout', ['pageUid'])
 })
@@ -32,6 +32,29 @@ export default class DetailPage extends Vue {
 
   formatDateString(dateString: string) {
     return moment(dateString).format('MMMM Do YYYY')
+  }
+
+  async fetch({
+    store,
+    $prismic,
+    error
+  }: {
+    store: Store<any>
+    $prismic: IPrismic
+    error: any
+  }) {
+    const pageUid = store.state.layout.pageUid
+    const storeProject = find(store.state.projects.projects, ['uid', pageUid])
+    // check if project is already in store
+    if (storeProject) return
+    // attempt to fetch project
+    try {
+      const result = await $prismic.api.getByUID('projects', pageUid)
+      store.commit('projects/addProject', result)
+    } catch (e) {
+      // Returns error page
+      error({ statusCode: 404, message: 'Page not found', error: e })
+    }
   }
 
   // retrieve correct project document from store
