@@ -26,6 +26,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
+import { Route } from 'vue-router/types'
 import { IPrismic } from '~/shims'
 import Header from '~/components/Layout/Header.vue'
 import Footer from '~/components/Layout/Footer.vue'
@@ -60,11 +61,32 @@ export default class DefaultLayout extends Vue {
     store,
     $prismic
   }: {
-    route: any
+    route: Route
     store: Store<any>
     $prismic: IPrismic
   }) {
     store.commit('layout/setPageUid', route.path)
+    // update router history: matched property excluded since it causes app to crash
+    const {
+      path,
+      name,
+      hash,
+      query,
+      params,
+      fullPath,
+      redirectedFrom,
+      meta
+    } = route
+    store.commit('layout/updateRouterHistory', {
+      path,
+      name,
+      hash,
+      query,
+      params,
+      fullPath,
+      redirectedFrom,
+      meta
+    })
     if (store.state.layout.mainNavigation.length === 0)
       await store.dispatch('layout/getMainNavigation', $prismic)
     if (store.state.layout.footerNavigation.length === 0)

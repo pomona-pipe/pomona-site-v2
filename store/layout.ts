@@ -1,8 +1,10 @@
+import { Route } from 'vue-router/types'
 // TODO: create types for api response data/payloads
 import { IPrismic } from '~/shims'
 
 interface IState {
   pageUid: string | null
+  routerHistory: Partial<Route>[]
   isMobile: boolean | null
   mobileDrawer: boolean
   mainNavigation: any[]
@@ -12,6 +14,7 @@ interface IState {
 
 export const state: () => IState = () => ({
   pageUid: null,
+  routerHistory: [],
   isMobile: null,
   mobileDrawer: false,
   mainNavigation: [],
@@ -26,6 +29,9 @@ export const mutations = {
   setPageUid(state: IState, payload: string) {
     const pageUid = payload.split('/').slice(-1)[0] || 'home'
     state.pageUid = pageUid
+  },
+  updateRouterHistory(state: IState, payload: Partial<Route>) {
+    state.routerHistory.push(payload)
   },
   setIsMobile(state: IState, value: boolean) {
     state.isMobile = value
