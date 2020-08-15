@@ -91,8 +91,6 @@ export default class DefaultLayout extends Vue {
       await store.dispatch('layout/getMainNavigation', $prismic)
     if (store.state.layout.footerNavigation.length === 0)
       await store.dispatch('layout/getFooterNavigation', $prismic)
-    if (store.state.products.productCategories.length === 0)
-      await store.dispatch('products/getProductCategories', $prismic)
   }
 }
 </script>
