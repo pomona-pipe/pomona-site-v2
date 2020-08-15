@@ -1,4 +1,4 @@
-import { merge } from 'lodash'
+import { uniqBy } from 'lodash'
 
 // TODO: create types for api response data/payloads
 import { IPrismic } from '~/shims'
@@ -14,11 +14,17 @@ export const state = () => ({
 })
 
 export const mutations = {
+  addProductCategory(state: IState, payload: object) {
+    state.productCategories = uniqBy(
+      state.productCategories.concat([payload]),
+      'id'
+    )
+  },
   setProductCategories(state: IState, payload: object[]) {
     state.productCategories = payload
   },
   addProducts(state: IState, payload: object[]) {
-    state.products = merge(state.products, payload)
+    state.products = uniqBy(state.products.concat(payload), 'id')
   }
 }
 export const actions = {

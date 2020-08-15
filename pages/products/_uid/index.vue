@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Context } from '@nuxt/types'
+import { Route } from 'vue-router/types'
 import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import { IPrismic } from '~/shims'
@@ -67,24 +67,34 @@ export default class ProductCategoryPage extends Vue {
   }
 
   async fetch({
+    route,
     store,
-    params,
     $prismic
   }: {
+    route: Route
     store: Store<any>
-    params: Context['route']['params']
     $prismic: IPrismic
   }) {
-    const { uid } = params
-    const productsExist = find(
-      store.state.products.products,
-      (product) => product.data.product_category.uid === uid
-    )
-    if (productsExist) return
-    const catId = find(
+    // return if page has been visited
+    const { routerHistory } = store.state.layout
+    let visits = 0
+    routerHistory.forEach((visited: Partial<Route>) => {
+      if (route.fullPath === visited.fullPath) visits++
+    })
+    if (visits > 1) return
+    // get product category if needed
+    const { uid } = route.params
+    let cat = find(
       store.state.products.productCategories,
       (category) => category.uid === uid
-    ).id
+    )
+    if (!cat) {
+      const pageUid = store.state.layout.pageUid
+      cat = await $prismic.api.getByUID('product_categories', pageUid)
+      store.commit('products/addProductCategory', cat)
+    }
+    // get products by category id
+    const catId = cat.id
     await store.dispatch('products/getProductsByCategory', {
       $prismic,
       catId
