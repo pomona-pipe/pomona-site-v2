@@ -42,7 +42,7 @@ export default class DetailPage extends Vue {
     // attempt to fetch product
     try {
       const result = await $prismic.api.getByUID('products', pageUid)
-      store.commit('products/addProduct', result)
+      store.commit('products/addProducts', [result])
     } catch (e) {
       // Returns error page
       error({ statusCode: 404, message: 'Page not found', error: e })

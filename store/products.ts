@@ -1,5 +1,6 @@
-// TODO: create types for api response data/payloads
+import { merge } from 'lodash'
 
+// TODO: create types for api response data/payloads
 import { IPrismic } from '~/shims'
 
 interface IState {
@@ -16,8 +17,8 @@ export const mutations = {
   setProductCategories(state: IState, payload: object[]) {
     state.productCategories = payload
   },
-  addProduct(state: IState, payload: object[]) {
-    state.products = state.products.concat(payload)
+  addProducts(state: IState, payload: object[]) {
+    state.products = merge(state.products, payload)
   }
 }
 export const actions = {
@@ -44,7 +45,7 @@ export const actions = {
     )
     const product = await $prismic.api.query(byCategory, {})
     commit(
-      'addProduct',
+      'addProducts',
       product.results.map((result) => result)
     )
   }
