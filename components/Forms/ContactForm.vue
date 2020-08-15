@@ -1,6 +1,7 @@
 <template>
   <v-form
     :name="formName"
+    :disabled="submissionState.inProgress"
     method="post"
     data-netlify="true"
     data-netlify-honeypot="bot-field"
@@ -127,12 +128,50 @@
         ></v-textarea>
       </v-col>
       <v-col>
-        <v-btn block large color="primary" type="submit">Submit</v-btn>
+        <v-btn
+          block
+          large
+          :disabled="submissionState.inProgress"
+          :loading="submissionState.inProgress"
+          color="primary"
+          type="submit"
+        >Submit</v-btn>
       </v-col>
     </v-row>
+    <!-- Success Snackbar -->
+    <v-snackbar
+      v-model="submissionState.success"
+      multi-line
+      :timeout="submissionState.snackbarTimeout"
+      top
+      color="success"
+    >
+      Thank you for contacting us. Someone from our team will respond to you shortly.
+      <template
+        v-slot:action="{ attrs }"
+      >
+        <v-btn text v-bind="attrs" @click="submissionState.success = false">Close</v-btn>
+      </template>
+    </v-snackbar>
+    <!-- Error Snackbar -->
+    <v-snackbar
+      v-model="submissionState.error"
+      multi-line
+      :timeout="submissionState.snackbarTimeout"
+      top
+      color="error"
+    >
+      Oops, something went wrong. Please try again or contact us by phone at 336-292-8060
+      <template
+        v-slot:action="{ attrs }"
+      >
+        <v-btn text v-bind="attrs" @click="submissionState.error = false">Close</v-btn>
+      </template>
+    </v-snackbar>
   </v-form>
 </template>
-<style lang="css" scoped></style>
+<style lang="scss" scoped>
+</style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
@@ -160,6 +199,13 @@ interface ContactFields {
 // types the form data being encoded for submmission
 interface FormData extends ContactFields {
   'form-name': string
+}
+
+interface FormSubmissionState {
+  inProgress: boolean
+  success: boolean
+  error: boolean
+  snackbarTimeout: number
 }
 
 const phone: CustomRule = (phone: string) => {
@@ -265,8 +311,15 @@ const phone: CustomRule = (phone: string) => {
 })
 export default class ContactForm extends Vue {
   formName = 'Contact Form'
+  submissionState: FormSubmissionState = {
+    inProgress: false,
+    success: false,
+    error: false,
+    snackbarTimeout: 10000
+  }
 
-  fields: ContactFields = {
+
+  defaultfieldValues: ContactFields = {
     firstName: '',
     lastName: '',
     email: '',
@@ -277,6 +330,10 @@ export default class ContactForm extends Vue {
     message: ''
   }
 
+  fields: ContactFields = {
+    ...this.defaultfieldValues
+  }
+
   checkError() {
     const keys = Object.keys(this.$v.fields)
     keys.find((key) => {
@@ -285,6 +342,13 @@ export default class ContactForm extends Vue {
         console.error('Error on property', key)
       }
     })
+  }
+
+  resetForm () {
+    this.fields = {
+      ...this.defaultfieldValues
+    }
+    this.$v.$reset()
   }
 
   encode(data: FormData) {
@@ -304,6 +368,9 @@ export default class ContactForm extends Vue {
       this.checkError()
       return
     }
+
+    this.submissionState.inProgress = true
+    
     const axiosConfig = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
@@ -319,10 +386,16 @@ export default class ContactForm extends Vue {
       .then(() => {
         console.log('Form submitted!')
         // TODO: show a success toast/message and clear form
+        this.submissionState.success = true
+        this.resetForm()
       })
       .catch((error) => {
         console.error(error)
-        // TODO: show an error toast/message and clear form
+        // TODO: show an error toast/message
+        this.submissionState.error = true
+      })
+      .finally(() => {
+        this.submissionState.inProgress = false
       })
   }
 }

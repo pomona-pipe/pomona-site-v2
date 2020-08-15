@@ -1,7 +1,7 @@
 <template>
   <section>
     <v-row cols="12">
-      <v-col sm="6" lg="4" v-for="project in projects" :key="project.id">
+      <v-col v-for="project in projects" :key="project.id" sm="6" lg="4">
         <v-hover v-slot:default="{ hover }" open-delay="200">
           <v-card
             :to="`/projects/${project.uid}`"
@@ -9,15 +9,22 @@
             height="100%"
             class="d-flex flex-column justify-space-between"
           >
-            <v-img :src="project.data.project_image.listing_page.url"></v-img>
+            <v-img
+              :src="
+                project.data.project_image.listing_page.url || placeholders.file
+              "
+            ></v-img>
 
             <v-card-title>
-              {{
-              project.data.project_name[0].text
-              }}
+              {{ project.data.project_name[0].text }}
             </v-card-title>
-            <v-card-text class="text--primary"> {{ project.data.project_description[0].text}} </v-card-text>
-            <v-card-subtitle> {{ formatDateString(project.data.completion_date)}} in {{ project.data.project_location[0].text }} </v-card-subtitle>
+            <v-card-text class="text--primary">
+              {{ project.data.project_description[0].text }}
+            </v-card-text>
+            <v-card-subtitle>
+              {{ formatDateString(project.data.completion_date) }} in
+              {{ project.data.project_location[0].text }}
+            </v-card-subtitle>
           </v-card>
         </v-hover>
       </v-col>
@@ -34,13 +41,15 @@ import { IPrismic } from '~/shims'
 @Component({
   components: {},
   computed: {
+    ...mapState('layout', ['placeholders']),
     ...mapState('projects', ['projects'])
   }
 })
 export default class Index extends Vue {
-    formatDateString (dateString: string ) {
-        return moment(dateString).format('MMMM Do YYYY')
-    }
+  formatDateString(dateString: string) {
+    return moment(dateString).format('MMMM Do YYYY')
+  }
+
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
     await store.dispatch('projects/getProjects', $prismic)
   }

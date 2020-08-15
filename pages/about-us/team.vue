@@ -30,7 +30,7 @@
             height="100%"
           >
             <v-img
-              :src="employee.data.profile_image.url"
+              :src="employee.data.profile_image.url || placeholders.account"
               height="200px"
             ></v-img>
 
@@ -58,6 +58,7 @@ import { IPrismic } from '~/shims'
 @Component({
   components: {},
   computed: {
+    ...mapState('layout', ['placeholders']),
     ...mapState('pages', ['team']),
     ...mapState('employees', ['employees'])
   }

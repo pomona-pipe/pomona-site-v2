@@ -7,6 +7,7 @@ interface IState {
   mobileDrawer: boolean
   mainNavigation: any[]
   footerNavigation: any[]
+  placeholders: { [key: string]: string }
 }
 
 export const state: () => IState = () => ({
@@ -14,7 +15,11 @@ export const state: () => IState = () => ({
   isMobile: null,
   mobileDrawer: false,
   mainNavigation: [],
-  footerNavigation: []
+  footerNavigation: [],
+  placeholders: {
+    account: '/images/placeholders/account.svg',
+    file: '/images/placeholders/file-image.svg'
+  }
 })
 
 export const mutations = {

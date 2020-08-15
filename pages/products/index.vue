@@ -1,7 +1,6 @@
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm6 md4 lg3 xl3>
-      
       <v-container>
         <h1>All Product Categories</h1>
         <!-- check product categories exists -->
@@ -33,7 +32,10 @@
                     max-width="344"
                     height="100%"
                   >
-                    <v-img :src="cat.data.category_image.url" height="200px"></v-img>
+                    <v-img
+                      :src="cat.data.category_image.url || placeholders.file"
+                      height="200px"
+                    ></v-img>
 
                     <v-card-title>{{
                       cat.data.category_title[0].text
@@ -57,6 +59,7 @@ import { IPrismic } from '~/shims'
 @Component({
   components: {},
   computed: {
+    ...mapState('layout', ['placeholders']),
     ...mapState('products', ['productCategories'])
   }
 })
