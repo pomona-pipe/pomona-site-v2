@@ -11,8 +11,8 @@ export const state = () => ({
 })
 
 export const mutations = {
-  addProject(state: IState, payload: object[]) {
-    state.projects = state.projects.concat(payload)
+  addProject(state: IState, payload: object) {
+    state.projects.push(payload)
   },
   setProjects(state: IState, payload: object[]) {
     state.projects = payload
