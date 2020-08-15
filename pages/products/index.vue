@@ -53,6 +53,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { Route } from 'vue-router/types'
 import { Store, mapState } from 'vuex'
 import { IPrismic } from '~/shims'
 
@@ -64,7 +65,21 @@ import { IPrismic } from '~/shims'
   }
 })
 export default class Index extends Vue {
-  async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
+  async fetch({
+    route,
+    store,
+    $prismic
+  }: {
+    route: Route
+    store: Store<any>
+    $prismic: IPrismic
+  }) {
+    const { routerHistory } = store.state.layout
+    let visits = 0
+    routerHistory.forEach((visited: Partial<Route>) => {
+      if (route.fullPath === visited.fullPath) visits++
+    })
+    if (visits > 1) return
     await store.dispatch('products/getProductCategories', $prismic)
   }
 }
