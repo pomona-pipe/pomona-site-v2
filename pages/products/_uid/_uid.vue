@@ -26,30 +26,18 @@ import { IPrismic, IPrismicDocument } from '~/shims'
 export default class DetailPage extends Vue {
   document: IPrismicDocument | null = null
 
-  async fetch({
-    store,
-    $prismic,
-    error
-  }: {
-    store: Store<any>
-    $prismic: IPrismic
-    error: any
-  }) {
+  async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
     const pageUid = store.state.layout.pageUid
     const storeProduct = find(store.state.products.products, ['uid', pageUid])
-    // check if product is already in store
+    // return if product exists in store
     if (storeProduct) return
-    // attempt to fetch product
-    try {
-      const result = await $prismic.api.getByUID('products', pageUid)
-      store.commit('products/addProducts', [result])
-    } catch (e) {
-      // Returns error page
-      error({ statusCode: 404, message: 'Page not found', error: e })
-    }
+
+    // else, query product and add to store
+    const product = await $prismic.api.getByUID('products', pageUid)
+    store.commit('products/addProducts', [product])
   }
 
-  // retrieve correct document from store
+  // fetch product from store and copy to component
   created() {
     const pageUid = this.$store.state.layout.pageUid
     this.document = find(this.$store.state.products.products, ['uid', pageUid])

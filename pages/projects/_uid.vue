@@ -40,30 +40,18 @@ export default class DetailPage extends Vue {
     return moment(dateString).format('MMMM Do YYYY')
   }
 
-  async fetch({
-    store,
-    $prismic,
-    error
-  }: {
-    store: Store<any>
-    $prismic: IPrismic
-    error: any
-  }) {
+  async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
+    // if project exists in store, return
     const pageUid = store.state.layout.pageUid
     const storeProject = find(store.state.projects.projects, ['uid', pageUid])
-    // check if project is already in store
     if (storeProject) return
-    // attempt to fetch project
-    try {
-      const result = await $prismic.api.getByUID('projects', pageUid)
-      store.commit('projects/addProject', result)
-    } catch (e) {
-      // Returns error page
-      error({ statusCode: 404, message: 'Page not found', error: e })
-    }
+
+    // else, query project and add to store
+    const result = await $prismic.api.getByUID('projects', pageUid)
+    store.commit('projects/addProject', result)
   }
 
-  // retrieve correct project document from store
+  // fetch project from store and copy to component
   created() {
     const pageUid = this.$store.state.layout.pageUid
     this.document = find(this.$store.state.projects.projects, ['uid', pageUid])
