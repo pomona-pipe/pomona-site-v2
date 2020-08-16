@@ -51,6 +51,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Route } from 'vue-router/types'
 import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
+import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
 
 @Component({
@@ -76,12 +77,7 @@ export default class ProductCategoryPage extends Vue {
     $prismic: IPrismic
   }) {
     // return if page has been visited
-    const { routerHistory } = store.state.layout
-    let visits = 0
-    routerHistory.forEach((visited: Partial<Route>) => {
-      if (route.fullPath === visited.fullPath) visits++
-    })
-    if (visits > 1) return
+    if (pageVisits() > 1) return
     // get product category if needed
     const { uid } = route.params
     let cat = find(

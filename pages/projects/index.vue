@@ -35,8 +35,8 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
-import { Route } from 'vue-router/types'
 import moment from 'moment'
+import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
 
 @Component({
@@ -51,21 +51,8 @@ export default class Index extends Vue {
     return moment(dateString).format('MMMM Do YYYY')
   }
 
-  async fetch({
-    route,
-    store,
-    $prismic
-  }: {
-    route: Route
-    store: Store<any>
-    $prismic: IPrismic
-  }) {
-    const { routerHistory } = store.state.layout
-    let visits = 0
-    routerHistory.forEach((visited: Partial<Route>) => {
-      if (route.fullPath === visited.fullPath) visits++
-    })
-    if (visits > 1) return
+  async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
+    if (pageVisits() > 1) return
     await store.dispatch('projects/getProjects', $prismic)
   }
 }
