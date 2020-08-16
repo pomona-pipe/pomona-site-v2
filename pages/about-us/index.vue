@@ -34,6 +34,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
+import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
 
 @Component({
@@ -44,6 +45,7 @@ import { IPrismic } from '~/shims'
 })
 export default class Index extends Vue {
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
+    if (pageVisits() > 1) return
     await store.dispatch('pages/getAboutUs', $prismic)
   }
 }
