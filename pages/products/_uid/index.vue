@@ -23,7 +23,7 @@
               >
                 <v-hover v-slot:default="{ hover }" open-delay="200">
                   <v-card
-                    :to="`./${pageUid}/${product.uid}`"
+                    :to="`./${uid}/${product.uid}`"
                     :elevation="hover ? 16 : 2"
                     class="mx-auto"
                     max-width="344"
@@ -56,37 +56,40 @@ import { IPrismic } from '~/shims'
 
 @Component({
   computed: {
-    ...mapState('layout', ['pageUid', 'placeholders'])
+    ...mapState('layout', ['placeholders'])
   }
 })
 export default class ProductCategoryPage extends Vue {
+  get uid() {
+    return this.$route.params.uid
+  }
+
   get products() {
-    const pageUid = this.$store.state.layout.pageUid
     return this.$store.state.products.products.filter(
-      (product: any) => product.data.product_category.uid === pageUid
+      (product: any) =>
+        product.data.product_category.uid === this.$route.params.uid
     )
   }
 
   async fetch({
-    route,
     store,
-    $prismic
+    $prismic,
+    params
   }: {
-    route: Route
     store: Store<any>
     $prismic: IPrismic
+    params: Route['params']
   }) {
     // return if page has been visited
     if (pageVisits() > 1) return
+    const { uid } = params
     // get product category if needed
-    const { uid } = route.params
     let cat = find(
       store.state.products.productCategories,
       (category) => category.uid === uid
     )
     if (!cat) {
-      const pageUid = store.state.layout.pageUid
-      cat = await $prismic.api.getByUID('product_categories', pageUid)
+      cat = await $prismic.api.getByUID('product_categories', uid)
       store.commit('products/addProductCategory', cat)
     }
     // get products by category id

@@ -65,7 +65,6 @@ export default class DefaultLayout extends Vue {
     store: Store<any>
     $prismic: IPrismic
   }) {
-    store.commit('layout/setPageUid', route.path)
     // update router history: matched property excluded since it causes app to crash
     const {
       path,
