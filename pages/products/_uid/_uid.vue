@@ -37,8 +37,9 @@ export default class DetailPage extends Vue {
     params: Route['params']
   }) {
     const { uid } = params
-    const storeProduct = find(store.state.products.products, { uid })
+
     // return if product exists in store
+    const storeProduct = find(store.state.products.products, { uid })
     if (storeProduct) return
 
     // else, query product and add to store

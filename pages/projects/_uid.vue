@@ -51,6 +51,7 @@ export default class DetailPage extends Vue {
     params: Route['params']
   }) {
     const { uid } = params
+
     // if project exists in store, return
     const storeProject = find(store.state.projects.projects, { uid })
     if (storeProject) return

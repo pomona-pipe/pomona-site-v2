@@ -60,15 +60,17 @@ import { IPrismic } from '~/shims'
   }
 })
 export default class ProductCategoryPage extends Vue {
-  get uid() {
-    return this.$route.params.uid
-  }
-
+  // product cards
   get products() {
     return this.$store.state.products.products.filter(
       (product: any) =>
         product.data.product_category.uid === this.$route.params.uid
     )
+  }
+
+  // for product card links
+  get uid() {
+    return this.$route.params.uid
   }
 
   async fetch({
@@ -82,8 +84,10 @@ export default class ProductCategoryPage extends Vue {
   }) {
     // return if page has been visited
     if (pageVisits() > 1) return
+
     const { uid } = params
-    // get product category if needed
+
+    // get product category - either from store or by querying prismic
     let cat = find(
       store.state.products.productCategories,
       (category) => category.uid === uid
@@ -92,6 +96,7 @@ export default class ProductCategoryPage extends Vue {
       cat = await $prismic.api.getByUID('product_categories', uid)
       store.commit('products/addProductCategory', cat)
     }
+
     // get products by category id
     const catId = cat.id
     await store.dispatch('products/getProductsByCategory', {
