@@ -7,7 +7,7 @@
           height="500"
           :src="document.data.cover_image.url || placeholders.file"
         ></v-img>
-        <v-carousel v-else-if="document.data.body[0].items.length > 1" cycle show-arrows-on-hover>
+        <v-carousel v-else-if="document.data.body[0].items.length > 1" show-arrows-on-hover>
           <v-carousel-item
             v-for="image in document.data.body[0].items"
             :key="image.id"
