@@ -1,29 +1,31 @@
 <template>
-  <section>
-    <v-row
+  <div v-if="document.data.body.length > 0" class="page product-detail-page">
+    <section
       v-for="(section, index) in document.data.body"
       :key="`section-${index}`"
     >
-      <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 2 : 1">
-        <h1>{{ section.primary.section_title[0].text }}</h1>
-        <p>{{ section.primary.section_text[0].text }}</p>
-      </v-col>
-      <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 1 : 2">
-        <v-img
-          v-if="section.items.length === 1"
-          height="500"
-          :src="document.data.cover_image.url || placeholders.file"
-        ></v-img>
-        <v-carousel v-else-if="section.items.length > 1" show-arrows-on-hover>
-          <v-carousel-item
-            v-for="image in section.items"
-            :key="image.id"
-            :src="image.section_image.url"
-          ></v-carousel-item>
-        </v-carousel>
-      </v-col>
-    </v-row>
-  </section>
+      <v-row>
+        <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 2 : 1">
+          <h1>{{ section.primary.section_title[0].text }}</h1>
+          <p>{{ section.primary.section_text[0].text }}</p>
+        </v-col>
+        <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 1 : 2">
+          <v-img
+            v-if="section.items.length === 1"
+            height="500"
+            :src="document.data.cover_image.url || placeholders.file"
+          ></v-img>
+          <v-carousel v-else-if="section.items.length > 1" show-arrows-on-hover>
+            <v-carousel-item
+              v-for="image in section.items"
+              :key="image.id"
+              :src="image.section_image.url"
+            ></v-carousel-item>
+          </v-carousel>
+        </v-col>
+      </v-row>
+    </section>
+  </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
