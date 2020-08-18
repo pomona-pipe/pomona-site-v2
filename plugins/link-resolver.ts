@@ -18,22 +18,6 @@ interface DocumentLink {
   uid: string
 }
 
-function parseUidFromName(uid: string) {
-  const words = uid.split(' ')
-  const conversions: { [key: string]: string } = {
-    '&': 'and'
-  }
-  words.forEach((word, index) => {
-    // convert first letter to lowercase
-    words[index] = word.charAt(0).toLowerCase() + word.substr(1)
-    // convert symbols to words
-    if (Object.keys(conversions).includes(word)) {
-      words[index] = conversions[word]
-    }
-  })
-  return words.join('-')
-}
-
 export default function(doc: DocumentLink) {
   if (doc.isBroken) {
     return '/not-found'
@@ -54,9 +38,9 @@ export default function(doc: DocumentLink) {
         ;(window.$nuxt as any).$prismic.api
           .getByUID('products', uid)
           .then((result: Document) => {
-            const productLink = `/products/${parseUidFromName(
-              result!.data.product_category
-            )}/${uid}`
+            const productLink = `/products/${
+              result!.data.product_category.uid
+            }/${uid}`
             const productAnchorTags = document.querySelectorAll(
               'a[href*="product_category"]'
             )
