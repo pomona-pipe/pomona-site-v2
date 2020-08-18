@@ -10,7 +10,7 @@
     <input type="hidden" name="form-name" :value="formName" />
     <v-row>
       <!-- Name Section -->
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="6">
         <v-text-field
           id="firstName"
           v-model="fields.firstName"
@@ -24,7 +24,7 @@
           @blur="$v.fields.firstName.$touch()"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" sm="6" md="4">
+      <v-col cols="12" sm="6" md="6">
         <v-text-field
           id="lastName"
           v-model="fields.lastName"
@@ -41,34 +41,6 @@
       <!-- email & company section -->
       <v-col cols="12" sm="6" md="4">
         <v-text-field
-          id="email"
-          v-model="fields.email"
-          name="email"
-          :error-messages="emailErrors"
-          label="E-mail"
-          email
-          required
-          @input="$v.fields.email.$touch()"
-          @blur="$v.fields.email.$touch()"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field
-          id="company"
-          v-model="fields.company"
-          name="company"
-          :error-messages="companyErrors"
-          :maxlength="50"
-          :counter="50"
-          label="Company Name"
-          required
-          @input="$v.fields.company.$touch()"
-          @blur="$v.fields.company.$touch()"
-        ></v-text-field>
-      </v-col>
-      <!-- phone # and Zip Code Section -->
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field
           id="phone"
           v-model="fields.phone"
           name="phone"
@@ -83,6 +55,48 @@
       </v-col>
       <v-col cols="12" sm="6" md="4">
         <v-text-field
+          id="email"
+          v-model="fields.email"
+          name="email"
+          :error-messages="emailErrors"
+          label="E-mail"
+          email
+          required
+          @input="$v.fields.email.$touch()"
+          @blur="$v.fields.email.$touch()"
+        ></v-text-field>
+      </v-col>
+      <!-- Contact Preference Radio Group -->
+      <v-col cols="12" sm="12" md="4">
+        <v-autocomplete
+          id="contactPreference"
+          name="contactPreference"
+          label="Contact Preference"
+          v-model="fields.contactPreference"
+          :items="contactPreferenceOptions"
+          required
+          :error-messages="contactPreferenceErrors"
+          @input="$v.fields.contactPreference.$touch()"
+          @blur="$v.fields.contactPreference.$touch()"
+        ></v-autocomplete>
+      </v-col>
+      <v-col cols="12" sm="6" md="6">
+        <v-text-field
+          id="company"
+          v-model="fields.company"
+          name="company"
+          :error-messages="companyErrors"
+          :maxlength="50"
+          :counter="50"
+          label="Company Name"
+          required
+          @input="$v.fields.company.$touch()"
+          @blur="$v.fields.company.$touch()"
+        ></v-text-field>
+      </v-col>
+      <!-- phone # and Zip Code Section -->
+      <v-col cols="12" sm="6" md="6">
+        <v-text-field
           id="zip"
           v-model="fields.zip"
           name="zip"
@@ -96,6 +110,7 @@
           @blur="$v.fields.zip.$touch()"
         ></v-text-field>
       </v-col>
+
       <!-- Subject and Message Section  -->
       <v-col cols="12" sm="12" md="12">
         <v-text-field
@@ -116,7 +131,7 @@
           id="message"
           v-model="fields.message"
           name="message"
-          rows="2"
+          rows="4"
           auto-grow
           :error-messages="messageErrors"
           :maxlength="750"
@@ -185,6 +200,8 @@ import {
 } from 'vuelidate/lib/validators'
 import { mask } from '@titou10/v-mask'
 
+type ContactPreference = 'Phone' | 'E-mail'
+
 interface ContactFields {
   firstName: string
   lastName: string
@@ -192,6 +209,7 @@ interface ContactFields {
   company: string
   zip: string
   phone: string
+  contactPreference: ContactPreference | null
   subject: string
   message: string
 }
@@ -227,6 +245,7 @@ const phone: CustomRule = (phone: string) => {
       company: { required },
       zip: { required, minLength: minLength(5) },
       phone: { required, phone, minLength: minLength(10) },
+      contactPreference: { required },
       subject: { required },
       message: { required }
     }
@@ -291,6 +310,15 @@ const phone: CustomRule = (phone: string) => {
         errors.push('Zip Code must be 5 digits')
       return errors
     },
+    contactPreferenceErrors() {
+      const errors: string[] = []
+      // do not error on initial load state
+      if (!this.$v.fields.contactPreference!.$dirty) return errors
+      // required check
+      if (!this.$v.fields.contactPreference!.required)
+        errors.push('Contact Preference is required')
+      return errors
+    },
     subjectErrors() {
       const errors: string[] = []
       // do not error on initial load state
@@ -317,7 +345,7 @@ export default class ContactForm extends Vue {
     error: false,
     snackbarTimeout: 10000
   }
-
+  contactPreferenceOptions: ContactPreference[] = ['Phone', 'E-mail']
 
   defaultfieldValues: ContactFields = {
     firstName: '',
@@ -326,6 +354,7 @@ export default class ContactForm extends Vue {
     company: '',
     zip: '',
     phone: '',
+    contactPreference: null,
     subject: '',
     message: ''
   }
@@ -344,7 +373,7 @@ export default class ContactForm extends Vue {
     })
   }
 
-  resetForm () {
+  resetForm() {
     this.fields = {
       ...this.defaultfieldValues
     }
@@ -356,7 +385,7 @@ export default class ContactForm extends Vue {
       .map(
         (key) =>
           `${encodeURIComponent(key)}=${encodeURIComponent(
-            data[key as keyof FormData]
+            data[key as keyof FormData]!
           )}`
       )
       .join('&')
@@ -370,7 +399,7 @@ export default class ContactForm extends Vue {
     }
 
     this.submissionState.inProgress = true
-    
+
     const axiosConfig = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
