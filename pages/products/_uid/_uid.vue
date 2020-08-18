@@ -6,8 +6,8 @@
     >
       <v-row>
         <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 2 : 1">
-          <h1>{{ section.primary.section_title[0].text }}</h1>
-          <p>{{ section.primary.section_text[0].text }}</p>
+          <prismic-rich-text :field="section.primary.section_title" />
+          <prismic-rich-text :field="section.primary.section_text" />
         </v-col>
         <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 1 : 2">
           <v-img
