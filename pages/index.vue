@@ -1,73 +1,75 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm6 md4 lg3 xl3>
-      <v-container>
-        <h1>Home</h1>
-        <!-- check product categories exists -->
-        <v-layout
-          v-if="productCategories.length > 0"
-          row
-          wrap
-          column
-          justify-center
-          align-center
+  <span>
+    <v-row cols="12">
+      <!-- Hero Banner Section -->
+      <v-col sm="12" class="px-0 py-0">
+        <v-img
+          :src="home[0].data.hero_image.url"
+          gradient="to top right, rgba(36, 36, 36, 0.9), rgba(25,32,72,.7)"
+          max-height="250px"
+          class="white--text"
         >
-          <!-- template for product category cards -->
-          <v-container fluid grid-list-lg>
-            <v-layout row wrap class="align-stretch">
-              <v-flex
-                v-for="cat in productCategories"
-                :key="cat.id"
-                xs12
-                sm6
-                md4
-                lg3
-                xl3
-              >
-                <v-hover v-slot:default="{ hover }" open-delay="200">
-                  <v-card
-                    :to="`/products/${cat.uid}`"
-                    :elevation="hover ? 16 : 2"
-                    class="mx-auto"
-                    max-width="344"
-                    height="100%"
-                  >
-                    <v-img
-                      :src="cat.data.category_image.url || placeholders.file"
-                      height="200px"
-                    ></v-img>
-
-                    <v-card-title>{{
-                      cat.data.category_title[0].text
-                    }}</v-card-title>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-layout>
-      </v-container>
-    </v-flex>
-  </v-layout>
+          <v-row align="center" class="fill-height">
+            <v-col align="center">
+              <div class="grey--text text--lighten-2">
+                <prismic-rich-text :field="home[0].data.hero_title" />
+              </div>
+              <prismic-rich-text :field="home[0].data.hero_subtitle" />
+            </v-col>
+          </v-row>
+        </v-img>
+      </v-col>
+    </v-row>
+    <!-- Value Prop Section -->
+    <v-row cols="12">
+      <!-- Value Prop Section title -->
+      <v-col sm="12" class="text-center">
+        <prismic-rich-text :field="home[0].data.value_prop_title" />
+        <prismic-rich-text :field="home[0].data.value_prop_subtitle" />
+      </v-col>
+      <!-- prop 1 -->
+      <v-col class="text-center">
+        <v-icon size="75" color="blue darken-2">{{ mdiDraw }}</v-icon>
+        <prismic-rich-text :field="home[0].data.prop_1_title" />
+        <prismic-rich-text :field="home[0].data.prop_1_subtitle" />
+      </v-col>
+      <!-- prop 2 -->
+      <v-col class="text-center">
+        <v-icon size="75" color="purple darken-3" >{{ mdiTools }}</v-icon>
+        <prismic-rich-text :field="home[0].data.prop_2_title" />
+        <prismic-rich-text :field="home[0].data.prop_2_subtitle" />
+      </v-col>
+      <!-- prop 3 -->
+      <v-col class="text-center">
+        <v-icon size="75" color="green darken-2">{{ mdiExcavator }}</v-icon>
+        <prismic-rich-text :field="home[0].data.prop_3_title" />
+        <prismic-rich-text :field="home[0].data.prop_3_subtitle" />
+      </v-col>
+    </v-row>
+  </span>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
+import { mdiTools, mdiDraw, mdiExcavator } from '@mdi/js'
 import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
 
 @Component({
   components: {},
   computed: {
-    ...mapState('layout', ['placeholders']),
-    ...mapState('products', ['productCategories'])
+    ...mapState('pages', ['home'])
   }
 })
 export default class Index extends Vue {
+  mdiTools = mdiTools
+  mdiDraw = mdiDraw
+  mdiExcavator = mdiExcavator
+
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
     if (pageVisits() > 1) return
-    await store.dispatch('products/getProductCategories', $prismic)
+    await store.dispatch('pages/getHome', $prismic)
   }
 }
 </script>
