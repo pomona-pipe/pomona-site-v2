@@ -43,9 +43,9 @@
         <v-text-field
           id="phone"
           v-model="fields.phone"
+          v-mask="'(###) ### - ####'"
           name="phone"
           type="tel"
-          v-mask="'(###) ### - ####'"
           :error-messages="phoneErrors"
           label="Phone Number"
           required
@@ -70,9 +70,9 @@
       <v-col cols="12" sm="12" md="4">
         <v-autocomplete
           id="contactPreference"
+          v-model="fields.contactPreference"
           name="contactPreference"
           label="Contact Preference"
-          v-model="fields.contactPreference"
           :items="contactPreferenceOptions"
           required
           :error-messages="contactPreferenceErrors"
@@ -99,10 +99,10 @@
         <v-text-field
           id="zip"
           v-model="fields.zip"
+          v-mask="'#####'"
           name="zip"
           inputmode="numeric"
           pattern="\d*"
-          v-mask="'#####'"
           :error-messages="zipErrors"
           label="Zip Code"
           required
@@ -150,7 +150,8 @@
           :loading="submissionState.inProgress"
           color="primary"
           type="submit"
-        >Submit</v-btn>
+          >Submit</v-btn
+        >
       </v-col>
     </v-row>
     <!-- Success Snackbar -->
@@ -161,11 +162,12 @@
       top
       color="success"
     >
-      Thank you for contacting us. Someone from our team will respond to you shortly.
-      <template
-        v-slot:action="{ attrs }"
-      >
-        <v-btn text v-bind="attrs" @click="submissionState.success = false">Close</v-btn>
+      Thank you for contacting us. Someone from our team will respond to you
+      shortly.
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="submissionState.success = false"
+          >Close</v-btn
+        >
       </template>
     </v-snackbar>
     <!-- Error Snackbar -->
@@ -176,17 +178,17 @@
       top
       color="error"
     >
-      Oops, something went wrong. Please try again or contact us by phone at 336-292-8060
-      <template
-        v-slot:action="{ attrs }"
-      >
-        <v-btn text v-bind="attrs" @click="submissionState.error = false">Close</v-btn>
+      Oops, something went wrong. Please try again or contact us by phone at
+      336-292-8060
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="submissionState.error = false"
+          >Close</v-btn
+        >
       </template>
     </v-snackbar>
   </v-form>
 </template>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
@@ -209,7 +211,7 @@ interface ContactFields {
   company: string
   zip: string
   phone: string
-  contactPreference: ContactPreference | null
+  contactPreference: ContactPreference | ''
   subject: string
   message: string
 }
@@ -345,6 +347,7 @@ export default class ContactForm extends Vue {
     error: false,
     snackbarTimeout: 10000
   }
+
   contactPreferenceOptions: ContactPreference[] = ['Phone', 'E-mail']
 
   defaultfieldValues: ContactFields = {
@@ -354,7 +357,7 @@ export default class ContactForm extends Vue {
     company: '',
     zip: '',
     phone: '',
-    contactPreference: null,
+    contactPreference: '',
     subject: '',
     message: ''
   }
@@ -413,14 +416,14 @@ export default class ContactForm extends Vue {
         axiosConfig
       )
       .then(() => {
+        // eslint-disable-next-line no-console
         console.log('Form submitted!')
-        // TODO: show a success toast/message and clear form
         this.submissionState.success = true
         this.resetForm()
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.error(error)
-        // TODO: show an error toast/message
         this.submissionState.error = true
       })
       .finally(() => {
