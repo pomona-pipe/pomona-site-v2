@@ -4,9 +4,7 @@
     <MobileDrawer v-show="isMobile" />
     <!-- Application Content -->
     <v-main>
-      <v-container fluid class="py-0">
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-main>
     <Footer />
   </v-app>
