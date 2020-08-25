@@ -72,7 +72,7 @@ typings/
 dist
 
 # netlify-lambda build
-built-lambda
+dist_lambdas
 
 # vuepress build output
 .vuepress/dist

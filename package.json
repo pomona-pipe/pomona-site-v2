@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "nuxt-ts",
     "build:frontend": "nuxt-ts generate",
-    "build:lambda": "netlify-lambda build /lambda",
+    "build:lambda": "netlify-lambda build /lambdas",
     "build": "run-p build:*",
     "start": "nuxt-ts start",
-    "start:lambda": "netlify-lambda serve /lambda",
+    "start:lambda": "netlify-lambda serve /lambdas",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest"
   },
