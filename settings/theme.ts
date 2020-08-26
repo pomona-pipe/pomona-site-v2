@@ -35,5 +35,8 @@ export default {
       mainBackground: '#fafafa',
       headerBackground: '#fafafa'
     } as Partial<IExtendedTheme>
+  },
+  options: {
+    customProperties: true
   }
 } as Theme
