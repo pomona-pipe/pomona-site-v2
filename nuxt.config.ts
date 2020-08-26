@@ -1,4 +1,5 @@
 import { Configuration } from 'webpack'
+import theme from './settings/theme'
 
 export default {
   mode: 'universal',
@@ -27,15 +28,15 @@ export default {
    ** Global CSS
    ** vuetify css loaded before app styles to enable overwriting
    */
-  css: ['vuetify/dist/vuetify.css', '~/assets/style/app.scss'],
+  css: ['~/assets/style/app.scss'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@plugins/vuetify.ts', '@plugins/prismic-links.client.ts'],
+  plugins: ['@plugins/prismic-links.client.ts'],
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxt/typescript-build'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
   /*
    ** Nuxt.js modules
    */
@@ -47,6 +48,13 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/prismic'
   ],
+  // vuetify config
+  vuetify: {
+    theme,
+    icons: {
+      iconfont: 'mdiSvg'
+    }
+  },
   // This is where you configure your settings for the new plugin
   prismic: {
     endpoint: 'https://pomona.cdn.prismic.io/api/v2',
