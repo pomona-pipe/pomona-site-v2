@@ -11,7 +11,6 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
-import { mdiTools, mdiDraw, mdiExcavator } from '@mdi/js'
 import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
 import Hero from '~/components/PageComponents/HomePageSections/Hero.vue'
@@ -29,9 +28,7 @@ import FeaturedProjects from '~/components/PageComponents/HomePageSections/Featu
     FeaturedProjects
   },
   computed: {
-    ...mapState('pages', ['home']),
-    ...mapState('layout', ['placeholders']),
-    ...mapState('projects', ['projects'])
+   
   }
 })
 export default class Index extends Vue {

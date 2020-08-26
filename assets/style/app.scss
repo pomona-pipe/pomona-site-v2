@@ -6,14 +6,41 @@
 //   font-size: $font-size-root;
 // }
 
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Poppins SemiBold'), local('Poppins-SemiBold'), url(https://fonts.gstatic.com/s/poppins/v12/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/playfairdisplay/v21/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qC0s.woff) format('woff');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+.subtitle {
+  font-family: 'Playfair Display';
+  font-size: 1.75rem;
+}
+
 h1 {
-font-size: 2.5rem;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-size: 3.75rem;
 }
 h2 {
-  font-size: 1.8rem;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  font-size: 2.75rem;
 }
 h3 {
-  font-size: 1.6rem;
+  font-size: 1.75rem;
 }
 h4 {
   font-size: 1.4rem;
@@ -24,6 +51,15 @@ h5 {
 h6 {
   font-size: 1rem;
 }
+
+section {
+  padding: 7rem 0;
+  &:nth-child(even) {
+    background-color: #fafafa;
+  }
+}
+
+
 
 // elements
 p:empty {

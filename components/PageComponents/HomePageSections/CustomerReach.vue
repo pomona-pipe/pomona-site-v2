@@ -1,16 +1,17 @@
 <template>
   <section>
     <!-- Customer Reach Section -->
-    <v-row>
-      <v-col>
-        <v-img :src="home[0].data.customer_reach_map.url" max-height="800px"></v-img>
-      </v-col>
-      <v-col>
-        <prismic-rich-text :field="home[0].data.customer_reach_title" class="text-center" />
-        <p>{{ home[0].data.customer_reach_subtitle }}</p>
-      </v-col>
-    </v-row>
-    <hr />
+    <v-container>
+      <v-row>
+        <v-col>
+          <v-img :src="home[0].data.customer_reach_map.url" max-height="800px"></v-img>
+        </v-col>
+        <v-col>
+          <prismic-rich-text :field="home[0].data.customer_reach_title" class="text-center" />
+          <p>{{ home[0].data.customer_reach_subtitle }}</p>
+        </v-col>
+      </v-row>
+    </v-container>
   </section>
 </template>
 

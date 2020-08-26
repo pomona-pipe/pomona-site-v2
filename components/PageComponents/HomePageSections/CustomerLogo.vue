@@ -1,15 +1,14 @@
 <template>
   <section>
     <!-- Customer Logos Section -->
-    <v-row>
-      <v-col cols="12" class="text-center">
-        <prismic-rich-text :field="home[0].data.customer_logo_title" />
-      </v-col>
-      <v-col v-for="logo in home[0].data.customer_logos" :key="logo.id">
-        <v-img :src="logo.image.url" max-height="150px" max-width="100px"></v-img>
-      </v-col>
-    </v-row>
-    <hr />
+    <v-container>
+      <prismic-rich-text class="text-center" :field="home[0].data.customer_logo_title" />
+      <v-row class="justify-space-around">
+        <v-col class="flex-grow-0" v-for="logo in home[0].data.customer_logos" :key="logo.id">
+          <v-img :src="logo.image.url" max-height="200px" max-width="150px"></v-img>
+        </v-col>
+      </v-row>
+    </v-container>
   </section>
 </template>
 
