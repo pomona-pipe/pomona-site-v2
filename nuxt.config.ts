@@ -53,7 +53,9 @@ export default {
     theme,
     icons: {
       iconfont: 'mdiSvg'
-    }
+    },
+    treeShake: true,
+    customVariables: ['~/assets/style/vuetify.scss']
   },
   // This is where you configure your settings for the new plugin
   prismic: {
