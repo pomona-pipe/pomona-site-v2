@@ -12,6 +12,7 @@ export default {
   dark: false,
   themes: {
     light: {
+      // vuetify color vars
       primary: colors.blue.lighten2,
       secondary: '#003c60',
       accent: colors.lightBlue.lighten2,
@@ -19,11 +20,13 @@ export default {
       warning: colors.amber.lighten2,
       info: colors.lightBlue.lighten2,
       success: colors.green.lighten2,
+      // custom color vars
       brandGrey: '#E6E6E6',
       mainBackground: '#fafafa',
       headerBackground: '#fafafa'
     } as Partial<IExtendedTheme>,
     dark: {
+      // vuetify color vars
       primary: colors.blue.darken2,
       secondary: '#003c60',
       accent: colors.deepPurple.darken2,
@@ -31,12 +34,14 @@ export default {
       warning: colors.amber.darken2,
       info: colors.lightBlue.darken2,
       success: colors.green.darken2,
+      // custom color vars
       brandGrey: '#E6E6E6',
       mainBackground: '#fafafa',
       headerBackground: '#fafafa'
     } as Partial<IExtendedTheme>
   },
   options: {
+    // inject color vars into html root element
     customProperties: true
   }
 } as Theme

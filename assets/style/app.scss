@@ -1,12 +1,10 @@
 /*
 ** main application styles
-** use variables from variables.scss file
+** can use variables from variables.scss file: e.g. $custom-color
+** can also use vuetify theme vars: var(--v-primary-base)
 */
-// html {
-//   font-size: $font-size-root;
-// }
 
-// elements
+// prismic
 p:empty {
   height: 1em;
 }
