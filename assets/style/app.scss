@@ -59,7 +59,7 @@ h6 {
 
 section {
   padding: 7rem 0;
-  &:nth-child(even) {
+  &:nth-child(2n + 1) {
     background-color: #fafafa;
   }
   &.hero {
