@@ -13,11 +13,11 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
-import Hero from '~/components/PageComponents/HomePageSections/Hero.vue'
-import ValueProp from '~/components/PageComponents/HomePageSections/ValueProp.vue'
-import CustomerReach from '~/components/PageComponents/HomePageSections/CustomerReach.vue'
-import CustomerLogo from '~/components/PageComponents/HomePageSections/CustomerLogo.vue'
-import FeaturedProjects from '~/components/PageComponents/HomePageSections/FeaturedProjects.vue'
+import Hero from '~/components/PageComponents/Home/Hero.vue'
+import ValueProp from '~/components/PageComponents/Home/ValueProp.vue'
+import CustomerReach from '~/components/PageComponents/Home/CustomerReach.vue'
+import CustomerLogo from '~/components/PageComponents/Home/CustomerLogo.vue'
+import FeaturedProjects from '~/components/PageComponents/Home/FeaturedProjects.vue'
 
 @Component({
   components: {
@@ -28,11 +28,11 @@ import FeaturedProjects from '~/components/PageComponents/HomePageSections/Featu
     FeaturedProjects
   },
   computed: {
-   
+
   }
 })
 export default class Index extends Vue {
-  
+
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
     if (pageVisits() > 1) return
     await store.dispatch('pages/getHome', $prismic)
