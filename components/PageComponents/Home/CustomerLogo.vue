@@ -6,19 +6,21 @@
         class="text-center"
         :field="home[0].data.customer_logo_title"
       />
-      <v-row class="justify-center align-center mt-12 mx-n8">
-        <v-col
-          v-for="logo in home[0].data.customer_logos"
-          :key="logo.id"
-          class="pb-16 px-8 flex-grow-0"
-        >
-          <v-img
-            :src="logo.image.url"
-            max-height="200px"
-            max-width="150px"
-          ></v-img>
-        </v-col>
-      </v-row>
+      <div class="px-5">
+        <v-row class="justify-center align-center mt-12 mx-n8">
+          <v-col
+            v-for="logo in home[0].data.customer_logos"
+            :key="logo.id"
+            class="pb-16 px-8 flex-grow-0"
+          >
+            <v-img
+              :src="logo.image.url"
+              max-height="200px"
+              max-width="150px"
+            ></v-img>
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
   </section>
 </template>
