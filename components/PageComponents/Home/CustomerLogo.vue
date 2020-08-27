@@ -6,11 +6,11 @@
         class="text-center"
         :field="home[0].data.customer_logo_title"
       />
-      <v-row class="justify-space-around align-center">
+      <v-row class="justify-center align-center mt-12 mx-n8">
         <v-col
           v-for="logo in home[0].data.customer_logos"
           :key="logo.id"
-          class="flex-grow-0"
+          class="pb-16 px-8 flex-grow-0"
         >
           <v-img
             :src="logo.image.url"
