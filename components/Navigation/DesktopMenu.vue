@@ -12,8 +12,9 @@
         <v-btn
           :nuxt="true"
           :to="{ path: `/${navOption.primary.link.uid}` }"
-          color="#303030"
+          color="transparent"
           dark
+          depressed
           height="48px"
           v-on="on"
           >{{ navOption.primary.label[0].text }}</v-btn

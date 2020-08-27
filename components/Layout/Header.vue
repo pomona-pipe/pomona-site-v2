@@ -1,6 +1,5 @@
 <template>
   <v-app-bar
-    app
     fixed
     color="#303030"
     dark
@@ -14,16 +13,14 @@
     >
       <!-- Mobile Hamburger Menu Button -->
       <v-app-bar-nav-icon
-        default="mdiMenu"
         v-show="isMobile"
+        default="mdiMenu"
         @click.stop="mobileDrawer = !mobileDrawer"
       ></v-app-bar-nav-icon>
       <!-- Company Logo -->
-      <div>
-        <nuxt-link to="/">
-          <img src="/images/logo_xlarge.png" class="pomona_logo" />
-        </nuxt-link>
-      </div>
+      <nuxt-link to="/">
+        <img src="/images/logo_xlarge.png" class="pomona_logo" />
+      </nuxt-link>
       <div class="d-flex">
         <!-- Desktop Navigation Menu -->
         <DesktopMenu v-show="!isMobile" />
@@ -36,8 +33,20 @@
   </v-app-bar>
 </template>
 
-<style scoped lang="css">
+<style scoped lang="scss">
+.v-app-bar {
+  a,
+  button {
+    opacity: 0.7;
+    will-change: opacity;
+    transition: opacity 0.3s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
 .pomona_logo {
+  max-width: 100%;
   max-height: 48px;
   margin: auto;
 }
