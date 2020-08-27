@@ -18,11 +18,9 @@
         @click.stop="mobileDrawer = !mobileDrawer"
       ></v-app-bar-nav-icon>
       <!-- Company Logo -->
-      <div>
-        <nuxt-link to="/">
-          <img src="/images/logo_xlarge.png" class="pomona_logo" />
-        </nuxt-link>
-      </div>
+      <nuxt-link to="/">
+        <img src="/images/logo_xlarge.png" class="pomona_logo" />
+      </nuxt-link>
       <div class="d-flex">
         <!-- Desktop Navigation Menu -->
         <DesktopMenu v-show="!isMobile" />
@@ -48,6 +46,7 @@
   }
 }
 .pomona_logo {
+  max-width: 100%;
   max-height: 48px;
   margin: auto;
 }
