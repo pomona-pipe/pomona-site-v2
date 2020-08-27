@@ -18,7 +18,24 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,600;0,700;1,300;1,600;1,700&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -26,7 +43,6 @@ export default {
   loading: { color: '#fff' },
   /*
    ** Global CSS
-   ** vuetify css loaded before app styles to enable overwriting
    */
   css: ['~/assets/style/app.scss'],
   /*
@@ -54,6 +70,7 @@ export default {
     icons: {
       iconfont: 'mdiSvg'
     },
+    defaultAssets: false,
     treeShake: true,
     customVariables: ['~/assets/style/vuetify.scss']
   },
