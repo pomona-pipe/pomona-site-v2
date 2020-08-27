@@ -3,7 +3,7 @@
     <Hero />
     <ValueProp />
     <CustomerReach />
-    <CustomerLogo />
+    <SupplierLogo />
     <FeaturedProjects />
   </div>
 </template>
@@ -16,7 +16,7 @@ import { IPrismic } from '~/shims'
 import Hero from '~/components/PageComponents/Home/Hero.vue'
 import ValueProp from '~/components/PageComponents/Home/ValueProp.vue'
 import CustomerReach from '~/components/PageComponents/Home/CustomerReach.vue'
-import CustomerLogo from '~/components/PageComponents/Home/CustomerLogo.vue'
+import SupplierLogo from '~/components/PageComponents/Home/SupplierLogo.vue'
 import FeaturedProjects from '~/components/PageComponents/Home/FeaturedProjects.vue'
 
 @Component({
@@ -24,7 +24,7 @@ import FeaturedProjects from '~/components/PageComponents/Home/FeaturedProjects.
     Hero,
     ValueProp,
     CustomerReach,
-    CustomerLogo,
+    SupplierLogo,
     FeaturedProjects
   },
   computed: {

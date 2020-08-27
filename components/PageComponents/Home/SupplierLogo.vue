@@ -1,15 +1,15 @@
 <template>
   <section>
-    <!-- Customer Logos Section -->
+    <!-- Supplier Logos Section -->
     <v-container>
       <prismic-rich-text
         class="text-center"
-        :field="home[0].data.customer_logo_title"
+        :field="home[0].data.supplier_logo_title"
       />
       <div class="px-5">
         <v-row class="justify-center align-center mt-12 mx-n8">
           <v-col
-            v-for="logo in home[0].data.customer_logos"
+            v-for="logo in home[0].data.supplier_logos"
             :key="logo.id"
             class="pb-16 px-8 flex-grow-0"
           >
@@ -37,5 +37,5 @@ import { mapState } from 'vuex'
     ...mapState('pages', ['home'])
   }
 })
-export default class CustomerLogo extends Vue {}
+export default class SupplierLogo extends Vue {}
 </script>
