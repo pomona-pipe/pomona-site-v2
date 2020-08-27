@@ -56,10 +56,11 @@ h6 {
   font-size: 1rem;
 }
 
-.v-app-bar:not(.v-app-bar--is-scrolled) {
-  background-color: transparent !important;
-  box-shadow: none !important;
-}
+// TODO: uncomment once all pages have a hero
+// .v-app-bar:not(.v-app-bar--is-scrolled) {
+//   background-color: transparent !important;
+//   box-shadow: none !important;
+// }
 
 section {
   padding: 7rem 0;
