@@ -2,5 +2,10 @@
 ** https://vuetifyjs.com/en/customization/sass-variables/#variable-api
 ** Overwrites default values of vuetify scss vars
 */
+
+// vuetify overwrites
 $body-font-family: 'Open Sans', sans-serif;
 $heading-font-family: 'Poppins', sans-serif;
+
+// import vuetify sass vars
+@import '~vuetify/src/styles/styles.sass'
