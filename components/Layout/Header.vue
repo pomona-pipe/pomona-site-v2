@@ -35,7 +35,18 @@
   </v-app-bar>
 </template>
 
-<style scoped lang="css">
+<style scoped lang="scss">
+.v-app-bar {
+  a,
+  button {
+    opacity: 0.7;
+    will-change: opacity;
+    transition: opacity 0.3s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
 .pomona_logo {
   max-height: 48px;
   margin: auto;

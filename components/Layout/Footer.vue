@@ -66,6 +66,17 @@
 </template>
 
 <style scoped lang="scss">
+.v-footer {
+  a,
+  button {
+    opacity: 0.7;
+    will-change: opacity;
+    transition: opacity 0.3s ease;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
 footer {
   color: #bdbdbd !important;
 }
