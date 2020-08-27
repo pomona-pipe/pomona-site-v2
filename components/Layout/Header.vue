@@ -1,6 +1,5 @@
 <template>
   <v-app-bar
-    app
     fixed
     color="#303030"
     dark
@@ -14,8 +13,8 @@
     >
       <!-- Mobile Hamburger Menu Button -->
       <v-app-bar-nav-icon
-        default="mdiMenu"
         v-show="isMobile"
+        default="mdiMenu"
         @click.stop="mobileDrawer = !mobileDrawer"
       ></v-app-bar-nav-icon>
       <!-- Company Logo -->

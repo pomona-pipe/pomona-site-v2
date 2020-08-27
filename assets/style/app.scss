@@ -52,14 +52,21 @@ h6 {
   font-size: 1rem;
 }
 
+.v-app-bar:not(.v-app-bar--is-scrolled) {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
 section {
   padding: 7rem 0;
   &:nth-child(even) {
     background-color: #fafafa;
   }
+  &.hero {
+    padding-top: calc(7rem + 96px);
+    color: #ffffff;
+  }
 }
-
-
 
 // elements
 p:empty {
