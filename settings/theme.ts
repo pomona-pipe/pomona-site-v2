@@ -13,7 +13,7 @@ export default {
   themes: {
     light: {
       // vuetify color vars
-      primary: colors.blue.lighten2,
+      primary: colors.blue.darken1,
       secondary: '#003c60',
       accent: colors.lightBlue.lighten2,
       error: colors.red.lighten2,
