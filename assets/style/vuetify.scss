@@ -7,5 +7,5 @@
 $body-font-family: 'Open Sans', sans-serif;
 $heading-font-family: 'Poppins', sans-serif;
 
-// import vuetify sass vars
-@import '~vuetify/src/styles/styles.sass'
+// default colors
+@import '~/node_modules/vuetify/src/styles/settings/_colors.scss';
