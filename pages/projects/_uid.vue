@@ -2,6 +2,7 @@
   <div class="page">
     <ProjectDescription />
     <Overview />
+    <Background />
   </div>
 </template>
 
@@ -13,10 +14,12 @@ import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
 import ProjectDescription from '~/components/PageComponents/ProjectDetailSections/ProjectDescription.vue'
 import Overview from '~/components/PageComponents/ProjectDetailSections/Overview.vue'
+import Background from '~/components/PageComponents/ProjectDetailSections/Background.vue'
 @Component({
   components: {
     ProjectDescription,
-    Overview
+    Overview,
+    Background
   },
   
 })
