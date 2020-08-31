@@ -3,6 +3,7 @@
     <ProjectDescription />
     <Overview />
     <Background />
+    <OurSolution />
   </div>
 </template>
 
@@ -15,11 +16,14 @@ import { IPrismic, IPrismicDocument } from '~/shims'
 import ProjectDescription from '~/components/PageComponents/ProjectDetailSections/ProjectDescription.vue'
 import Overview from '~/components/PageComponents/ProjectDetailSections/Overview.vue'
 import Background from '~/components/PageComponents/ProjectDetailSections/Background.vue'
+import OurSolution from '~/components/PageComponents/ProjectDetailSections/OurSolution.vue'
+
 @Component({
   components: {
     ProjectDescription,
     Overview,
-    Background
+    Background,
+    OurSolution
   },
   
 })
