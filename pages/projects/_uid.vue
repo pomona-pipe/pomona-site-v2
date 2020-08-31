@@ -4,6 +4,7 @@
     <Overview />
     <Background />
     <OurSolution />
+    <FullGallery />
   </div>
 </template>
 
@@ -17,13 +18,15 @@ import ProjectDescription from '~/components/PageComponents/ProjectDetailSection
 import Overview from '~/components/PageComponents/ProjectDetailSections/Overview.vue'
 import Background from '~/components/PageComponents/ProjectDetailSections/Background.vue'
 import OurSolution from '~/components/PageComponents/ProjectDetailSections/OurSolution.vue'
+import FullGallery from '~/components/PageComponents/ProjectDetailSections/FullGallery.vue'
 
 @Component({
   components: {
     ProjectDescription,
     Overview,
     Background,
-    OurSolution
+    OurSolution,
+    FullGallery
   },
   
 })
