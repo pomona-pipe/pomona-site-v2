@@ -8,6 +8,13 @@
   </div>
 </template>
 
+<style lang="scss">
+.img-float-md {
+  width: 55%;
+  margin: 0 15px 15px 0;
+}
+</style>
+
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
@@ -28,7 +35,7 @@ import FullGallery from '~/components/PageComponents/ProjectDetailSections/FullG
     OurSolution,
     FullGallery
   },
-  
+
 })
 export default class DetailPage extends Vue {
 
