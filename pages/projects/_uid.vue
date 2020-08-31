@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <ProjectDescription />
+    <Overview />
   </div>
 </template>
 
@@ -11,9 +12,11 @@ import { Route } from 'vue-router/types'
 import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
 import ProjectDescription from '~/components/PageComponents/ProjectDetailSections/ProjectDescription.vue'
+import Overview from '~/components/PageComponents/ProjectDetailSections/Overview.vue'
 @Component({
   components: {
-    ProjectDescription
+    ProjectDescription,
+    Overview
   },
   
 })
