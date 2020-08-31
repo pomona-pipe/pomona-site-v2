@@ -2,14 +2,25 @@
   <section class="page">
     <v-container>
       <h2>Our Solution:</h2>
-      <v-row justify="start" class="fill-height">
-        <v-col cols="12" md="6" align="start">
-          <v-img :src="document.data.our_solution_image.url"></v-img>
-        </v-col>
-        <v-col cols="12" md="6" align="center">
+       <!-- mobile: stacked -->
+      <v-row class="hidden-md-and-up">
+        <v-col cols="12">
           <prismic-rich-text :field="document.data.our_solution_paragraph" />
         </v-col>
+        <v-col cols="12">
+          <v-img :src="document.data.our_solution_image.url"></v-img>
+        </v-col>
       </v-row>
+      <!-- desktop: float layout -->
+      <div class="hidden-sm-and-down">
+        <div class="float-md-left img-float-md">
+          <v-img :src="document.data.our_solution_image.url"></v-img>
+        </div>
+        <div>
+          <prismic-rich-text :field="document.data.our_solution_paragraph" />
+        </div>
+        <div style="clear: both"></div>
+      </div>
     </v-container>
   </section>
 </template>
