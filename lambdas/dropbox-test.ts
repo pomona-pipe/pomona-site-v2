@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Handler } from 'aws-lambda'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
