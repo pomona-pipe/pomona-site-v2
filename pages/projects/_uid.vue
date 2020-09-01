@@ -11,7 +11,12 @@
 <style lang="scss">
 .img-float-md {
   width: 55%;
-  margin: 0 15px 15px 0;
+  &.float-md-left {
+    margin: 0 16px 16px 0;
+  }
+  &.float-md-right {
+    margin: 0 0 16px 16px;
+  }
 }
 </style>
 
