@@ -1,4 +1,5 @@
 import { Configuration } from 'webpack'
+import theme from './settings/theme'
 
 export default {
   mode: 'universal',
@@ -17,7 +18,29 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href:
+        'https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Roboto&display=swap'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -25,17 +48,16 @@ export default {
   loading: { color: '#fff' },
   /*
    ** Global CSS
-   ** vuetify css loaded before app styles to enable overwriting
    */
-  css: ['vuetify/dist/vuetify.css', '~/assets/style/app.scss'],
+  css: ['~/assets/style/app.scss'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@plugins/vuetify.ts', '@plugins/prismic-links.client.ts'],
+  plugins: ['@plugins/prismic-links.client.ts'],
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxt/typescript-build'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
   /*
    ** Nuxt.js modules
    */
@@ -47,6 +69,16 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/prismic'
   ],
+  // vuetify config
+  vuetify: {
+    theme,
+    icons: {
+      iconfont: 'mdiSvg'
+    },
+    defaultAssets: false,
+    treeShake: true,
+    customVariables: ['~/assets/style/vuetify.scss']
+  },
   // This is where you configure your settings for the new plugin
   prismic: {
     endpoint: 'https://pomona.cdn.prismic.io/api/v2',

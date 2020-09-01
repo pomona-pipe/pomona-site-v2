@@ -1,6 +1,11 @@
-// TODO: Follow vuetify doc to enable variable overwrites
 /*
-** https://vuetifyjs.com/en/customization/sass-variables/
+** https://vuetifyjs.com/en/customization/sass-variables/#variable-api
 ** Overwrites default values of vuetify scss vars
 */
-// $body-font-family: 'Work Sans', serif;
+
+// vuetify overwrites
+$body-font-family: 'Open Sans', sans-serif;
+$heading-font-family: 'Poppins', sans-serif;
+
+// default colors
+@import '~/node_modules/vuetify/src/styles/settings/_colors.scss';
