@@ -1,7 +1,7 @@
 <template>
   <section class="page">
     <v-container>
-      <h2>Background:</h2>
+      <h2 class="text-center">Background</h2>
       <!-- mobile: stacked -->
       <v-row class="hidden-md-and-up">
         <v-col cols="12">

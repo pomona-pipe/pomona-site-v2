@@ -1,9 +1,9 @@
 <template>
   <section class="page">
     <v-container>
-        <h2>Overview:</h2>
-      <v-row justify="start" class="fill-height">
-        <v-col align="start">
+        <h2 class="text-center">Overview</h2>
+      <v-row  align="center" justify="space-around" class="d-block d-sm-flex text-no-wrap">
+        <v-col class="flex-sm-grow-0">
           <!-- Project site  -->
           <div>
             <p class="subtitle">Site:</p>
@@ -22,7 +22,7 @@
             </div>
           </div>
         </v-col>
-        <v-col align="start" >
+        <v-col class="flex-sm-grow-0">
           <!-- project location  -->
           <div>
             <p class="subtitle">Location:</p>
