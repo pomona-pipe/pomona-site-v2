@@ -9,14 +9,14 @@ interface Response {
 
 export const handler: Handler = async (event, context, callback) => {
   // create dropbox instance
-  const { access_token, client_id, secret } = event.headers
+  const { access_token, app_key, app_secret } = event.headers
   const options = {
     fetch,
     accessToken: access_token,
-    clientId: client_id
+    clientId: app_key
   }
   const dropbox = new Dropbox(options)
-  dropbox.setClientSecret(secret)
+  dropbox.setClientSecret(app_secret)
 
   // destructure event queryString parameters
   const {
