@@ -1,6 +1,7 @@
 <template>
   <v-app-bar
     fixed
+    app
     color="#303030"
     dark
     hide-on-scroll
