@@ -106,6 +106,9 @@ export default {
      */
     extend(config: Configuration) {
       config.resolve!.alias!.vue = 'vue/dist/vue.common'
+    },
+    external: {
+      dropbox: 'dropbox'
     }
   }
 }
