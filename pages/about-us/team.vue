@@ -1,34 +1,30 @@
 <template>
   <div id="team-page" class="page">
-    <!-- Hero Banner -->
-    <v-row>
-      <v-col sm="12" class="px-0 py-0">
-        <v-img
-          :src="team[0].data.main_image.url"
-          gradient="to top right, rgba(36, 36, 36, 0.9), rgba(25,32,72,.7)"
-          max-height="250px"
-          class="white--text"
+    <v-img
+      :src="team[0].data.main_image.url"
+      gradient="to top right, rgba(36, 36, 36, 0.9), rgba(25,32,72,.7)"
+      max-height="250px"
+      class="white--text"
+    >
+      <v-row align="center" class="fill-height">
+        <v-col align="center">
+          <div class="grey--text text--lighten-2">
+            <prismic-rich-text :field="team[0].data.main_title" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-img>
+    <v-container>
+      <!-- Page Content -->
+      <v-row>
+        <v-col
+          v-for="employee in employees"
+          :key="employee.id"
+          cols="12"
+          sm="6"
+          lg="3"
         >
-          <v-row align="center" class="fill-height">
-            <v-col align="center">
-              <div class="grey--text text--lighten-2">
-                <prismic-rich-text :field="team[0].data.main_title" />
-              </div>
-            </v-col>
-          </v-row>
-        </v-img>
-      </v-col>
-    </v-row>
-    <!-- Page Content -->
-    <v-row>
-      <v-col v-for="employee in employees" :key="employee.id" md="6" lg="3">
-        <v-hover v-slot:default="{ hover }" open-delay="200">
-          <v-card
-            :elevation="hover ? 16 : 2"
-            class="mx-auto"
-            max-width="344"
-            height="100%"
-          >
+          <v-card hover outlined height="100%">
             <v-img
               :src="employee.data.profile_image.url || placeholders.account"
               height="200px"
@@ -44,9 +40,9 @@
               }}</a>
             </v-card-text>
           </v-card>
-        </v-hover>
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

@@ -12,33 +12,29 @@
           sm="6"
           lg="4"
         >
-          <v-hover v-slot:default="{ hover }" open-delay="200">
-            <v-card
-              v-if="index < 3"
-              :to="`/projects/${project.uid}`"
-              :elevation="hover ? 16 : 0"
-              height="100%"
-              class="d-flex flex-column justify-space-between"
-            >
-              <v-img
-                :src="
-                  project.data.project_description_hero.url ||
-                    placeholders.file
-                "
-              ></v-img>
+          <v-card
+            v-if="index < 3"
+            :to="`/projects/${project.uid}`"
+            hover
+            outlined
+            height="100%"
+            class="d-flex flex-column justify-space-between"
+          >
+            <v-img
+              :src="
+                project.data.project_description_hero.url || placeholders.file
+              "
+            ></v-img>
 
-              <v-card-title>{{
-                project.data.project_name[0].text
-              }}</v-card-title>
-              <v-card-text class="text--primary">{{
-                project.data.project_description
-              }}</v-card-text>
-              <v-card-subtitle>
-                {{ formatDateString(project.data.overview_completion_date) }} in
-                {{ project.data.project_location }}
-              </v-card-subtitle>
-            </v-card>
-          </v-hover>
+            <v-card-title>{{ project.data.project_name[0].text }}</v-card-title>
+            <v-card-text class="text--primary">{{
+              project.data.project_description
+            }}</v-card-text>
+            <v-card-subtitle>
+              {{ formatDateString(project.data.overview_completion_date) }} in
+              {{ project.data.project_location }}
+            </v-card-subtitle>
+          </v-card>
         </v-col>
         <v-col cols="12" class="text-center">
           <v-hover v-slot:default="{ hover }">

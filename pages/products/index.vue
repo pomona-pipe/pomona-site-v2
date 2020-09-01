@@ -1,54 +1,27 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm6 md4 lg3 xl3>
-      <v-container>
-        <h1>All Product Categories</h1>
-        <!-- check product categories exists -->
-        <v-layout
-          v-if="productCategories.length > 0"
-          row
-          wrap
-          column
-          justify-center
-          align-center
-        >
-          <!-- template for product category cards -->
-          <v-container fluid grid-list-lg>
-            <v-layout row wrap class="align-stretch">
-              <v-flex
-                v-for="cat in productCategories"
-                :key="cat.id"
-                xs12
-                sm6
-                md4
-                lg3
-                xl3
-              >
-                <v-hover v-slot:default="{ hover }" open-delay="200">
-                  <v-card
-                    :to="`/products/${cat.uid}`"
-                    :elevation="hover ? 16 : 2"
-                    class="mx-auto"
-                    max-width="344"
-                    height="100%"
-                  >
-                    <v-img
-                      :src="cat.data.category_image.url || placeholders.file"
-                      height="200px"
-                    ></v-img>
+  <v-container>
+    <h1>All Product Categories</h1>
+    <!-- template for product category cards -->
+    <v-row>
+      <v-col
+        v-for="cat in productCategories"
+        :key="cat.id"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+      >
+        <v-card :to="`/products/${cat.uid}`" hover outlined height="100%">
+          <v-img
+            :src="cat.data.category_image.url || placeholders.file"
+            height="200px"
+          ></v-img>
 
-                    <v-card-title>{{
-                      cat.data.category_title[0].text
-                    }}</v-card-title>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-layout>
-      </v-container>
-    </v-flex>
-  </v-layout>
+          <v-card-title>{{ cat.data.category_title[0].text }}</v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">

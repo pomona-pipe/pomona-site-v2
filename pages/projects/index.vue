@@ -1,11 +1,12 @@
 <template>
   <section>
-    <v-row cols="12">
-      <v-col v-for="project in projects" :key="project.id" sm="6" lg="4">
-        <v-hover v-slot:default="{ hover }" open-delay="200">
+    <v-container>
+      <v-row cols="12">
+        <v-col v-for="project in projects" :key="project.id" sm="6" lg="4">
           <v-card
             :to="`/projects/${project.uid}`"
-            :elevation="hover ? 16 : 0"
+            hover
+            outlined
             height="100%"
             class="d-flex flex-column justify-space-between"
           >
@@ -26,9 +27,9 @@
               {{ project.data.project_location }}
             </v-card-subtitle>
           </v-card>
-        </v-hover>
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
   </section>
 </template>
 

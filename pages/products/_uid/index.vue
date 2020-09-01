@@ -1,49 +1,25 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <v-container>
-        <!-- check product categories exists -->
-        <v-layout
-          v-if="products.length > 0"
-          row
-          wrap
-          column
-          justify-center
-          align-center
-        >
-          <!-- template for product category cards -->
-          <v-container fluid grid-list-sm>
-            <v-layout row wrap class="align-stretch">
-              <v-flex
-                v-for="product in products"
-                :key="product.data.id"
-                xs12
-                md6
-                lg3
-              >
-                <v-hover v-slot:default="{ hover }" open-delay="200">
-                  <v-card
-                    :to="`./${uid}/${product.uid}`"
-                    :elevation="hover ? 16 : 2"
-                    class="mx-auto"
-                    max-width="344"
-                    height="100%"
-                  >
-                    <v-img
-                      :src="product.data.cover_image.url || placeholders.file"
-                      height="200px"
-                    ></v-img>
+  <v-container>
+    <!-- template for product category cards -->
+    <v-row>
+      <v-col
+        v-for="product in products"
+        :key="product.data.id"
+        cols="12"
+        md="6"
+        lg="3"
+      >
+        <v-card :to="`./${uid}/${product.uid}`" outlined hover height="100%">
+          <v-img
+            :src="product.data.cover_image.url || placeholders.file"
+            height="200px"
+          ></v-img>
 
-                    <v-card-title>{{ product.data.name[0].text }}</v-card-title>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-layout>
-      </v-container>
-    </v-flex>
-  </v-layout>
+          <v-card-title>{{ product.data.name[0].text }}</v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
