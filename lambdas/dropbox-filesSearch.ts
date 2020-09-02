@@ -3,11 +3,6 @@ import { Handler } from 'aws-lambda'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 
-interface Response {
-  statusCode: number
-  body?: string
-}
-
 export const handler: Handler = async (event, context, callback) => {
   // create dropbox instance
   const { access_token, app_key, app_secret } = event.headers
@@ -35,7 +30,7 @@ export const handler: Handler = async (event, context, callback) => {
   }
 
   // structure function arg
-  const searchV2Arg = {
+  const searchV2Arg: DropboxTypes.files.SearchV2Arg = {
     query: query || '',
     options: searchOptions || defaultSearchOptions,
     match_field_options,
@@ -45,7 +40,7 @@ export const handler: Handler = async (event, context, callback) => {
   }
 
   // query dropbox folder
-  const response: Response = {
+  const response: PrismicResponse = {
     statusCode: 200
   }
   let error = null

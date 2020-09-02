@@ -3,11 +3,6 @@ import { Handler } from 'aws-lambda'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 
-interface Response {
-  statusCode: number
-  body?: string
-}
-
 export const handler: Handler = async (event, context, callback) => {
   // create dropbox instance
   const { access_token, app_key, app_secret } = event.headers
@@ -34,7 +29,7 @@ export const handler: Handler = async (event, context, callback) => {
   } = event.queryStringParameters
 
   // structure function arg
-  const listFolderArg = {
+  const listFolderArg: DropboxTypes.files.ListFolderArg = {
     path: `/2020 Website/${path}` || '/2020 Website',
     recursive: recursive ? JSON.parse(recursive) : false,
     include_media_info: include_media_info
@@ -56,7 +51,7 @@ export const handler: Handler = async (event, context, callback) => {
   }
 
   // query dropbox folder
-  const response: Response = {
+  const response: PrismicResponse = {
     statusCode: 200
   }
   let error = null
