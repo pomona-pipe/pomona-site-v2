@@ -35,7 +35,7 @@ export const handler: Handler = async (event, context, callback) => {
 
   // structure function arg
   const listFolderArg = {
-    path: path || '/2020 Website',
+    path: `/2020 Website/${path}` || '/2020 Website',
     recursive: recursive ? JSON.parse(recursive) : false,
     include_media_info: include_media_info
       ? JSON.parse(include_media_info)
