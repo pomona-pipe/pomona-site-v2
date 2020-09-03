@@ -1,5 +1,22 @@
 <template>
-  <SlicesBlock :slices="document.data.body" />
+  <div>
+    <!-- Hero Section  -->
+    <section class="hero" :style="heroStyles">
+      <v-container>
+        <v-row align="center" class="fill-height">
+          <v-col align="center">
+            <div class="grey--text text--lighten-2">
+              <prismic-rich-text :field="document.data.name" />
+            </div>
+            <div>
+              <p class="subtitle">{{ document.data.description[0].text }}</p>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+    <SlicesBlock :slices="document.data.body" />
+  </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
@@ -12,6 +29,17 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
 @Component({
   components: {
     SlicesBlock
+  },
+  computed: {
+    heroStyles() {
+      return {
+        'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
+          (this as any).document.data.cover_image.url
+        }")`,
+        'background-position': 'center',
+        'background-size': 'cover'
+      }
+    }
   }
 })
 export default class DetailPage extends Vue {
