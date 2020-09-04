@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 2 : 1">
         <prismic-rich-text :field="slice.primary.section_title" />
         <prismic-rich-text :field="slice.primary.section_text" />
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 1 : 2">
         <v-img
           v-if="slice.items.length === 1"
           height="500"
@@ -30,7 +30,7 @@ import { find } from 'lodash'
 import { Route } from 'vue-router/types'
 import { IPrismic, IPrismicDocument } from '~/shims'
 @Component({
-  props: ['slice'],
+  props: ['slice', 'index'],
   computed: {
     ...mapState('layout', ['placeholders'])
   }
