@@ -7,13 +7,15 @@ interface IState {
   aboutUs: any[]
   team: any[]
   contact: any[]
+  categoryPage: any[]
 }
 
 export const state: () => IState = () => ({
   home: [],
   aboutUs: [],
   team: [],
-  contact: []
+  contact: [],
+  categoryPage: []
 })
 
 export const mutations = {
@@ -28,6 +30,9 @@ export const mutations = {
   },
   setContact(state: IState, payload: any[]) {
     state.contact = payload
+  },
+  setCategoryPage(state: IState, payload: any[]) {
+    state.categoryPage = payload
   }
 }
 
@@ -62,6 +67,14 @@ export const actions = {
     commit(
       'setContact',
       contact.results.map((result) => result)
+    )
+  },
+  async getCategoryPage({ commit }: { commit: any }, $prismic: IPrismic) {
+    const byCategoryPage = $prismic.predicates.at('document.type', 'category_page')
+    const categoryPage = await $prismic.api.query(byCategoryPage, {})
+    commit(
+      'setCategoryPage',
+      categoryPage.results.map((result) => result)
     )
   }
 }
