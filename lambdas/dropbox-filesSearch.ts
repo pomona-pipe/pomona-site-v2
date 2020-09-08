@@ -25,7 +25,7 @@ function getDocType(fileName: string) {
   }
 }
 
-export const handler: Handler = async (event, context, callback) => {
+export const handler: Handler = async (event) => {
   // create dropbox instance
   const { access_token, app_key, app_secret } = event.headers
   const options = {
@@ -65,7 +65,6 @@ export const handler: Handler = async (event, context, callback) => {
   const response: PrismicResponse = {
     statusCode: 200
   }
-  let error = null
   try {
     const matches = (await dropbox.filesSearchV2(searchV2Arg)).matches
     const blobs: ArrayBuffer[] = []
@@ -92,11 +91,10 @@ export const handler: Handler = async (event, context, callback) => {
       results
     }
     response.body = JSON.stringify(responseBody)
-  } catch (err) {
+    return response
+  } catch (error) {
     response.statusCode = 500
-    error = err
+    response.body = error.message
+    return response
   }
-
-  // response
-  callback(error, response)
 }
