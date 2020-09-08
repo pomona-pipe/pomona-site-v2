@@ -7,13 +7,17 @@ interface IState {
   aboutUs: any[]
   team: any[]
   contact: any[]
+  categoryPage: any[],
+  projectListingPage: any[]
 }
 
 export const state: () => IState = () => ({
   home: [],
   aboutUs: [],
   team: [],
-  contact: []
+  contact: [],
+  categoryPage: [],
+  projectListingPage: []
 })
 
 export const mutations = {
@@ -28,6 +32,12 @@ export const mutations = {
   },
   setContact(state: IState, payload: any[]) {
     state.contact = payload
+  },
+  setCategoryPage(state: IState, payload: any[]) {
+    state.categoryPage = payload
+  },
+  setProjectListingPage(state: IState, payload: any[]) {
+    state.projectListingPage = payload
   }
 }
 
@@ -62,6 +72,22 @@ export const actions = {
     commit(
       'setContact',
       contact.results.map((result) => result)
+    )
+  },
+  async getCategoryPage({ commit }: { commit: any }, $prismic: IPrismic) {
+    const byCategoryPage = $prismic.predicates.at('document.type', 'category_page')
+    const categoryPage = await $prismic.api.query(byCategoryPage, {})
+    commit(
+      'setCategoryPage',
+      categoryPage.results.map((result) => result)
+    )
+  },
+  async getProjectListingPage({ commit }: { commit: any }, $prismic: IPrismic) {
+    const byProjectListingPage = $prismic.predicates.at('document.type', 'projects_page')
+    const projectListingPage = await $prismic.api.query(byProjectListingPage, {})
+    commit(
+      'setProjectListingPage',
+      projectListingPage.results.map((result) => result)
     )
   }
 }

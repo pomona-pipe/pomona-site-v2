@@ -1,49 +1,31 @@
 <template>
-  <v-layout>
-    <v-flex>
+  <div>
+    <section class="hero" :style="heroStyles">
       <v-container>
-        <!-- check product categories exists -->
-        <v-layout
-          v-if="products.length > 0"
-          row
-          wrap
-          column
-          justify-center
-          align-center
-        >
-          <!-- template for product category cards -->
-          <v-container fluid grid-list-sm>
-            <v-layout row wrap class="align-stretch">
-              <v-flex
-                v-for="product in products"
-                :key="product.data.id"
-                xs12
-                md6
-                lg3
-              >
-                <v-hover v-slot:default="{ hover }" open-delay="200">
-                  <v-card
-                    :to="`./${uid}/${product.uid}`"
-                    :elevation="hover ? 16 : 2"
-                    class="mx-auto"
-                    max-width="344"
-                    height="100%"
-                  >
-                    <v-img
-                      :src="product.data.cover_image.url || placeholders.file"
-                      height="200px"
-                    ></v-img>
-
-                    <v-card-title>{{ product.data.name[0].text }}</v-card-title>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-layout>
+        <v-row align="center" class="fill-height">
+          <v-col align="center">
+            <div class="grey--text text--lighten-2">
+              <prismic-rich-text :field="document.data.category_title" />
+            </div>
+          </v-col>
+        </v-row>
       </v-container>
-    </v-flex>
-  </v-layout>
+    </section>
+    <section>
+      <v-container>
+        <!-- template for product category cards -->
+        <v-row>
+          <v-col v-for="product in products" :key="product.data.id" cols="12" md="6" lg="3">
+            <v-card :to="`./${uid}/${product.uid}`" outlined hover height="100%">
+              <v-img :src="product.data.cover_image.url || placeholders.file" height="200px"></v-img>
+
+              <v-card-title>{{ product.data.name[0].text }}</v-card-title>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -52,14 +34,25 @@ import { Route } from 'vue-router/types'
 import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import pageVisits from '~/services/pageVisits'
-import { IPrismic } from '~/shims'
+import { IPrismic, IPrismicDocument } from '~/shims'
 
 @Component({
   computed: {
-    ...mapState('layout', ['placeholders'])
+    ...mapState('layout', ['placeholders']),
+    heroStyles() {
+      return {
+        'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
+          (this as any).document.data.category_image.url
+        }")`,
+        'background-position': 'center',
+        'background-size': 'cover'
+      }
+    }
   }
 })
 export default class ProductCategoryPage extends Vue {
+  document: IPrismicDocument | null = null
+
   // product cards
   get products() {
     return this.$store.state.products.products.filter(
@@ -103,6 +96,14 @@ export default class ProductCategoryPage extends Vue {
       $prismic,
       catId
     })
+  }
+
+  created() {
+    const uid = this.$route.params.uid
+    this.document = find(
+      this.$store.state.products.productCategories,
+      (category) => category.uid === uid
+    )
   }
 }
 </script>

@@ -5,7 +5,6 @@
     <!-- Mobile Navigation Drawer -->
     <v-navigation-drawer
       v-model="mobileDrawer"
-      app
       fixed
       hide-overlay
       disable-resize-watcher
