@@ -8,7 +8,8 @@ interface IState {
   team: any[]
   contact: any[]
   categoryPage: any[],
-  projectListingPage: any[]
+  projectListingPage: any[],
+  applicationsPage: any[]
 }
 
 export const state: () => IState = () => ({
@@ -17,7 +18,8 @@ export const state: () => IState = () => ({
   team: [],
   contact: [],
   categoryPage: [],
-  projectListingPage: []
+  projectListingPage: [],
+  applicationsPage: []
 })
 
 export const mutations = {
@@ -38,6 +40,9 @@ export const mutations = {
   },
   setProjectListingPage(state: IState, payload: any[]) {
     state.projectListingPage = payload
+  },
+  setApplicationsPage(state: IState, payload: any[]) {
+    state.applicationsPage = payload
   }
 }
 
@@ -88,6 +93,14 @@ export const actions = {
     commit(
       'setProjectListingPage',
       projectListingPage.results.map((result) => result)
+    )
+  },
+  async getApplicationsPage({ commit }: { commit: any }, $prismic: IPrismic) {
+    const byapplicationsPage = $prismic.predicates.at('document.type', 'applications_page')
+    const applicationsPage = await $prismic.api.query(byapplicationsPage, {})
+    commit(
+      'setApplicationsPage',
+      applicationsPage.results.map((result) => result)
     )
   }
 }
