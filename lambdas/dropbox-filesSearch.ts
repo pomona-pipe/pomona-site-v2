@@ -68,7 +68,7 @@ export const handler: Handler = async (event, context, callback) => {
   let error = null
   try {
     const matches = (await dropbox.filesSearchV2(searchV2Arg)).matches
-    const blobs: any[] = []
+    const blobs: ArrayBuffer[] = []
     for (const match of matches) {
       const fileData = await dropbox.filesDownload({
         path: (match.metadata as any).metadata.path_lower
