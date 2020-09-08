@@ -1,9 +1,29 @@
 // TODO: add typing shims for dropbox FileMetaData interface
 
 /* eslint-disable camelcase */
+import { resolve } from 'path'
 import { Handler } from 'aws-lambda'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
+
+function getDocType(fileName: string) {
+  const suffix = fileName.split('.').slice(-1)[0]
+  switch (suffix) {
+    case 'png':
+    case 'jpg':
+      return 'Image'
+    case 'pdf':
+      return 'PDF Document'
+    case 'doc':
+    case 'docx':
+      return 'Word Document'
+    case 'xls':
+    case 'xlsx':
+      return 'Spreadsheet'
+    default:
+      return 'Dropbox File'
+  }
+}
 
 export const handler: Handler = async (event, context, callback) => {
   // create dropbox instance
@@ -57,12 +77,12 @@ export const handler: Handler = async (event, context, callback) => {
       blobs.push(buffer)
     }
     const results: PrismicResult[] = matches.map((match, index) => {
-      const { id, name, client_modified } = match.metadata as any
+      const { id, name, client_modified } = (match.metadata as any).metadata
       return {
         id,
         title: name,
-        description: 'A file from dropbox',
-        image_url: '',
+        description: getDocType(name),
+        image_url: resolve('static/images/file-image.svg'),
         last_update: client_modified,
         blob: blobs[index]
       }
