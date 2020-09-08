@@ -1,5 +1,8 @@
 <template>
-  <v-app v-resize="checkIsMobile" :class="{ 'no-scroll': mobileDrawer }">
+  <v-app
+    v-resize="checkIsMobile"
+    :class="{ 'no-scroll': mobileDrawer && isMobile }"
+  >
     <Header />
     <MobileDrawer v-show="isMobile" />
     <!-- Application Content -->

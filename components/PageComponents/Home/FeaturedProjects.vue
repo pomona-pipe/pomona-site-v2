@@ -22,17 +22,17 @@
           >
             <v-img
               :src="
-                project.data.project_image.listing_page.url || placeholders.file
+                project.data.project_description_hero.url || placeholders.file
               "
             ></v-img>
 
             <v-card-title>{{ project.data.project_name[0].text }}</v-card-title>
             <v-card-text class="text--primary">{{
-              project.data.project_description[0].text
+              project.data.project_description
             }}</v-card-text>
             <v-card-subtitle>
-              {{ formatDateString(project.data.completion_date) }} in
-              {{ project.data.project_location[0].text }}
+              {{ formatDateString(project.data.overview_completion_date) }} in
+              {{ project.data.project_location }}
             </v-card-subtitle>
           </v-card>
         </v-col>

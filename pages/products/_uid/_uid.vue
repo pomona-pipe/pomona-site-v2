@@ -1,30 +1,21 @@
 <template>
-  <div v-if="document.data.body.length > 0" class="page product-detail-page">
-    <section
-      v-for="(section, index) in document.data.body"
-      :key="`section-${index}`"
-    >
-      <v-row>
-        <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 2 : 1">
-          <prismic-rich-text :field="section.primary.section_title" />
-          <prismic-rich-text :field="section.primary.section_text" />
-        </v-col>
-        <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 1 : 2">
-          <v-img
-            v-if="section.items.length === 1"
-            height="500"
-            :src="document.data.cover_image.url || placeholders.file"
-          ></v-img>
-          <v-carousel v-else-if="section.items.length > 1" show-arrows-on-hover>
-            <v-carousel-item
-              v-for="image in section.items"
-              :key="image.id"
-              :src="image.section_image.url"
-            ></v-carousel-item>
-          </v-carousel>
-        </v-col>
-      </v-row>
+  <div>
+    <!-- Hero Section  -->
+    <section class="hero" :style="heroStyles">
+      <v-container>
+        <v-row align="center" class="fill-height">
+          <v-col align="center">
+            <div class="grey--text text--lighten-2">
+              <prismic-rich-text :field="document.data.name" />
+            </div>
+            <div>
+              <p class="subtitle">{{ document.data.description[0].text }}</p>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
     </section>
+    <SlicesBlock :slices="document.data.body" />
   </div>
 </template>
 <script lang="ts">
@@ -33,9 +24,22 @@ import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import { Route } from 'vue-router/types'
 import { IPrismic, IPrismicDocument } from '~/shims'
+import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
+
 @Component({
+  components: {
+    SlicesBlock
+  },
   computed: {
-    ...mapState('layout', ['placeholders'])
+    heroStyles() {
+      return {
+        'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
+          (this as any).document.data.cover_image.url
+        }")`,
+        'background-position': 'center',
+        'background-size': 'cover'
+      }
+    }
   }
 })
 export default class DetailPage extends Vue {

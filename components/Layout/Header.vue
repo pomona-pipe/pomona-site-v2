@@ -35,11 +35,10 @@
 
 <style scoped lang="scss">
 .v-app-bar {
-  // TODO: uncomment once all pages have a hero
-  // &:not(.v-app-bar--is-scrolled) {
-  //   background-color: transparent !important;
-  //   box-shadow: none !important;
-  // }
+  &:not(.v-app-bar--is-scrolled) {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
   a,
   button {
     opacity: 0.7;
