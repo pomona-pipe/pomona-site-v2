@@ -15,6 +15,7 @@
         </v-row>
       </v-container>
     </section>
+    <SlicesBlock :slices="document.data.body"  />
   </div>
 </template>
 
@@ -25,9 +26,12 @@ import { Store, mapState } from 'vuex'
 import pageVisits from '~/services/pageVisits'
 import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
+import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
 
 @Component({
-  components: {},
+  components: {
+    SlicesBlock
+  },
   computed: {
     ...mapState('layout', ['placeholders']),
     ...mapState('applications', ['applications']),
