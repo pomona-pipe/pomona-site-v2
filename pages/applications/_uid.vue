@@ -15,7 +15,7 @@
         </v-row>
       </v-container>
     </section>
-    <SlicesBlock :slices="document.data.body"  />
+    <SlicesBlock :slices="document.data.body" />
   </div>
 </template>
 
@@ -23,6 +23,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
+import { Route } from 'vue-router/types'
 import pageVisits from '~/services/pageVisits'
 import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
@@ -38,8 +39,7 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
     heroStyles() {
       return {
         'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
-          (this as any).document.data
-            .hero_image.url
+          (this as any).document.data.hero_image.url
         }")`,
         'background-position': 'center',
         'background-size': 'cover'
@@ -50,9 +50,24 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
 export default class Index extends Vue {
   document: IPrismicDocument | null = null
 
-  async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
-    if (pageVisits() > 1) return
-    await store.dispatch('applications/getApplications', $prismic)
+  async fetch({
+    store,
+    $prismic,
+    params
+  }: {
+    store: Store<any>
+    $prismic: IPrismic
+    params: Route['params']
+  }) {
+    const { uid } = params
+
+    // if application exists in store, return
+    const storeApplication = find(store.state.applications.applications, { uid })
+    if (storeApplication) return
+    
+    // else, query application and add to store
+    const result = await $prismic.api.getByUID('applications', uid)
+    store.commit('applications/addApplication', result)
   }
 
   created() {

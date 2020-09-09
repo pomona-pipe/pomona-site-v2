@@ -1,5 +1,3 @@
-import { uniqBy } from 'lodash'
-
 // TODO: create types for api response data/payloads
 import { IPrismic } from '~/shims'
 
@@ -12,6 +10,9 @@ export const state = () => ({
 })
 
 export const mutations = {
+  addApplication(state: IState, payload: object) {
+    state.applications.push(payload)
+  },
   setApplications(state: IState, payload: object[]) {
     state.applications = payload
   }

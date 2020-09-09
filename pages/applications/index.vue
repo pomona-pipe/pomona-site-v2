@@ -34,7 +34,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import pageVisits from '~/services/pageVisits'
-import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
 
 @Component({

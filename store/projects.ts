@@ -1,5 +1,4 @@
 // TODO: create types for api response data/payloads
-
 import { IPrismic } from '~/shims'
 
 interface IState {
