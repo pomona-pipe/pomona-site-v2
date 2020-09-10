@@ -11,17 +11,39 @@ function getDocType(fileName: string) {
   switch (suffix) {
     case 'png':
     case 'jpg':
-      return 'Image'
+      return {
+        desc: 'Image',
+        thumbnail: resolve('static/images/placeholders/file-pdf.svg')
+      }
     case 'pdf':
-      return 'PDF Document'
+      return {
+        desc: 'PDF Document',
+        thumbnail: resolve('static/icons/file-pdf.svg')
+      }
     case 'doc':
     case 'docx':
-      return 'Word Document'
+      return {
+        desc: 'Word Document',
+        thumbnail: resolve('static/icons/file-word.svg')
+      }
     case 'xls':
     case 'xlsx':
-      return 'Spreadsheet'
+    case 'csv':
+      return {
+        desc: 'Spreadsheet',
+        thumbnail: resolve('static/icons/file-excel.svg')
+      }
+    case 'ppt':
+    case 'pptx':
+      return {
+        desc: 'PowerPoint',
+        thumbnail: resolve('static/icons/file-powerpoint.svg')
+      }
     default:
-      return 'Dropbox File'
+      return {
+        desc: 'Dropbox File',
+        thumbnail: resolve('static/images/file-image.svg')
+      }
   }
 }
 
@@ -67,25 +89,28 @@ export const handler: Handler = async (event) => {
   }
   try {
     const matches = (await dropbox.filesSearchV2(searchV2Arg)).matches
-    const blobs: ArrayBuffer[] = []
+    const results: PrismicResult[] = []
     for (const match of matches) {
-      const fileData = await dropbox.filesDownload({
-        path: (match.metadata as any).metadata.path_lower
-      })
-      const buffer = (fileData as any).fileBinary
-      blobs.push(buffer)
-    }
-    const results: PrismicResult[] = matches.map((match, index) => {
-      const { id, name, client_modified } = (match.metadata as any).metadata
-      return {
+      const {
+        id,
+        name,
+        client_modified,
+        path_lower
+      } = (match.metadata as any).metadata
+      const fileBuffer = ((await dropbox.filesDownload({
+        path: path_lower
+      })) as any).fileBinary
+      const docType = getDocType(name)
+      const { desc, thumbnail } = docType
+      results.push({
         id,
         title: name,
-        description: getDocType(name),
-        image_url: resolve('static/images/file-image.svg'),
+        description: desc,
+        image_url: thumbnail,
         last_update: client_modified,
-        blob: blobs[index]
-      }
-    })
+        blob: fileBuffer
+      })
+    }
     const responseBody: PrismicResonseBody = {
       results_size: results.length,
       results
