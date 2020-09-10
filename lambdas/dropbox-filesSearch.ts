@@ -118,9 +118,6 @@ export const handler: Handler = async (event) => {
     response.body = JSON.stringify(responseBody)
     return response
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(`Error: ${error.message}`)
-    alert(`Error: ${error.message}`)
     response.statusCode = 500
     response.body = error.message
     return response
