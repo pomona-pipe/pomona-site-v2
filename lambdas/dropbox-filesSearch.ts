@@ -12,36 +12,36 @@ function getDocType(fileName: string) {
     case 'png':
     case 'jpg':
       return {
-        desc: 'Image',
+        description: 'Image',
         thumbnail: resolve('static/images/placeholders/file-pdf.svg')
       }
     case 'pdf':
       return {
-        desc: 'PDF Document',
+        description: 'PDF Document',
         thumbnail: resolve('static/icons/file-pdf.svg')
       }
     case 'doc':
     case 'docx':
       return {
-        desc: 'Word Document',
+        description: 'Word Document',
         thumbnail: resolve('static/icons/file-word.svg')
       }
     case 'xls':
     case 'xlsx':
     case 'csv':
       return {
-        desc: 'Spreadsheet',
+        description: 'Spreadsheet',
         thumbnail: resolve('static/icons/file-excel.svg')
       }
     case 'ppt':
     case 'pptx':
       return {
-        desc: 'PowerPoint',
+        description: 'PowerPoint',
         thumbnail: resolve('static/icons/file-powerpoint.svg')
       }
     default:
       return {
-        desc: 'Dropbox File',
+        description: 'Dropbox File',
         thumbnail: resolve('static/images/file-image.svg')
       }
   }
@@ -50,7 +50,7 @@ function getDocType(fileName: string) {
 export const handler: Handler = async (event) => {
   // create dropbox instance
   const { access_token, app_key, app_secret } = event.headers
-  const options = {
+  const options: DropboxTypes.DropboxOptions = {
     fetch,
     accessToken: access_token,
     clientId: app_key
@@ -101,11 +101,11 @@ export const handler: Handler = async (event) => {
         path: path_lower
       })) as any).fileBinary
       const docType = getDocType(name)
-      const { desc, thumbnail } = docType
+      const { description, thumbnail } = docType
       results.push({
         id,
         title: name,
-        description: desc,
+        description,
         image_url: thumbnail,
         last_update: client_modified,
         blob: fileBuffer

@@ -5,7 +5,7 @@ import fetch from 'isomorphic-fetch'
 
 export const handler: Handler = async (event, context) => {
   const { access_token, app_key, app_secret } = event.headers
-  const options = {
+  const options: DropboxTypes.DropboxOptions = {
     accessToken: access_token,
     clientId: app_key,
     fetch
