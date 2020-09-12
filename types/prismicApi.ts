@@ -1,11 +1,15 @@
 /* eslint-disable camelcase */
+
+interface PrismicBlob {
+  file: string
+}
 interface PrismicResult {
   id: string
   title: string
   description: string
   image_url: string
-  last_update: string
-  blob: string
+  last_update: number
+  blob: PrismicBlob
 }
 
 interface PrismicResonseBody {

@@ -151,8 +151,8 @@ export const handler: Handler = async (event) => {
         title: name,
         description,
         image_url: thumbnail,
-        last_update: client_modified,
-        blob: base64String
+        last_update: Number(new Date(client_modified)),
+        blob: { file: base64String }
       })
     }
     const responseBody: PrismicResonseBody = {
