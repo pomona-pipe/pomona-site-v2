@@ -5,7 +5,7 @@ interface PrismicResult {
   description: string
   image_url: string
   last_update: string
-  blob: ArrayBuffer
+  blob: string
 }
 
 interface PrismicResonseBody {
