@@ -71,8 +71,12 @@ typings/
 # Nuxt generate
 dist
 
-# netlify-lambda build
-dist_lambdas
+# other build outputs
+dist_*
+
+# ts scripts - compiled js
+scripts/**/*.js
+scripts/**/*.js.map
 
 # vuepress build output
 .vuepress/dist

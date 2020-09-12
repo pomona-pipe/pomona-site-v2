@@ -159,7 +159,7 @@ export const handler: Handler = async (event) => {
       results_size: results.length,
       results
     }
-    response.body = JSON.stringify(responseBody)
+    response.body = JSON.stringify(responseBody) as any
     return response
   } catch (error) {
     response.statusCode = 500

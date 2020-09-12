@@ -19,5 +19,5 @@ interface PrismicResonseBody {
 
 interface PrismicResponse {
   statusCode: number
-  body?: string
+  body?: Buffer
 }
