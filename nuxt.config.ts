@@ -110,5 +110,10 @@ export default {
     extend(config: Configuration) {
       config.resolve!.alias!.vue = 'vue/dist/vue.common'
     }
+  },
+  server: {
+    port: process.env.PORT || 3000,
+    host: process.env.HOST || 'localhost',
+    timing: false
   }
 }
