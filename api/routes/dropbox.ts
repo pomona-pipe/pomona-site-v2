@@ -3,26 +3,23 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { resolve } from 'path'
-import express from 'express'
+import { Router } from 'express'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 
-// create express server
-const app = express()
+// create route
+const router = Router()
 
-// make request to dropbox
-app.get('/', async (req, res) => {
+// create response
+router.use('/dropbox', async (req, res) => {
   const response = await getDropboxFiles().catch((error) => {
     return JSON.stringify(error)
   })
   res.send(response)
 })
 
-// export to nuxt-config
-export default {
-  path: '/api/dropbox/',
-  handler: app
-}
+// export to api
+export default router
 
 async function getDropboxFiles() {
   // create dropbox instance

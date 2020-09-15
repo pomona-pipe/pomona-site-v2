@@ -60,7 +60,7 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxt/http',
     '@/modules/static',
     '@/modules/crawler',
     '@nuxtjs/style-resources',
@@ -99,7 +99,7 @@ export default {
    **  server middleware - use for api endpoints
    **  https://nuxtjs.org/api/configuration-servermiddleware/
    */
-  serverMiddleware: [{ path: '~/api/dropbox', handler: '~/api/dropbox.ts' }],
+  serverMiddleware: { '/api': '~/api' },
   /*
    ** Build configuration
    */
