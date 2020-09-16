@@ -101,14 +101,14 @@ function getDocInfo(fileName: string, serverUrl: string) {
     case 'png':
       return {
         description: 'Image',
-        thumbnail: `${serverUrl}/images/placeholders/file-pdf.svg`,
+        thumbnail: `${serverUrl}/images/placeholders/file-image.svg`,
         mimetype: 'image/png'
       }
     case 'jpg':
     case 'jpeg':
       return {
         description: 'Image',
-        thumbnail: `${serverUrl}/images/placeholders/file-pdf.svg`,
+        thumbnail: `${serverUrl}/images/placeholders/file-image.svg`,
         mimetype: 'image/jpeg'
       }
     case 'pdf':
