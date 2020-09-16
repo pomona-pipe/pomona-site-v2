@@ -1,6 +1,4 @@
 // TODO: add typing shim for dropbox FileMetaData interface
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { Router } from 'express'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
@@ -13,16 +11,20 @@ const router = Router()
 router.use('/dropbox', async (req, res) => {
   const serverUrl =
     process.env.NODE_ENV === 'development' ? 'localhost:3000' : req.hostname
-  const response = await getDropboxFiles(serverUrl).catch((error) => {
-    return JSON.stringify(error)
-  })
+  const page = Number(req.query.page) || 1
+  const show = 50
+  const response = await getDropboxFiles(serverUrl, page, show).catch(
+    (error) => {
+      return JSON.stringify(error)
+    }
+  )
   res.send(response)
 })
 
 // export to api
 export default router
 
-async function getDropboxFiles(serverUrl: string) {
+async function getDropboxFiles(serverUrl: string, page: number, show: number) {
   // create dropbox instance
   const {
     DROPBOX_APP_KEY,
@@ -61,10 +63,14 @@ async function getDropboxFiles(serverUrl: string) {
     entries.push(...remainingEntries)
   }
   // filter just files
-  const filtered = entries.filter((entry) => entry['.tag'] === 'file')
+  const fileResults = entries.filter((entry) => entry['.tag'] === 'file')
+  // return current page
+  const start = page * show - show
+  const end = start + show
+  const pageResults = fileResults.slice(start, end)
   // structure response
   const results: IPrismicResult[] = []
-  for (const file of filtered) {
+  for (const file of pageResults) {
     const { id, name, client_modified, path_lower } = file
     const docInfo = getDocInfo(name, serverUrl)
     const { description, thumbnail, mimetype } = docInfo
