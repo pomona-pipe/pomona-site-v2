@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
-import { resolve } from 'path'
 import { Router } from 'express'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
@@ -12,7 +11,9 @@ const router = Router()
 
 // create response
 router.use('/dropbox', async (req, res) => {
-  const response = await getDropboxFiles().catch((error) => {
+  const serverUrl =
+    process.env.NODE_ENV === 'development' ? 'localhost:3000' : req.hostname
+  const response = await getDropboxFiles(serverUrl).catch((error) => {
     return JSON.stringify(error)
   })
   res.send(response)
@@ -21,7 +22,7 @@ router.use('/dropbox', async (req, res) => {
 // export to api
 export default router
 
-async function getDropboxFiles() {
+async function getDropboxFiles(serverUrl: string) {
   // create dropbox instance
   const {
     DROPBOX_APP_KEY,
@@ -65,8 +66,8 @@ async function getDropboxFiles() {
   const results: IPrismicResult[] = []
   for (const file of filtered) {
     const { id, name, client_modified, path_lower } = file
-    const docType = getDocType(name)
-    const { description, thumbnail, mimetype } = docType
+    const docInfo = getDocInfo(name, serverUrl)
+    const { description, thumbnail, mimetype } = docInfo
     results.push({
       id,
       title: name,
@@ -83,77 +84,77 @@ async function getDropboxFiles() {
   return response
 }
 
-function getDocType(fileName: string) {
+function getDocInfo(fileName: string, serverUrl: string) {
   const suffix = fileName.split('.').slice(-1)[0]
   switch (suffix) {
     case 'png':
       return {
         description: 'Image',
-        thumbnail: resolve('static/images/placeholders/file-pdf.svg'),
+        thumbnail: `${serverUrl}/images/placeholders/file-pdf.svg`,
         mimetype: 'image/png'
       }
     case 'jpg':
     case 'jpeg':
       return {
         description: 'Image',
-        thumbnail: resolve('static/images/placeholders/file-pdf.svg'),
+        thumbnail: `${serverUrl}/images/placeholders/file-pdf.svg`,
         mimetype: 'image/jpeg'
       }
     case 'pdf':
       return {
         description: 'PDF Document',
-        thumbnail: resolve('static/icons/file-pdf.svg'),
+        thumbnail: `${serverUrl}/icons/file-pdf.svg`,
         mimetype: 'application/pdf'
       }
     case 'doc':
       return {
         description: 'Word Document',
-        thumbnail: resolve('static/icons/file-word.svg'),
+        thumbnail: `${serverUrl}/icons/file-word.svg`,
         mimetype: 'application/msword'
       }
     case 'docx':
       return {
         description: 'Word Document',
-        thumbnail: resolve('static/icons/file-word.svg'),
+        thumbnail: `${serverUrl}/icons/file-word.svg`,
         mimetype:
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       }
     case 'xls':
       return {
         description: 'Spreadsheet',
-        thumbnail: resolve('static/icons/file-excel.svg'),
+        thumbnail: `${serverUrl}/icons/file-excel.svg`,
         mimetype: 'application/vnd.ms-excel'
       }
     case 'xlsx':
       return {
         description: 'Spreadsheet',
-        thumbnail: resolve('static/icons/file-excel.svg'),
+        thumbnail: `static/icons/file-excel.svg`,
         mimetype:
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       }
     case 'csv':
       return {
         description: 'CSV',
-        thumbnail: resolve('static/icons/file-excel.svg'),
+        thumbnail: `${serverUrl}/icons/file-excel.svg`,
         mimetype: 'text/csv'
       }
     case 'ppt':
       return {
         description: 'PowerPoint',
-        thumbnail: resolve('static/icons/file-powerpoint.svg'),
+        thumbnail: `${serverUrl}/icons/file-powerpoint.svg`,
         mimetype: 'application/vnd.ms-powerpoint'
       }
     case 'pptx':
       return {
         description: 'PowerPoint',
-        thumbnail: resolve('static/icons/file-powerpoint.svg'),
+        thumbnail: `static/icons/file-powerpoint.svg`,
         mimetype:
           'application/vnd.openxmlformats-officedocument.presentationml.presentation'
       }
     default:
       return {
         description: 'Dropbox File',
-        thumbnail: resolve('static/images/file-image.svg'),
+        thumbnail: `${serverUrl}/images/file-image.svg`,
         mimetype: 'text'
       }
   }
