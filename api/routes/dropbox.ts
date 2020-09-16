@@ -10,7 +10,9 @@ const router = Router()
 // create response
 router.use('/dropbox', async (req, res) => {
   const serverUrl =
-    process.env.NODE_ENV === 'development' ? 'localhost:3000' : req.hostname
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000'
+      : `https://${req.hostname}`
   const page = Number(req.query.page) || 1
   const show = 50
   const response = await getDropboxFiles(serverUrl, page, show).catch(
@@ -91,7 +93,10 @@ async function getDropboxFiles(serverUrl: string, page: number, show: number) {
 }
 
 function getDocInfo(fileName: string, serverUrl: string) {
-  const suffix = fileName.split('.').slice(-1)[0]
+  const suffix = fileName
+    .split('.')
+    .slice(-1)[0]
+    .toLowerCase()
   switch (suffix) {
     case 'png':
       return {
