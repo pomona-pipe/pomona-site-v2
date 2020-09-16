@@ -41,7 +41,7 @@ async function getDropboxFiles(serverUrl: string, page: number, show: number) {
   const dropbox = new Dropbox(options)
   dropbox.setClientSecret(DROPBOX_APP_SECRET!)
 
-  // structure function arg
+  // structure ListFolder Arg
   const listFolderArg: DropboxTypes.files.ListFolderArg = {
     path: '/2020 Website',
     recursive: true,
@@ -70,19 +70,39 @@ async function getDropboxFiles(serverUrl: string, page: number, show: number) {
   const start = page * show - show
   const end = start + show
   const pageResults = fileResults.slice(start, end)
+
   // structure response
   const results: IPrismicResult[] = []
   for (const file of pageResults) {
     const { id, name, client_modified, path_lower } = file
     const docInfo = getDocInfo(name, serverUrl)
     const { description, thumbnail, mimetype } = docInfo
+    
+    // // Create Shared Link
+    let sharedLinks: any
+
+    try {
+      const createLinkArg: DropboxTypes.sharing.CreateSharedLinkWithSettingsArg = {
+        path: path_lower!
+      }
+      sharedLinks = await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
+    } catch (error) {
+      const listLinkArg: DropboxTypes.sharing.ListSharedLinksArg = {
+        path: path_lower,
+        direct_only: true
+      }
+      sharedLinks = await dropbox.sharingListSharedLinks(listLinkArg)
+    }
+    let fileUrl = sharedLinks
+    // let fileUrl = sharedLinks.links[0].url.replace('?dl=0', '?raw=1')
+
     results.push({
       id,
       title: name,
       description,
       image_url: thumbnail,
       last_update: Number(new Date(client_modified)),
-      blob: { downloadPath: path_lower, mimetype } as any
+      blob: { fileUrl, mimetype } as any
     })
   }
   const response: IPrismicResponse = {
