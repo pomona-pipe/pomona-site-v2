@@ -140,22 +140,22 @@ async function getDropboxFilesByPage(
 async function getDropboxSharedLink(path: string, dropbox: Dropbox) {
   // obtain file url from shared link
   let sharedLink: string
-  // try to create shared link
+  // try get existing shared link
   try {
-    const createLinkArg: DropboxTypes.sharing.CreateSharedLinkWithSettingsArg = {
-      path
-    }
-    sharedLink = (
-      await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
-    ).url
-  } catch (error) {
-    // else get existing shared link
     const listLinkArg: DropboxTypes.sharing.ListSharedLinksArg = {
       path,
       direct_only: true
     }
     sharedLink = (await dropbox.sharingListSharedLinks(listLinkArg)).links[0]
       .url
+  } catch (error) {
+    // else create shared link
+    const createLinkArg: DropboxTypes.sharing.CreateSharedLinkWithSettingsArg = {
+      path
+    }
+    sharedLink = (
+      await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
+    ).url
   }
   return sharedLink
 }
