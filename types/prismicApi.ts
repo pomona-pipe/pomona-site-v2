@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 interface IPrismicBlob {
-  downloadPath: string
+  fileUrl: string
   mimetype: string
 }
 

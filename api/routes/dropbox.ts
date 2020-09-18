@@ -1,13 +1,10 @@
-// TODO: add typing shim for dropbox FileMetaData interface
 /* eslint-disable camelcase */
 import { Router } from 'express'
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 
-// create route
+// create route and export to api
 const router = Router()
-
-// create response
 router.use('/dropbox', async (req, res) => {
   const serverUrl =
     process.env.NODE_ENV === 'development'
@@ -22,8 +19,6 @@ router.use('/dropbox', async (req, res) => {
   )
   res.send(response)
 })
-
-// export to api
 export default router
 
 async function getDropboxFiles(serverUrl: string, page: number, show: number) {
@@ -71,40 +66,42 @@ async function getDropboxFiles(serverUrl: string, page: number, show: number) {
   const end = start + show
   const pageResults = fileResults.slice(start, end)
 
-  // structure response
+  // structure final results
   const results: IPrismicResult[] = []
   for (const file of pageResults) {
     const { id, name, client_modified, path_lower } = file
     const docInfo = getDocInfo(name, serverUrl)
     const { description, thumbnail, mimetype } = docInfo
-    
-    // // Create Shared Link
-    let sharedLinks: any
 
+    // obtain file url from shared link
+    let fileUrl: string
+    // try to create shared link
     try {
       const createLinkArg: DropboxTypes.sharing.CreateSharedLinkWithSettingsArg = {
         path: path_lower!
       }
-      sharedLinks = await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
+      fileUrl = (
+        await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
+      ).url
     } catch (error) {
+      // else retrieve shared link
       const listLinkArg: DropboxTypes.sharing.ListSharedLinksArg = {
         path: path_lower,
         direct_only: true
       }
-      sharedLinks = await dropbox.sharingListSharedLinks(listLinkArg)
+      fileUrl = (await dropbox.sharingListSharedLinks(listLinkArg)).links[0].url
     }
-    let fileUrl = sharedLinks
-    // let fileUrl = sharedLinks.links[0].url.replace('?dl=0', '?raw=1')
-
+    // push each result
     results.push({
       id,
       title: name,
       description,
       image_url: thumbnail,
       last_update: Number(new Date(client_modified)),
-      blob: { fileUrl, mimetype } as any
+      blob: { fileUrl, mimetype }
     })
   }
+  // send response
   const response: IPrismicResponse = {
     results_size: results.length,
     results
