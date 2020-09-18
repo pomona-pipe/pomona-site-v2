@@ -6,39 +6,92 @@ import fetch from 'isomorphic-fetch'
 // create route and export to api
 const router = Router()
 router.use('/dropbox', async (req, res) => {
+  const dropboxPath = '/2020 Website'
+  const page = Number(req.query.page) || 1
+  const show = 50
   const serverUrl =
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:3000'
       : `https://${req.hostname}`
-  const page = Number(req.query.page) || 1
-  const show = 50
-  const response = await getDropboxFiles(serverUrl, page, show).catch(
-    (error) => {
-      return JSON.stringify(error)
-    }
-  )
+  const response = await createFileResults(
+    dropboxPath,
+    page,
+    show,
+    serverUrl
+  ).catch((error) => {
+    return JSON.stringify(error)
+  })
   res.send(response)
 })
 export default router
 
-async function getDropboxFiles(serverUrl: string, page: number, show: number) {
+async function createFileResults(
+  dropboxPath: string,
+  page: number,
+  show: number,
+  serverUrl: string
+) {
   // create dropbox instance
   const {
     DROPBOX_APP_KEY,
     DROPBOX_APP_SECRET,
     DROPBOX_ACCESS_TOKEN
-  } = process.env // NOTE: must pass these node env vars
+  } = process.env
+  const dropbox = createDropbox(
+    DROPBOX_ACCESS_TOKEN!,
+    DROPBOX_APP_KEY!,
+    DROPBOX_APP_SECRET!
+  )
+  // build results
+  const files = await getDropboxFilesByPage(dropboxPath, dropbox, page, show)
+  const results: IPrismicResult[] = []
+  for (const file of files) {
+    const { id, name, client_modified, path_lower } = file
+    const docInfo = getDocInfo(name, serverUrl)
+    const { description, thumbnail, mimetype } = docInfo
+    const fileUrl = await getDropboxSharedLink(path_lower!, dropbox)
+    results.push({
+      id,
+      title: name,
+      description,
+      image_url: thumbnail,
+      last_update: Number(new Date(client_modified)),
+      blob: { fileUrl, mimetype }
+    })
+  }
+  // structure response
+  const response: IPrismicResponse = {
+    results_size: results.length,
+    results
+  }
+  return response
+}
+
+function createDropbox(
+  accessToken: string,
+  clientId: string,
+  clientSecret: string
+) {
+  // create dropbox instance
   const options: DropboxTypes.DropboxOptions = {
     fetch,
-    accessToken: DROPBOX_ACCESS_TOKEN,
-    clientId: DROPBOX_APP_KEY
+    accessToken,
+    clientId
   }
   const dropbox = new Dropbox(options)
-  dropbox.setClientSecret(DROPBOX_APP_SECRET!)
+  dropbox.setClientSecret(clientSecret)
+  return dropbox
+}
 
+async function getDropboxFilesByPage(
+  path: string,
+  dropbox: Dropbox,
+  page: number,
+  show: number
+) {
   // structure ListFolder Arg
   const listFolderArg: DropboxTypes.files.ListFolderArg = {
-    path: '/2020 Website',
+    path,
     recursive: true,
     include_media_info: false,
     include_deleted: false,
@@ -46,7 +99,6 @@ async function getDropboxFiles(serverUrl: string, page: number, show: number) {
     include_mounted_folders: false,
     include_non_downloadable_files: false
   }
-
   // retrieve initial results
   const listFolderResult = await dropbox.filesListFolder(listFolderArg)
   const entries = listFolderResult.entries as DropboxTypes.files.FileMetadataReference[]
@@ -61,52 +113,34 @@ async function getDropboxFiles(serverUrl: string, page: number, show: number) {
   }
   // filter just files
   const fileResults = entries.filter((entry) => entry['.tag'] === 'file')
-  // return current page
+  // return correct page
   const start = page * show - show
   const end = start + show
   const pageResults = fileResults.slice(start, end)
+  return pageResults
+}
 
-  // structure final results
-  const results: IPrismicResult[] = []
-  for (const file of pageResults) {
-    const { id, name, client_modified, path_lower } = file
-    const docInfo = getDocInfo(name, serverUrl)
-    const { description, thumbnail, mimetype } = docInfo
-
-    // obtain file url from shared link
-    let fileUrl: string
-    // try to create shared link
-    try {
-      const createLinkArg: DropboxTypes.sharing.CreateSharedLinkWithSettingsArg = {
-        path: path_lower!
-      }
-      fileUrl = (
-        await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
-      ).url
-    } catch (error) {
-      // else retrieve shared link
-      const listLinkArg: DropboxTypes.sharing.ListSharedLinksArg = {
-        path: path_lower,
-        direct_only: true
-      }
-      fileUrl = (await dropbox.sharingListSharedLinks(listLinkArg)).links[0].url
+async function getDropboxSharedLink(path: string, dropbox: Dropbox) {
+  // obtain file url from shared link
+  let sharedLink: string
+  // try to create shared link
+  try {
+    const createLinkArg: DropboxTypes.sharing.CreateSharedLinkWithSettingsArg = {
+      path
     }
-    // push each result
-    results.push({
-      id,
-      title: name,
-      description,
-      image_url: thumbnail,
-      last_update: Number(new Date(client_modified)),
-      blob: { fileUrl, mimetype }
-    })
+    sharedLink = (
+      await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
+    ).url
+  } catch (error) {
+    // else get existing shared link
+    const listLinkArg: DropboxTypes.sharing.ListSharedLinksArg = {
+      path,
+      direct_only: true
+    }
+    sharedLink = (await dropbox.sharingListSharedLinks(listLinkArg)).links[0]
+      .url
   }
-  // send response
-  const response: IPrismicResponse = {
-    results_size: results.length,
-    results
-  }
-  return response
+  return sharedLink
 }
 
 function getDocInfo(fileName: string, serverUrl: string) {
