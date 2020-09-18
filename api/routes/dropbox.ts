@@ -21,6 +21,16 @@ router.use('/dropbox', async (req, res) => {
   ).catch((error) => {
     return JSON.stringify(error)
   })
+  /* TODO: write non-img files to server on response finish
+   ** res.on('finish', () => {...})
+   ** Post-Response Steps:
+   ** 1. make a files directory inside static folder if needed
+   ** 2. filter response.results for non-image files (description !== 'Image')
+   ** 3. filter again for either of these conditions:
+   **   a) file does not already exist
+   **   b) file already exists, but client_modified is after the server write time
+   ** 4. Write new/updated non-image files to ~/files
+   */
   res.send(response)
 })
 export default router
@@ -49,6 +59,13 @@ async function createFileResults(
     const { id, name, client_modified, path_lower } = file
     const docInfo = getDocInfo(name, serverUrl)
     const { description, thumbnail, mimetype } = docInfo
+    /* TODO: change fileUrl string into object for images
+     ** 1. Images
+     **   a) Use Imgix.js to create responsive image links: https://www.imgix.com/imgix-js
+     **   b) image urls should include: thumbnail (80x80), xs, sm, md, lg, xl
+     ** 2. PDFs:
+     **   a) keep as string but convert to self-hosted url
+     */
     const fileUrl = await getDropboxSharedLink(path_lower!, dropbox)
     results.push({
       id,
