@@ -19,7 +19,6 @@ interface IPrismicResponse {
 
 type FileType =
   | 'Image'
-  | 'Word Document'
   | 'PDF'
   | 'Word Document'
   | 'Spreadsheet'

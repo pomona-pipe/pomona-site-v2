@@ -21,7 +21,6 @@ export async function createFileResults(
     DROPBOX_APP_SECRET!
   )
   // build results
-  // TODO: get a specified file type
   const files = await getDropboxFilesByPage(
     dropboxPath,
     dropbox,
@@ -33,8 +32,8 @@ export async function createFileResults(
   for (const file of files) {
     const { id, name, client_modified, path_lower } = file
     const fileType = getFileType(name)
-    const thumbnail = getThumbnail(fileType, serverUrl)
     const fileUrl = await getDropboxSharedLink(path_lower!, dropbox)
+    const thumbnail = getThumbnail(fileType, fileUrl, serverUrl)
     results.push({
       id,
       title: name,
@@ -100,11 +99,9 @@ async function getDropboxFilesByPage(
   // filter just files
   let fileResults = entries.filter((entry) => entry['.tag'] === 'file')
   // filter file types
-  if (fileTypes) {
-    fileResults = fileResults.filter((file) =>
-      fileTypes.includes(getFileType(file.name))
-    )
-  }
+  fileResults = fileResults.filter((file) =>
+    fileTypes.includes(getFileType(file.name))
+  )
   // return correct page
   const start = page * show - show
   const end = start + show
@@ -162,10 +159,14 @@ function getFileType(fileName: string): FileType {
   }
 }
 
-function getThumbnail(fileType: FileType, serverUrl: string) {
+function getThumbnail(
+  fileType: FileType,
+  sharedLink: string,
+  serverUrl: string
+) {
   switch (fileType) {
     case 'Image':
-      return `${serverUrl}/images/placeholders/file-image.svg`
+      return sharedLink
     case 'PDF':
       return `${serverUrl}/icons/file-pdf.svg`
     case 'Word Document':
