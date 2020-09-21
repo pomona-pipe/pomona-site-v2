@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 interface IPrismicBlob {
   fileUrl: string
-  mimetype: string
 }
 
 interface IPrismicResult {
@@ -17,3 +16,12 @@ interface IPrismicResponse {
   results_size: number
   results: IPrismicResult[]
 }
+
+type FileType =
+  | 'Image'
+  | 'Word Document'
+  | 'PDF'
+  | 'Word Document'
+  | 'Spreadsheet'
+  | 'PowerPoint'
+  | 'File'
