@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Router } from 'express'
-import { createFileResults } from '../../functions/dropbox'
+import { createFileResults, downloadDropboxFiles } from '../../functions/dropbox'
 
 // create route and export to api
 const router = Router()
@@ -13,15 +13,17 @@ router.use('/dropbox/images', async (req, res) => {
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:3000'
       : `https://${req.hostname}`
-  const response = await createFileResults(
+  const results = await createFileResults(
     dropboxPath,
     fileTypes,
     page,
     show,
     serverUrl
-  ).catch((error) => {
-    return JSON.stringify(error)
+  )
+  const { prismic, filePaths } = results 
+  res.send(prismic)
+  res.on('finish', () => {
+    downloadDropboxFiles(filePaths)
   })
-  res.send(response)
 })
 export default router

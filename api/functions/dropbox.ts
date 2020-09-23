@@ -1,6 +1,55 @@
 /* eslint-disable camelcase */
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
+import ImgixClient from 'imgix-core-js'
+import { writeFile, existsSync } from 'fs'
+import { dirname } from 'path'
+import { sync } from 'mkdirp'
+import rimraf from 'rimraf'
+
+// create dropbox instance
+const dropbox = (() => {
+  const {
+    DROPBOX_APP_KEY,
+    DROPBOX_APP_SECRET,
+    DROPBOX_ACCESS_TOKEN
+  } = process.env
+  return createDropbox(
+    DROPBOX_ACCESS_TOKEN!,
+    DROPBOX_APP_KEY!,
+    DROPBOX_APP_SECRET!
+  )
+})()
+
+export async function downloadDropboxFiles(filePaths: any[]) {
+  //Assumes same folder for all files
+  const saveFolder = dirname(filePaths[0].savePath)
+
+  //If Folder Exists, Removes Folder
+  if (existsSync(saveFolder)) {
+    rimraf(saveFolder, (err) => {
+      if (err) {
+        console.log(`Error: ${err}`)
+      }
+    })
+  }
+
+  // Create Folder
+  sync(saveFolder)
+
+  //Download Dropbox files and save to file system
+  for (const path of filePaths) {
+    const { dropboxPath, savePath } = path
+    const fileBuffer = ((await dropbox.filesDownload({ path: dropboxPath })) as any).fileBinary
+    writeFile(savePath, fileBuffer, (err) => {
+      if (err) {
+        return console.log(`error: ${err}`)
+      }
+      console.log(`File saved: ${savePath}`)
+    })
+
+  }
+}
 
 export async function createFileResults(
   dropboxPath: string,
@@ -9,17 +58,6 @@ export async function createFileResults(
   show: number,
   serverUrl: string
 ) {
-  // create dropbox instance
-  const {
-    DROPBOX_APP_KEY,
-    DROPBOX_APP_SECRET,
-    DROPBOX_ACCESS_TOKEN
-  } = process.env
-  const dropbox = createDropbox(
-    DROPBOX_ACCESS_TOKEN!,
-    DROPBOX_APP_KEY!,
-    DROPBOX_APP_SECRET!
-  )
   // build results
   const files = await getDropboxFilesByPage(
     dropboxPath,
@@ -29,24 +67,33 @@ export async function createFileResults(
     fileTypes
   )
   const results: IPrismicResult[] = []
+  const filePaths: any[] = []
   for (const file of files) {
-    const { id, name, client_modified, path_lower } = file
-    const fileType = getFileType(name)
-    const fileUrl = await getDropboxSharedLink(path_lower!, dropbox)
-    const thumbnail = getThumbnail(fileType, fileUrl, serverUrl)
+    const { id, client_modified, path_lower } = file
+    const name = file.name.split(' ').join('_')
+    const fileInfo = getFileInfo(name)
+    const { type, folder } = fileInfo
+    const filePath = `/dropbox/${folder}/${name}`
+    const fileUrl = serverUrl + filePath
+
+    const thumbnail = getThumbnail(fileUrl, type, serverUrl)
     results.push({
       id,
       title: name,
-      description: fileType,
+      description: type,
       image_url: thumbnail,
       last_update: Number(new Date(client_modified)),
       blob: { fileUrl }
     })
+    filePaths.push({ dropboxPath: path_lower!, savePath: filePath })
   }
   // structure response
-  const response: IPrismicResponse = {
-    results_size: results.length,
-    results
+  const response = {
+    prismic: {
+      results_size: results.length,
+      results
+    },
+    filePaths
   }
   return response
 }
@@ -100,7 +147,7 @@ async function getDropboxFilesByPage(
   let fileResults = entries.filter((entry) => entry['.tag'] === 'file')
   // filter file types
   fileResults = fileResults.filter((file) =>
-    fileTypes.includes(getFileType(file.name))
+    fileTypes.includes(getFileInfo(file.name).type)
   )
   // return correct page
   const start = page * show - show
@@ -109,30 +156,7 @@ async function getDropboxFilesByPage(
   return pageResults
 }
 
-async function getDropboxSharedLink(path: string, dropbox: Dropbox) {
-  // obtain file url from shared link
-  let sharedLink: string
-  // try get existing shared link
-  try {
-    const listLinkArg: DropboxTypes.sharing.ListSharedLinksArg = {
-      path,
-      direct_only: true
-    }
-    sharedLink = (await dropbox.sharingListSharedLinks(listLinkArg)).links[0]
-      .url
-  } catch (error) {
-    // else create shared link
-    const createLinkArg: DropboxTypes.sharing.CreateSharedLinkWithSettingsArg = {
-      path
-    }
-    sharedLink = (
-      await dropbox.sharingCreateSharedLinkWithSettings(createLinkArg)
-    ).url
-  }
-  return sharedLink
-}
-
-function getFileType(fileName: string): FileType {
+function getFileInfo(fileName: string): FileInfo {
   const suffix = fileName
     .split('.')
     .slice(-1)[0]
@@ -141,32 +165,46 @@ function getFileType(fileName: string): FileType {
     case 'png':
     case 'jpg':
     case 'jpeg':
-      return 'Image'
+      return {
+        type: 'Image',
+        folder: 'images'
+      }
     case 'pdf':
-      return 'PDF'
+      return {
+        type: 'PDF',
+        folder: 'pdfs'
+      }
     case 'doc':
     case 'docx':
-      return 'Word Document'
+      return {
+        type: 'Word Document',
+        folder: 'docx'
+      }
     case 'xls':
     case 'xlsx':
     case 'csv':
-      return 'Spreadsheet'
+      return {
+        type: 'Spreadsheet',
+        folder: 'spreadsheets'
+      }
     case 'ppt':
     case 'pptx':
-      return 'PowerPoint'
+      return {
+        type: 'PowerPoint',
+        folder: 'powerPoints'
+      }
     default:
-      return 'File'
+      return {
+        type: 'File',
+        folder: 'otherFiles'
+      }
   }
 }
 
-function getThumbnail(
-  fileType: FileType,
-  sharedLink: string,
-  serverUrl: string
-) {
+function getThumbnail(fileUrl: string, fileType: FileType, serverUrl: string) {
   switch (fileType) {
     case 'Image':
-      return sharedLink
+      return getImgThumbnail(fileUrl)
     case 'PDF':
       return `${serverUrl}/icons/file-pdf.svg`
     case 'Word Document':
@@ -178,4 +216,13 @@ function getThumbnail(
     default:
       return `${serverUrl}/images/file-image.svg`
   }
+}
+
+function getImgThumbnail(imgLink: string) {
+  const client = new ImgixClient({
+    domain: 'pomona-pipe.imgix.net',
+    secureURLToken: 'w6G8DKrWqCVPqfrf'
+  })
+  return client.buildURL(`${imgLink}?w=80&h=80`)
+
 }

@@ -71,8 +71,8 @@ typings/
 # Nuxt generate
 dist
 
-# netlify-lambda build
-dist_lambdas
+#  Dropbox Files
+static/dropbox
 
 # vuepress build output
 .vuepress/dist

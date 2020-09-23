@@ -24,3 +24,8 @@ type FileType =
   | 'Spreadsheet'
   | 'PowerPoint'
   | 'File'
+
+  interface FileInfo {
+    type: FileType
+    folder: string
+  }
