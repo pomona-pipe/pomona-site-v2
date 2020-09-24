@@ -216,9 +216,10 @@ function getThumbnail(fileUrl: string, fileType: FileType, serverUrl: string) {
 
 // FIXME: extract Imgix credentials into env vars (do not want to expose)
 function getImgThumbnail(imgLink: string) {
+  const {IMGIX_DOMAIN, IMGIX_SECURE_URL_TOKEN} = process.env
   const client = new ImgixClient({
-    domain: 'pomona-pipe.imgix.net',
-    secureURLToken: 'w6G8DKrWqCVPqfrf'
+    domain: IMGIX_DOMAIN!,
+    secureURLToken: IMGIX_SECURE_URL_TOKEN
   })
   return client.buildURL(`${imgLink}?w=80&h=80`)
 
