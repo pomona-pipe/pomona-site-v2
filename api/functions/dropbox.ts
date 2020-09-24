@@ -2,7 +2,7 @@
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 import ImgixClient from 'imgix-core-js'
-import { writeFile, existsSync, rmdirSync, mkdirSync } from 'fs'
+import { writeFile, existsSync, mkdirSync } from 'fs'
 import { dirname, resolve } from 'path'
 import { uniqBy } from 'lodash'
 
@@ -28,17 +28,27 @@ export async function downloadDropboxFiles(filePaths: any[]) {
   }).map((path) => resolve(dirname(path.savePath)))
 
   for(const folder of saveFolders) {
-    //If Folder Exists, Removes Folder
-    if (existsSync(folder)) {
-      rmdirSync(folder, { recursive: true })
+    //If Folder Does Not Exist, Create Folder
+    if (!existsSync(folder)) {
+      mkdirSync(resolve(folder), { recursive: true })
     }
-    // Create Folder
-    mkdirSync(resolve(folder), { recursive: true })
+
+    /* TODO: Sync file deletions from dropbox to server
+    ** 1. Use readdirSync from fs module to obtain files in server folder
+    ** 2. Loop thru files in server folder
+    **   a) If dropbox filePaths does not contain server file path then delete
+    **     i. Use Array.some to check whether dropbox file paths contains server file path
+    **     ii. resolve both server path and savePath before comparing
+    */
   }
 
   //Download Dropbox files and save to file system
   for (const path of filePaths) {
     const { dropboxPath, savePath } = path
+    /* TODO: only download/write file if needed
+    ** 1. If file does not exist
+    ** 2. If dropbox client_modified date is after server modified date
+    */
     const fileBuffer = ((await dropbox.filesDownload({ path: dropboxPath })) as any).fileBinary
     writeFile(savePath, fileBuffer, (err) => {
       if (err) {
@@ -46,7 +56,6 @@ export async function downloadDropboxFiles(filePaths: any[]) {
       }
       console.log(`File saved: ${savePath}`)
     })
-
   }
 }
 
