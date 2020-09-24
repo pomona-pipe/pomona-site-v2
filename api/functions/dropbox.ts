@@ -214,6 +214,7 @@ function getThumbnail(fileUrl: string, fileType: FileType, serverUrl: string) {
   }
 }
 
+// FIXME: extract Imgix credentials into env vars (do not want to expose)
 function getImgThumbnail(imgLink: string) {
   const client = new ImgixClient({
     domain: 'pomona-pipe.imgix.net',
