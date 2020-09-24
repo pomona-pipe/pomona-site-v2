@@ -2,10 +2,8 @@
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 import ImgixClient from 'imgix-core-js'
-import { writeFile, existsSync } from 'fs'
-import { dirname } from 'path'
-import { sync } from 'mkdirp'
-import rimraf from 'rimraf'
+import { writeFile, existsSync, rmdirSync, mkdirSync } from 'fs'
+import { dirname, resolve } from 'path'
 
 // create dropbox instance
 const dropbox = (() => {
@@ -23,19 +21,15 @@ const dropbox = (() => {
 
 export async function downloadDropboxFiles(filePaths: any[]) {
   //Assumes same folder for all files
-  const saveFolder = dirname(filePaths[0].savePath)
+  const saveFolder = resolve(dirname(filePaths[0].savePath))
 
   //If Folder Exists, Removes Folder
   if (existsSync(saveFolder)) {
-    rimraf(saveFolder, (err) => {
-      if (err) {
-        console.log(`Error: ${err}`)
-      }
-    })
+    rmdirSync(saveFolder, { recursive: true })
   }
 
   // Create Folder
-  sync(saveFolder)
+  mkdirSync(resolve(saveFolder), { recursive: true })
 
   //Download Dropbox files and save to file system
   for (const path of filePaths) {
@@ -73,8 +67,8 @@ export async function createFileResults(
     const name = file.name.split(' ').join('_')
     const fileInfo = getFileInfo(name)
     const { type, folder } = fileInfo
-    const filePath = `/dropbox/${folder}/${name}`
-    const fileUrl = serverUrl + filePath
+    const filePath = `dropbox/${folder}/${name}`
+    const fileUrl = `${serverUrl}/${filePath}`
 
     const thumbnail = getThumbnail(fileUrl, type, serverUrl)
     results.push({
@@ -85,7 +79,7 @@ export async function createFileResults(
       last_update: Number(new Date(client_modified)),
       blob: { fileUrl }
     })
-    filePaths.push({ dropboxPath: path_lower!, savePath: filePath })
+    filePaths.push({ dropboxPath: path_lower!, savePath: `static/${filePath}` })
   }
   // structure response
   const response = {
