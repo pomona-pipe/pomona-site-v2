@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch'
 import ImgixClient from 'imgix-core-js'
 import { writeFile, existsSync, rmdirSync, mkdirSync } from 'fs'
 import { dirname, resolve } from 'path'
+import { uniqBy } from 'lodash'
 
 // create dropbox instance
 const dropbox = (() => {
@@ -21,16 +22,19 @@ const dropbox = (() => {
 
 // TODO: typing for filePath object: dropboxPath, savePath
 export async function downloadDropboxFiles(filePaths: any[]) {
-  //Assumes same folder for all files
-  const saveFolder = resolve(dirname(filePaths[0].savePath))
+  // Get all unique save folders
+  const saveFolders = uniqBy(filePaths, (path) => {
+    return resolve(dirname(path.savePath))
+  }).map((path) => resolve(dirname(path.savePath)))
 
-  //If Folder Exists, Removes Folder
-  if (existsSync(saveFolder)) {
-    rmdirSync(saveFolder, { recursive: true })
+  for(const folder of saveFolders) {
+    //If Folder Exists, Removes Folder
+    if (existsSync(folder)) {
+      rmdirSync(folder, { recursive: true })
+    }
+    // Create Folder
+    mkdirSync(resolve(folder), { recursive: true })
   }
-
-  // Create Folder
-  mkdirSync(resolve(saveFolder), { recursive: true })
 
   //Download Dropbox files and save to file system
   for (const path of filePaths) {
@@ -174,7 +178,7 @@ function getFileInfo(fileName: string): FileInfo {
     case 'docx':
       return {
         type: 'Word Document',
-        folder: 'docx'
+        folder: 'docs'
       }
     case 'xls':
     case 'xlsx':
@@ -187,12 +191,12 @@ function getFileInfo(fileName: string): FileInfo {
     case 'pptx':
       return {
         type: 'PowerPoint',
-        folder: 'powerPoints'
+        folder: 'powerpoints'
       }
     default:
       return {
         type: 'File',
-        folder: 'otherFiles'
+        folder: 'other-files'
       }
   }
 }
@@ -214,7 +218,6 @@ function getThumbnail(fileUrl: string, fileType: FileType, serverUrl: string) {
   }
 }
 
-// FIXME: extract Imgix credentials into env vars (do not want to expose)
 function getImgThumbnail(imgLink: string) {
   const {IMGIX_DOMAIN, IMGIX_SECURE_URL_TOKEN} = process.env
   const client = new ImgixClient({
