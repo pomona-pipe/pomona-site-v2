@@ -19,6 +19,7 @@ const dropbox = (() => {
   )
 })()
 
+// TODO: typing for filePath object: dropboxPath, savePath
 export async function downloadDropboxFiles(filePaths: any[]) {
   //Assumes same folder for all files
   const saveFolder = resolve(dirname(filePaths[0].savePath))
@@ -61,6 +62,7 @@ export async function createFileResults(
     fileTypes
   )
   const results: IPrismicResult[] = []
+  // TODO: typing for filePath object: dropboxPath, savePath
   const filePaths: any[] = []
   for (const file of files) {
     const { id, client_modified, path_lower } = file
