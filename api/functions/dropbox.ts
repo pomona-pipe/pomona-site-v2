@@ -2,7 +2,7 @@
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 import ImgixClient from 'imgix-core-js'
-import { writeFile, existsSync, mkdirSync } from 'fs'
+import { writeFile, existsSync, mkdirSync, readdirSync, unlinkSync } from 'fs'
 import { dirname, resolve } from 'path'
 import { uniqBy } from 'lodash'
 
@@ -21,29 +21,41 @@ const dropbox = (() => {
 })()
 
 // TODO: typing for filePath object: dropboxPath, savePath
-export async function downloadDropboxFiles(filePaths: any[]) {
+export async function downloadDropboxFiles(dropboxFilePaths: any[]) {
   // Get all unique save folders
-  const saveFolders = uniqBy(filePaths, (path) => {
+  const saveFolders = uniqBy(dropboxFilePaths, (path) => {
     return resolve(dirname(path.savePath))
   }).map((path) => resolve(dirname(path.savePath)))
 
-  for(const folder of saveFolders) {
+  for (const folder of saveFolders) {
     //If Folder Does Not Exist, Create Folder
     if (!existsSync(folder)) {
       mkdirSync(resolve(folder), { recursive: true })
     }
+    // Sync File Deletions between Dropbox and Server
+    const existingServerFiles = readdirSync(folder)
+    function checkExistanceOnDropbox(serverFile: string){
+      return dropboxFilePaths.some((dropboxPath) => {
+        const resolvedDropboxPath = resolve(dropboxPath.savePath)
+        const resolvedServerPath = resolve(`${folder}/${serverFile}`)
+        return resolvedServerPath === resolvedDropboxPath  
+      })
+    }
+   
+    for (const serverFile of existingServerFiles) {
+      if(!checkExistanceOnDropbox(serverFile)) {
+        //Removes file from server
+        unlinkSync(resolve(`${folder}/${serverFile}`))
+        console.log(`File has been removed: ${serverFile}`)
+        continue
+      }
+      
 
-    /* TODO: Sync file deletions from dropbox to server
-    ** 1. Use readdirSync from fs module to obtain files in server folder
-    ** 2. Loop thru files in server folder
-    **   a) If dropbox filePaths does not contain server file path then delete
-    **     i. Use Array.some to check whether dropbox file paths contains server file path
-    **     ii. resolve both server path and savePath before comparing
-    */
+    }
   }
 
   //Download Dropbox files and save to file system
-  for (const path of filePaths) {
+  for (const path of dropboxFilePaths) {
     const { dropboxPath, savePath } = path
     /* TODO: only download/write file if needed
     ** 1. If file does not exist
@@ -228,7 +240,7 @@ function getThumbnail(fileUrl: string, fileType: FileType, serverUrl: string) {
 }
 
 function getImgThumbnail(imgLink: string) {
-  const {IMGIX_DOMAIN, IMGIX_SECURE_URL_TOKEN} = process.env
+  const { IMGIX_DOMAIN, IMGIX_SECURE_URL_TOKEN } = process.env
   const client = new ImgixClient({
     domain: IMGIX_DOMAIN!,
     secureURLToken: IMGIX_SECURE_URL_TOKEN
