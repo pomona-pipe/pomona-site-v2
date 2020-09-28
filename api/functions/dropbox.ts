@@ -2,9 +2,10 @@
 import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 import ImgixClient from 'imgix-core-js'
-import { writeFile, existsSync, mkdirSync, readdirSync, unlinkSync } from 'fs'
+import { writeFileSync, existsSync, mkdirSync, readdirSync, unlinkSync, statSync } from 'fs'
 import { dirname, resolve } from 'path'
 import { uniqBy } from 'lodash'
+import moment from 'moment'
 
 // create dropbox instance
 const dropbox = (() => {
@@ -34,41 +35,48 @@ export async function downloadDropboxFiles(dropboxFilePaths: any[]) {
     }
     // Sync File Deletions between Dropbox and Server
     const existingServerFiles = readdirSync(folder)
-    function checkExistanceOnDropbox(serverFile: string){
+
+    function checkExistanceOnDropbox(serverFile: string) {
       return dropboxFilePaths.some((dropboxPath) => {
         const resolvedDropboxPath = resolve(dropboxPath.savePath)
         const resolvedServerPath = resolve(`${folder}/${serverFile}`)
-        return resolvedServerPath === resolvedDropboxPath  
+        return resolvedServerPath === resolvedDropboxPath
       })
     }
-   
+
     for (const serverFile of existingServerFiles) {
-      if(!checkExistanceOnDropbox(serverFile)) {
+      if (!checkExistanceOnDropbox(serverFile)) {
         //Removes file from server
         unlinkSync(resolve(`${folder}/${serverFile}`))
         console.log(`File has been removed: ${serverFile}`)
         continue
       }
-      
+    }
 
+    //Download Dropbox files and save to file system
+    for (const path of dropboxFilePaths) {
+      const { dropboxPath, savePath, dropboxModified } = path
+      function checkForUpdatedFile(dropboxDate: string, serverDate: string) {
+        return moment(dropboxDate).isAfter(serverDate)
+      }
+      const shouldDownload = existingServerFiles.some((serverFile) => {
+        const fileExists = existsSync(savePath)
+        if (!fileExists) {
+          return true
+        }
+        const serverFileStats = statSync(resolve(`${folder}/${serverFile}`))
+        const serverFileModifiedTime = String(serverFileStats.mtime)
+        const fileUpdated = checkForUpdatedFile(dropboxModified, serverFileModifiedTime)
+        return fileUpdated
+      })
+      if (shouldDownload) {
+        const fileBuffer = ((await dropbox.filesDownload({ path: dropboxPath })) as any).fileBinary
+        writeFileSync(savePath, fileBuffer)
+      }
     }
   }
 
-  //Download Dropbox files and save to file system
-  for (const path of dropboxFilePaths) {
-    const { dropboxPath, savePath } = path
-    /* TODO: only download/write file if needed
-    ** 1. If file does not exist
-    ** 2. If dropbox client_modified date is after server modified date
-    */
-    const fileBuffer = ((await dropbox.filesDownload({ path: dropboxPath })) as any).fileBinary
-    writeFile(savePath, fileBuffer, (err) => {
-      if (err) {
-        return console.log(`error: ${err}`)
-      }
-      console.log(`File saved: ${savePath}`)
-    })
-  }
+
 }
 
 export async function createFileResults(
@@ -106,7 +114,7 @@ export async function createFileResults(
       last_update: Number(new Date(client_modified)),
       blob: { fileUrl }
     })
-    filePaths.push({ dropboxPath: path_lower!, savePath: `static/${filePath}` })
+    filePaths.push({ dropboxPath: path_lower!, dropboxModified: client_modified, savePath: `static/${filePath}` })
   }
   // structure response
   const response = {
