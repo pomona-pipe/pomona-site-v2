@@ -29,3 +29,8 @@ type FileType =
     type: FileType
     folder: string
   }
+
+interface AWSFileUpload {
+  uploadPath: string
+  fileBuffer: Buffer
+}

@@ -8,7 +8,7 @@ import { uniqBy } from 'lodash'
 import moment from 'moment'
 
 // create dropbox instance
-const dropbox = (() => {
+export const dropbox = (() => {
   const {
     DROPBOX_APP_KEY,
     DROPBOX_APP_SECRET,
@@ -102,7 +102,7 @@ export async function createFileResults(
     const name = file.name.split(' ').join('_')
     const fileInfo = getFileInfo(name)
     const { type, folder } = fileInfo
-    const filePath = `dropbox/${folder}/${name}`
+    const filePath = `${folder}/${name}`
     const fileUrl = `${serverUrl}/${filePath}`
 
     const thumbnail = getThumbnail(fileUrl, type, serverUrl)
@@ -114,7 +114,7 @@ export async function createFileResults(
       last_update: Number(new Date(client_modified)),
       blob: { fileUrl }
     })
-    filePaths.push({ dropboxPath: path_lower!, dropboxModified: client_modified, savePath: `static/${filePath}` })
+    filePaths.push({ dropboxPath: path_lower!, dropboxModified: client_modified, s3UploadPath: filePath })
   }
   // structure response
   const response = {

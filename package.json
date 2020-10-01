@@ -26,6 +26,7 @@
     "@types/node": "^14.6.0",
     "@types/prismic-dom": "^2.1.1",
     "@types/rimraf": "^3.0.0",
+    "aws-sdk": "^2.762.0",
     "dropbox": "^5.2.1",
     "express": "^4.17.1",
     "imgix-core-js": "^2.3.1",

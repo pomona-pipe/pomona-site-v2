@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { Router } from 'express'
-import { createFileResults, downloadDropboxFiles } from '../../functions/dropbox'
+import { createFileResults } from '../../functions/dropbox'
+import { updateS3FromDropbox } from '../../functions'
 
 // create route and export to api
 const router = Router()
@@ -23,7 +24,7 @@ router.use('/dropbox/docs', async (req, res) => {
   const { prismic, filePaths } = results
   res.send(prismic)
   res.on('finish', () => {
-    downloadDropboxFiles(filePaths)
+    updateS3FromDropbox(filePaths)
   })
 })
 export default router
