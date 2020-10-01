@@ -1,7 +1,7 @@
 import { ObjectList as S3ObjectList } from 'aws-sdk/clients/s3'
 import moment from 'moment'
 import { s3ListFiles, s3UploadFile, s3DeleteFiles } from './aws'
-import { dropbox } from './dropbox'
+import { dropbox } from '../data'
 
 export async function updateS3FromDropbox(
   dropboxFiles: any[]
