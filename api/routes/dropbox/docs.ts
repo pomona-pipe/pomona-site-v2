@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Router } from 'express'
 import { getServerUrl } from '../../tools'
-import { createFileResults } from '../../functions/dropbox'
+import { createPrismicResults } from '../../functions/prismic'
 import { updateS3FromDropbox } from '../../functions'
 
 // create route and export to api
@@ -10,15 +10,15 @@ router.use('/dropbox/docs', async (req, res) => {
   const fileTypes: FileType[] = ['PDF', 'Word Document']
   const page = Number(req.query.page) || 1
   const serverUrl = getServerUrl(req)
-  const results = await createFileResults(
+  const results = await createPrismicResults(
     fileTypes,
     page,
     serverUrl
   )
-  const { prismic, filePaths } = results
-  res.send(prismic)
+  res.send(results)
+  // TODO: replace with dropbox webhook
   res.on('finish', () => {
-    updateS3FromDropbox(filePaths)
+    updateS3FromDropbox()
   })
 })
 export default router

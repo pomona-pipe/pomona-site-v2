@@ -2,10 +2,12 @@ import { ObjectList as S3ObjectList } from 'aws-sdk/clients/s3'
 import moment from 'moment'
 import { s3ListFiles, s3UploadFile, s3DeleteFiles } from './aws'
 import { dropbox } from '../data'
+import { getFileInfo, getSanitizedFileName } from '../tools'
+import {listDropboxFiles} from './dropbox'
 
-export async function updateS3FromDropbox(
-  dropboxFiles: any[]
-) {
+export async function updateS3FromDropbox() {
+  
+  const dropboxFiles = await listDropboxFiles()
   // get S3 files
   const s3Files = await s3ListFiles()
 
@@ -20,13 +22,16 @@ export async function updateS3FromDropbox(
 }
 
 async function updateNewFiles(
-  dropboxFiles: any[],
+  dropboxFiles: DropboxTypes.files.FileMetadataReference[],
   s3Files: S3ObjectList
 ) {
   let newFileCount = 0
   let updatedFileCount = 0
   for (const dropboxFile of dropboxFiles) {
-    const { dropboxPath, dropboxModified, s3UploadPath } = dropboxFile
+    const dropboxPath = dropboxFile.path_lower!
+    const dropboxModified = dropboxFile.client_modified
+    const s3UploadPath = `${getFileInfo(dropboxFile.name).s3UploadFolder}/${getSanitizedFileName(dropboxFile.name)}`
+
     let isUploaded = false
     let isUpdated = false
     s3Files.forEach((s3File) => {
@@ -59,7 +64,7 @@ async function updateNewFiles(
   console.log(`\n${newFileCount} files added to S3\n${updatedFileCount} files updated on S3`)
 }
 
-async function updateDeletions(dropboxFiles: any[], s3Files: S3ObjectList) {
+async function updateDeletions(dropboxFiles: DropboxTypes.files.FileMetadataReference[], s3Files: S3ObjectList) {
   let deleteCount = 0
   // if no files exist on S3, return
   const doS3FilesExist = s3Files.length > 0
@@ -70,7 +75,11 @@ async function updateDeletions(dropboxFiles: any[], s3Files: S3ObjectList) {
   const deleteFromS3: string[] = []
   for (const s3File of s3Files) {
     const isOnDropbox = dropboxFiles.some(
-      (dropboxFile) => s3File.Key === dropboxFile.s3UploadPath
+      (dropboxFile) => {
+        const { name } = dropboxFile
+        const s3Folder = getFileInfo(name).s3UploadFolder
+        return s3File.Key === `${s3Folder}/${getSanitizedFileName(name)}`
+      }
     )
     if (!isOnDropbox) {
       deleteFromS3.push(s3File.Key!)

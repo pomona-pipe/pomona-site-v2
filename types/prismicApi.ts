@@ -27,7 +27,7 @@ type FileType =
 
   interface FileInfo {
     type: FileType
-    folder: string
+    s3UploadFolder: string
   }
 
 interface AWSFileUpload {

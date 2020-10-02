@@ -9,6 +9,10 @@ export function getServerUrl(request: Request) {
   return serverUrl
 }
 
+export function getSanitizedFileName(fileName: string) {
+  return fileName.split(' ').join('_')
+}
+
 export function getFileInfo(fileName: string): FileInfo {
   const suffix = fileName
     .split('.')
@@ -20,36 +24,36 @@ export function getFileInfo(fileName: string): FileInfo {
     case 'jpeg':
       return {
         type: 'Image',
-        folder: 'images'
+        s3UploadFolder: 'images'
       }
     case 'pdf':
       return {
         type: 'PDF',
-        folder: 'pdfs'
+        s3UploadFolder: 'pdfs'
       }
     case 'doc':
     case 'docx':
       return {
         type: 'Word Document',
-        folder: 'docs'
+        s3UploadFolder: 'docs'
       }
     case 'xls':
     case 'xlsx':
     case 'csv':
       return {
         type: 'Spreadsheet',
-        folder: 'spreadsheets'
+        s3UploadFolder: 'spreadsheets'
       }
     case 'ppt':
     case 'pptx':
       return {
         type: 'PowerPoint',
-        folder: 'powerpoints'
+        s3UploadFolder: 'powerpoints'
       }
     default:
       return {
         type: 'File',
-        folder: 'other-files'
+        s3UploadFolder: 'other-files'
       }
   }
 }
