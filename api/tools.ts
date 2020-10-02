@@ -26,6 +26,15 @@ export function getFileInfo(fileName: string): FileInfo {
         type: 'Image',
         s3UploadFolder: 'images'
       }
+      case 'mov':
+      case 'mp4':
+      case 'wmv':
+      case 'flv':
+      case 'avi':
+        return {
+          type: 'Video',
+          s3UploadFolder: 'videos'
+        }
     case 'pdf':
       return {
         type: 'PDF',
@@ -62,6 +71,8 @@ export function getFileThumbnail(fileUrl: string, fileType: FileType, serverUrl:
   switch (fileType) {
     case 'Image':
       return getImgixThumbnail(fileUrl)
+    case 'Video':
+      return `${serverUrl}/icons/file-video.svg`
     case 'PDF':
       return `${serverUrl}/icons/file-pdf.svg`
     case 'Word Document':

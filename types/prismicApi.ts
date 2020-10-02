@@ -19,6 +19,7 @@ interface IPrismicResponse {
 
 type FileType =
   | 'Image'
+  | 'Video'
   | 'PDF'
   | 'Word Document'
   | 'Spreadsheet'
