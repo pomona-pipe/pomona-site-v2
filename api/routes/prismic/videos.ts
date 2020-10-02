@@ -6,8 +6,8 @@ import { updateS3FromDropbox } from '../../functions'
 
 // create route and export to api
 const router = Router()
-router.use('/dropbox/pdfs', async (req, res) => {
-  const fileTypes: FileType[] = ['PDF']
+router.use('/prismic/videos', async (req, res) => {
+  const fileTypes: FileType[] = ['Video']
   const page = Number(req.query.page) || 1
   const serverUrl = getServerUrl(req)
   const results = await createPrismicResults(

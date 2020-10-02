@@ -1,8 +1,8 @@
 import express from 'express'
-import images from './routes/dropbox/images'
-import pdfs from './routes/dropbox/pdfs'
-import docs from './routes/dropbox/docs'
-import videos from './routes/dropbox/videos'
+import images from './routes/prismic/images'
+import pdfs from './routes/prismic/pdfs'
+import docs from './routes/prismic/docs'
+import videos from './routes/prismic/videos'
 
 // create express server
 const app = express()
