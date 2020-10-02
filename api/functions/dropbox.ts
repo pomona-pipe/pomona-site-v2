@@ -1,16 +1,21 @@
 import { dropbox, dropboxRoot } from '../data'
 import { getFileInfo } from '../tools'
 
-export async function getDropboxFilesByPage(page: number, resultsPerPage: number, fileTypes: FileType[]) {
+export async function getDropboxFiles(fileTypes: FileType[], pagination?: DropboxSearchPagination ) {
   let fileResults = await listDropboxFiles()
   
   // filter file types
   fileResults = fileResults.filter((file) =>
     fileTypes.includes(getFileInfo(file.name).type)
   )
-  // return correct page
-  const start = page * resultsPerPage - resultsPerPage
-  const end = start + resultsPerPage
+
+  // if no pagination, return all file results
+  if(!pagination) return fileResults
+
+  // else, return correct page
+  const { page, resultsLimit } = pagination
+  const start = page * resultsLimit - resultsLimit
+  const end = start + resultsLimit
   const pageResults = fileResults.slice(start, end)
   return pageResults
 }

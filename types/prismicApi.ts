@@ -35,3 +35,8 @@ interface AWSFileUpload {
   uploadPath: string
   fileBuffer: Buffer
 }
+
+interface DropboxSearchPagination {
+  page: number
+  resultsLimit: number
+}

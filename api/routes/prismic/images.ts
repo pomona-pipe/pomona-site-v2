@@ -8,12 +8,12 @@ import { updateS3FromDropbox } from '../../functions'
 const router = Router()
 router.use('/prismic/images', async (req, res) => {
   const fileTypes: FileType[] = ['Image']
-  const page = Number(req.query.page) || 1
+  const page = Number(req.query.page)
   const serverUrl = getServerUrl(req)
   const results = await createPrismicResults(
     fileTypes,
-    page,
-    serverUrl
+    serverUrl,
+    page
   )
   res.send(results)
   // TODO: replace with dropbox webhook

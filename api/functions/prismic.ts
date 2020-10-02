@@ -1,14 +1,15 @@
 import { prismicMaxPerPage, cloudfrontUrl } from '../data'
 import { getFileInfo, getSanitizedFileName, getFileThumbnail } from '../tools'
-import { getDropboxFilesByPage } from './dropbox'
+import { getDropboxFiles } from './dropbox'
 
 export async function createPrismicResults(
     fileTypes: FileType[],
-    page: number,
-    serverUrl: string
+    serverUrl: string,
+    page?: number,
   ) {
     // build results
-    const files = await getDropboxFilesByPage(page, prismicMaxPerPage,fileTypes)
+    const pagination = page ? { page, resultsLimit: prismicMaxPerPage } : undefined
+    const files = await getDropboxFiles(fileTypes, pagination)
     const results: IPrismicResult[] = []
     for (const file of files) {
       const { id, client_modified, name } = file
