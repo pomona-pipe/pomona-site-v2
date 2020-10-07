@@ -2,9 +2,9 @@ import S3, { ObjectIdentifierList } from 'aws-sdk/clients/s3'
 
 function createS3(Prefix?: string) {
   return new S3({
-    endpoint: 's3.us-east-2.amazonaws.com',
+    endpoint: 's3.us-east-1.amazonaws.com',
     params: {
-      Bucket: 'pomona-dropbox',
+      Bucket: 'pomona-website',
       Prefix
     }
   })

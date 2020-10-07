@@ -2,7 +2,7 @@ import { Dropbox } from 'dropbox/dist/Dropbox-sdk.min'
 import fetch from 'isomorphic-fetch'
 
 // aws
-export const cloudfrontUrl = 'https://d2hnadbtsjtq4e.cloudfront.net'
+export const cloudfrontUrl = 'https://d1q9m55kyvgl4s.cloudfront.net'
 
 // dropbox
 export const dropboxRoot = '/2020 Website'
