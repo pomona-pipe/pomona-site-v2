@@ -40,12 +40,13 @@ export async function s3ListFiles() {
 }
 
 export async function s3UploadFile(fileUpload: AWSFileUpload) {
-  const { uploadPath, fileBuffer } = fileUpload
+  const { uploadPath, fileBuffer, contentType } = fileUpload
   const s3 = createS3()
   const uploadParams = {
     Bucket: s3.config.params!.Bucket,
     Key: uploadPath,
-    Body: fileBuffer
+    Body: fileBuffer,
+    ContentType: contentType
   }
   const uploadResponse = s3
     .upload(uploadParams)

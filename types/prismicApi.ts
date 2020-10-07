@@ -26,14 +26,34 @@ type FileType =
   | 'PowerPoint'
   | 'File'
 
-  interface FileInfo {
-    type: FileType
-    s3UploadFolder: string
-  }
+type ContentType =
+  | 'image/png'
+  | 'image/jpeg'
+  | 'video/mp4'
+  | 'video/quicktime'
+  | 'video/x-ms-asf'
+  | 'video/x-flv'
+  | 'video/x-msvideo'
+  | 'application/pdf'
+  | 'application/msword'
+  | 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  | 'application/vnd.ms-excel'
+  | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  | 'application/vnd.ms-powerpoint'
+  | 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+  | 'text/csv'
+  | 'text'
+
+interface FileInfo {
+  type: FileType
+  contentType: ContentType
+  s3UploadFolder: string
+}
 
 interface AWSFileUpload {
   uploadPath: string
   fileBuffer: Buffer
+  contentType: ContentType
 }
 
 interface DropboxSearchPagination {

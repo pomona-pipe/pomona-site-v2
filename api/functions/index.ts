@@ -30,7 +30,9 @@ async function updateNewFiles(
   for (const dropboxFile of dropboxFiles) {
     const dropboxPath = dropboxFile.path_lower!
     const dropboxModified = dropboxFile.client_modified
-    const s3UploadPath = `${getFileInfo(dropboxFile.name).s3UploadFolder}/${getSanitizedFileName(dropboxFile.name)}`
+    const fileInfo = getFileInfo(dropboxFile.name)
+    const { s3UploadFolder, contentType } = fileInfo
+    const s3UploadPath = `${s3UploadFolder}/${getSanitizedFileName(dropboxFile.name)}`
 
     let isUploaded = false
     let isUpdated = false
@@ -54,7 +56,8 @@ async function updateNewFiles(
     })) as any).fileBinary as Buffer
     await s3UploadFile({
       uploadPath: s3UploadPath,
-      fileBuffer
+      fileBuffer,
+      contentType: contentType
     })
     if(isUpdated) {
       updatedFileCount++

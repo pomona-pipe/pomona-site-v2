@@ -20,48 +20,100 @@ export function getFileInfo(fileName: string): FileInfo {
     .toLowerCase()
   switch (suffix) {
     case 'png':
+      return {
+        type: 'Image',
+        contentType: 'image/png',
+        s3UploadFolder: 'images'
+      }
     case 'jpg':
     case 'jpeg':
       return {
         type: 'Image',
+        contentType: 'image/jpeg',
         s3UploadFolder: 'images'
       }
       case 'mov':
+        return {
+          type: 'Video',
+          contentType: 'video/quicktime',
+          s3UploadFolder: 'videos'
+        }
       case 'mp4':
+        return {
+          type: 'Video',
+          contentType: 'video/mp4',
+          s3UploadFolder: 'videos'
+        }
       case 'wmv':
+        return {
+          type: 'Video',
+          contentType: 'video/x-ms-asf',
+          s3UploadFolder: 'videos'
+        }
       case 'flv':
+        return {
+          type: 'Video',
+          contentType: 'video/x-flv',
+          s3UploadFolder: 'videos'
+        }
       case 'avi':
         return {
           type: 'Video',
+          contentType: 'video/x-msvideo',
           s3UploadFolder: 'videos'
         }
     case 'pdf':
       return {
         type: 'PDF',
+        contentType: 'application/pdf',
         s3UploadFolder: 'pdfs'
       }
     case 'doc':
+      return {
+        type: 'Word Document',
+        contentType: 'application/msword',
+        s3UploadFolder: 'docs'
+      }
     case 'docx':
       return {
         type: 'Word Document',
+        contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         s3UploadFolder: 'docs'
       }
     case 'xls':
+      return {
+        type: 'Spreadsheet',
+        contentType: 'application/vnd.ms-excel',
+        s3UploadFolder: 'spreadsheets'
+      }
     case 'xlsx':
+      return {
+        type: 'Spreadsheet',
+        contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        s3UploadFolder: 'spreadsheets'
+      }
     case 'csv':
       return {
         type: 'Spreadsheet',
+        contentType: 'text/csv',
         s3UploadFolder: 'spreadsheets'
       }
     case 'ppt':
+      return {
+        type: 'PowerPoint',
+        contentType: 'application/vnd.ms-powerpoint',
+        s3UploadFolder: 'powerpoints'
+      }
     case 'pptx':
       return {
         type: 'PowerPoint',
+        contentType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         s3UploadFolder: 'powerpoints'
       }
     default:
       return {
         type: 'File',
+        contentType: 'text',
         s3UploadFolder: 'other-files'
       }
   }
