@@ -81,7 +81,7 @@ async function updateDeletions(dropboxFiles: DropboxTypes.files.FileMetadataRefe
       (dropboxFile) => {
         const { name } = dropboxFile
         const s3Folder = getFileInfo(name).s3UploadFolder
-        return s3File.Key === `${s3Folder}/${getSanitizedFileName(name)}`
+        return s3File.Key!.includes(`${s3Folder}/${getSanitizedFileName(name)}`)
       }
     )
     if (!isOnDropbox) {
