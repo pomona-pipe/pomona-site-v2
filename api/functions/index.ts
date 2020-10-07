@@ -6,7 +6,7 @@ import { getFileInfo, getSanitizedFileName } from '../tools'
 import {listDropboxFiles} from './dropbox'
 
 export async function updateS3FromDropbox() {
-  
+
   const dropboxFiles = await listDropboxFiles()
   // get S3 files
   const s3Files = await s3ListFiles()
@@ -34,18 +34,21 @@ async function updateNewFiles(
 
     let isUploaded = false
     let isUpdated = false
-    s3Files.forEach((s3File) => {
-      if(s3UploadPath === s3File.Key) {
-        isUploaded = true
-        return
-      }
+    for(const s3File of s3Files) {
+      // if dropbox upload does not match s3, continue to next s3 file
+      if(s3UploadPath !== s3File.Key) continue
+      // match found - file has been uploaded to s3
+      isUploaded = true
+      // if dropbox modified is after s3 modified, file should be updated
       if(moment(dropboxModified).isAfter(s3File.LastModified)) {
+        console.log(`dropboxModified: ${dropboxModified}, s3Modified: ${s3File.LastModified}`)
         isUpdated = true
-        return
       }
-    })
-    const shouldUpdate = !isUploaded || isUpdated
-    if (!shouldUpdate) continue
+      // stop checking s3 files since match was found
+      break
+    }
+    const shouldUpload = !isUploaded || isUpdated
+    if (!shouldUpload) continue
     const fileBuffer = ((await dropbox.filesDownload({
       path: dropboxPath
     })) as any).fileBinary as Buffer
