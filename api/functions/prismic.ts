@@ -30,7 +30,7 @@ export async function createPrismicResults(
 
     return {
         results_size: results.length,
-        results: paginatedResults
+        results: prismicResults
       }
   }
 
