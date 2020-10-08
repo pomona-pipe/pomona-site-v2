@@ -1,5 +1,4 @@
 import { Request } from 'express'
-import ImgixClient from 'imgix-core-js'
 
 export function getServerUrl(request: Request) {
   const serverUrl =
@@ -122,7 +121,7 @@ export function getFileInfo(fileName: string): FileInfo {
 export function getFileThumbnail(fileUrl: string, fileType: FileType, serverUrl: string) {
   switch (fileType) {
     case 'Image':
-      return getImgixThumbnail(fileUrl)
+      return `${fileUrl}@80w_80h`
     case 'Video':
       return `${serverUrl}/icons/file-video.svg`
     case 'PDF':
@@ -138,11 +137,3 @@ export function getFileThumbnail(fileUrl: string, fileType: FileType, serverUrl:
   }
 }
 
-function getImgixThumbnail(imgLink: string) {
-  const { IMGIX_DOMAIN, IMGIX_SECURE_URL_TOKEN } = process.env
-  const client = new ImgixClient({
-    domain: IMGIX_DOMAIN!,
-    secureURLToken: IMGIX_SECURE_URL_TOKEN
-  })
-  return client.buildURL(`${imgLink}?w=80&h=80`)
-}
