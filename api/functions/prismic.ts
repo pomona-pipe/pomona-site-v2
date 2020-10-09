@@ -1,6 +1,7 @@
 import { prismicMaxPerPage, cloudfrontUrl } from '../data'
 import { getFileInfo, getSanitizedFileName, getFileThumbnail } from '../tools'
 import { listDropboxFiles } from './dropbox'
+import { SHA256, enc } from 'crypto-js'
 
 export async function createPrismicResults(
     fileTypes: FileType[],
@@ -16,10 +17,12 @@ export async function createPrismicResults(
       const { type, s3UploadFolder } = fileInfo
       const s3Path = `${s3UploadFolder}/${getSanitizedFileName(name)}`
       const fileUrl = `${cloudfrontUrl}/${s3Path}`
+      const wordArray = SHA256(id)
+      const hashedId = wordArray.toString(enc.Base64) 
 
       const thumbnail = getFileThumbnail(fileUrl, type, serverUrl)
       prismicResults.push({
-        id,
+        id: hashedId,
         title: name,
         description: type,
         image_url: thumbnail,
