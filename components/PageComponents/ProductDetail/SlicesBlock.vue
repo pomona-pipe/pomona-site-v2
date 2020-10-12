@@ -25,7 +25,6 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import { Route } from 'vue-router/types'
-import { IPrismic, IPrismicDocument } from '~/shims'
 import GalleryWithText from '~/components/PageComponents/ProductDetail/Slices/GalleryWithText.vue'
 import VideoWithText from '~/components/PageComponents/ProductDetail/Slices/VideoWithText.vue'
 

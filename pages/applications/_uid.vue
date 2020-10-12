@@ -26,7 +26,7 @@ import { mapState } from 'vuex'
 import { Route } from 'vue-router/types'
 import pageVisits from '~/services/pageVisits'
 import { find } from 'lodash'
-import { IPrismicDocument } from '~/shims'
+import { Document } from 'prismic-javascript/src/documents'
 import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
 
 @Component({
@@ -48,7 +48,7 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
   }
 })
 export default class Index extends Vue {
-  document: IPrismicDocument | null = null
+  document: Document | null = null
 
   async fetch({ store, $prismic, params }: Context) {
     const { uid } = params

@@ -55,12 +55,12 @@ import { Store, mapState } from 'vuex'
 import { Route } from 'vue-router/types'
 import { find } from 'lodash'
 import moment from 'moment'
-import { IPrismic, IPrismicDocument } from '~/shims'
+import { Document } from 'prismic-javascript/src/documents'
 import parseNameFromUid from '~/services/uidToPageName.ts'
 
 @Component({})
 export default class Overview extends Vue {
-  document: IPrismicDocument | null = null
+  document: Document | null = null
 
   parseNameFromUid = parseNameFromUid
 

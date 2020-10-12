@@ -35,7 +35,6 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Context } from '@nuxt/types'
 import { mapState } from 'vuex'
 import pageVisits from '~/services/pageVisits'
-import { IPrismicDocument } from '~/shims'
 
 @Component({
   components: {},

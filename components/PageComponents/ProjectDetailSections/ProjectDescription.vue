@@ -28,7 +28,7 @@ import { Store, mapState } from 'vuex'
 import { Route } from 'vue-router/types'
 import { find } from 'lodash'
 import moment from 'moment'
-import { IPrismic, IPrismicDocument } from '~/shims'
+import { Document } from 'prismic-javascript/src/documents'
 
 @Component({
   computed: {
@@ -42,7 +42,7 @@ import { IPrismic, IPrismicDocument } from '~/shims'
   }
 })
 export default class ProjectDescription extends Vue {
-  document: IPrismicDocument | null = null
+  document: Document | null = null
 
   formatDateString(dateString: string) {
     return moment(dateString).format('MMMM Do YYYY')

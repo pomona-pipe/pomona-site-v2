@@ -24,7 +24,7 @@ import { Context } from '@nuxt/types'
 import { mapState } from 'vuex'
 import { find } from 'lodash'
 import { Route } from 'vue-router/types'
-import { IPrismicDocument } from '~/shims'
+import { Document } from 'prismic-javascript/src/documents'
 import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
 
 @Component({
@@ -44,7 +44,7 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
   }
 })
 export default class DetailPage extends Vue {
-  document: IPrismicDocument | null = null
+  document: Document | null = null
 
   async fetch({ store, $prismic, params }: Context) {
     const { uid } = params

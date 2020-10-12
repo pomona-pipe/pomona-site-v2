@@ -36,7 +36,6 @@ import { Context } from '@nuxt/types'
 import { mapState } from 'vuex'
 import pageVisits from '~/services/pageVisits'
 import { find } from 'lodash'
-import { IPrismicDocument } from '~/shims'
 
 
 @Component({

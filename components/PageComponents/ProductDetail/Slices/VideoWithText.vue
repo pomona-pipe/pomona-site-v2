@@ -25,7 +25,6 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import { Route } from 'vue-router/types'
-import { IPrismic, IPrismicDocument } from '~/shims'
 @Component({
   props: ['slice'],
   computed: {

@@ -25,11 +25,11 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import { Route } from 'vue-router/types'
 import { find } from 'lodash'
-import { IPrismic, IPrismicDocument } from '~/shims'
+import { Document } from 'prismic-javascript/src/documents'
 
 @Component({})
 export default class FullGallery extends Vue {
-  document: IPrismicDocument | null = null
+  document: Document | null = null
 
   // fetch project from store and copy to component
   created() {

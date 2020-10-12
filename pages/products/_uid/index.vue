@@ -47,8 +47,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { Context } from '@nuxt/types'
 import { mapState } from 'vuex'
 import { find } from 'lodash'
+import { Document } from 'prismic-javascript/src/documents'
 import pageVisits from '~/services/pageVisits'
-import { IPrismicDocument } from '~/shims'
 
 @Component({
   computed: {
@@ -65,7 +65,7 @@ import { IPrismicDocument } from '~/shims'
   }
 })
 export default class ProductCategoryPage extends Vue {
-  document: IPrismicDocument | null = null
+  document: Document | null = null
 
   // product cards
   get products() {
