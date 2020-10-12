@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 interface IPrismicBlob {
   fileUrl: string
+  fileName: string
+  thumbnail: string
 }
 
 interface IPrismicResult {

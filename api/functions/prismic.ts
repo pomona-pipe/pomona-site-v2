@@ -32,7 +32,7 @@ export async function createPrismicResults(
         description: type,
         image_url: thumbnail,
         last_update: Number(new Date(client_modified)),
-        blob: { fileUrl }
+        blob: { fileUrl, fileName: name, thumbnail }
       })
     }
 
