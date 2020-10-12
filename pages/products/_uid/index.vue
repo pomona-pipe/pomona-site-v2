@@ -15,9 +15,23 @@
       <v-container>
         <!-- template for product category cards -->
         <v-row>
-          <v-col v-for="product in products" :key="product.data.id" cols="12" md="6" lg="3">
-            <v-card :to="`./${uid}/${product.uid}`" outlined hover height="100%">
-              <v-img :src="product.data.cover_image.url || placeholders.file" height="200px"></v-img>
+          <v-col
+            v-for="product in products"
+            :key="product.data.id"
+            cols="12"
+            md="6"
+            lg="3"
+          >
+            <v-card
+              :to="`./${uid}/${product.uid}`"
+              outlined
+              hover
+              height="100%"
+            >
+              <v-img
+                :src="product.data.cover_image.url || placeholders.file"
+                height="200px"
+              ></v-img>
 
               <v-card-title>{{ product.data.name[0].text }}</v-card-title>
             </v-card>
@@ -30,11 +44,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Route } from 'vue-router/types'
-import { Store, mapState } from 'vuex'
+import { Context } from '@nuxt/types'
+import { mapState } from 'vuex'
 import { find } from 'lodash'
 import pageVisits from '~/services/pageVisits'
-import { IPrismic, IPrismicDocument } from '~/shims'
+import { IPrismicDocument } from '~/shims'
 
 @Component({
   computed: {
@@ -66,15 +80,7 @@ export default class ProductCategoryPage extends Vue {
     return this.$route.params.uid
   }
 
-  async fetch({
-    store,
-    $prismic,
-    params
-  }: {
-    store: Store<any>
-    $prismic: IPrismic
-    params: Route['params']
-  }) {
+  async fetch({ store, $prismic, params }: Context) {
     // return if page has been visited
     if (pageVisits() > 1) return
 

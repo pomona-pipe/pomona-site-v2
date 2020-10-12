@@ -10,3 +10,9 @@ declare module 'vue/types/vue' {
     $prismic: IPrismic
   }
 }
+
+declare module '@nuxt/types' {
+  interface Context {
+    $prismic: IPrismic
+  }
+}

@@ -20,10 +20,11 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
+import { Context } from '@nuxt/types'
+import { mapState } from 'vuex'
 import { find } from 'lodash'
 import { Route } from 'vue-router/types'
-import { IPrismic, IPrismicDocument } from '~/shims'
+import { IPrismicDocument } from '~/shims'
 import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
 
 @Component({
@@ -45,15 +46,7 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
 export default class DetailPage extends Vue {
   document: IPrismicDocument | null = null
 
-  async fetch({
-    store,
-    $prismic,
-    params
-  }: {
-    store: Store<any>
-    $prismic: IPrismic
-    params: Route['params']
-  }) {
+  async fetch({ store, $prismic, params }: Context) {
     const { uid } = params
 
     // return if product exists in store

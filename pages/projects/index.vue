@@ -45,10 +45,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
+import { Context } from '@nuxt/types'
+import { mapState } from 'vuex'
 import moment from 'moment'
 import pageVisits from '~/services/pageVisits'
-import { IPrismic } from '~/shims'
 
 @Component({
   components: {},
@@ -73,7 +73,7 @@ export default class Index extends Vue {
     return moment(dateString).format('MMMM Do YYYY')
   }
 
-  async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
+  async fetch({ store, $prismic }: Context) {
     if (pageVisits() > 1) return
     await store.dispatch('projects/getProjects', $prismic)
     await store.dispatch('pages/getProjectListingPage', $prismic)

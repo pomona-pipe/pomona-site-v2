@@ -19,14 +19,14 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
+import { Context } from '@nuxt/types'
+import { mapState } from 'vuex'
 import { Route } from 'vue-router/types'
 import pageVisits from '~/services/pageVisits'
 import { find } from 'lodash'
-import { IPrismic, IPrismicDocument } from '~/shims'
+import { IPrismicDocument } from '~/shims'
 import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
 
 @Component({
@@ -50,21 +50,15 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
 export default class Index extends Vue {
   document: IPrismicDocument | null = null
 
-  async fetch({
-    store,
-    $prismic,
-    params
-  }: {
-    store: Store<any>
-    $prismic: IPrismic
-    params: Route['params']
-  }) {
+  async fetch({ store, $prismic, params }: Context) {
     const { uid } = params
 
     // if application exists in store, return
-    const storeApplication = find(store.state.applications.applications, { uid })
+    const storeApplication = find(store.state.applications.applications, {
+      uid
+    })
     if (storeApplication) return
-    
+
     // else, query application and add to store
     const result = await $prismic.api.getByUID('applications', uid)
     store.commit('applications/addApplication', result)
