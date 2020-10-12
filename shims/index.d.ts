@@ -1,5 +1,6 @@
 import { Store } from 'vuex'
 import IPrismic from './prismic'
+import Vuetify from 'vuetify'
 
 export { default as IPrismic } from './prismic'
 export { IPrismicDocument } from './prismic'
@@ -14,5 +15,6 @@ declare module 'vue/types/vue' {
 declare module '@nuxt/types' {
   interface Context {
     $prismic: IPrismic
+    $vuetify: typeof Vuetify
   }
 }
