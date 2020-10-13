@@ -26,9 +26,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
-import { Route } from 'vue-router/types'
-import { IPrismic } from '~/shims'
+import { Context } from '@nuxt/types'
+import { mapState } from 'vuex'
 import Header from '~/components/Layout/Header.vue'
 import Footer from '~/components/Layout/Footer.vue'
 import MobileDrawer from '~/components/Navigation/MobileDrawer.vue'
@@ -57,15 +56,7 @@ export default class DefaultLayout extends Vue {
     this.$store.commit('layout/setIsMobile', isMobile)
   }
 
-  async middleware({
-    route,
-    store,
-    $prismic
-  }: {
-    route: Route
-    store: Store<any>
-    $prismic: IPrismic
-  }) {
+  async middleware({ route, store, $prismic }: Context) {
     // update router history: matched property excluded since it causes app to crash
     const {
       path,
