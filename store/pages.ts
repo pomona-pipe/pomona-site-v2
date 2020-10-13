@@ -9,7 +9,8 @@ interface IState {
   contact: any[]
   categoryPage: any[],
   projectListingPage: any[],
-  applicationsPage: any[]
+  applicationsPage: any[],
+  technicalGuidesPage: any[]
 }
 
 export const state: () => IState = () => ({
@@ -19,7 +20,8 @@ export const state: () => IState = () => ({
   contact: [],
   categoryPage: [],
   projectListingPage: [],
-  applicationsPage: []
+  applicationsPage: [],
+  technicalGuidesPage: []
 })
 
 export const mutations = {
@@ -43,6 +45,9 @@ export const mutations = {
   },
   setApplicationsPage(state: IState, payload: any[]) {
     state.applicationsPage = payload
+  },
+  setTechnicalGuidesPage(state: IState, payload: any[]) {
+    state.technicalGuidesPage = payload
   }
 }
 
@@ -96,11 +101,19 @@ export const actions = {
     )
   },
   async getApplicationsPage({ commit }: { commit: any }, $prismic: IPrismic) {
-    const byapplicationsPage = $prismic.predicates.at('document.type', 'applications_page')
-    const applicationsPage = await $prismic.api.query(byapplicationsPage, {})
+    const byApplicationsPage = $prismic.predicates.at('document.type', 'applications_page')
+    const applicationsPage = await $prismic.api.query(byApplicationsPage, {})
     commit(
       'setApplicationsPage',
       applicationsPage.results.map((result) => result)
+    )
+  },
+  async getTechnicalGuidesPage({ commit }: { commit: any }, $prismic: IPrismic) {
+    const byTechGuidesPage = $prismic.predicates.at('document.type', 'technical_guides_page')
+    const techGuidesPage = await $prismic.api.query(byTechGuidesPage, {})
+    commit(
+      'setTechnicalGuidesPage',
+      techGuidesPage.results.map((result) => result)
     )
   }
 }
