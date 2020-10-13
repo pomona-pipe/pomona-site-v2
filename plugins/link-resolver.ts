@@ -69,6 +69,9 @@ export default function(doc: DocumentLink) {
 
     case 'team_page':
       return '/about-us/team'
+    
+    case 'technical_guides_page':
+      return '/technical-guides'
 
     default:
       return '/not-found'
