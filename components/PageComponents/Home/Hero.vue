@@ -37,7 +37,7 @@ import { mapState } from 'vuex'
     ...mapState('pages', ['home']),
     heroStyles() {
       return {
-        'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${this.$store.state.pages.home[0].data.hero_image.url}")`,
+        'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${this.$store.state.pages.home[0].data.hero_image.fileUrl}")`,
         'background-position': 'center',
         'background-size': 'cover'
       }

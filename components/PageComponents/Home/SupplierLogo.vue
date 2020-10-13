@@ -14,7 +14,7 @@
             class="pb-16 px-8 flex-grow-0"
           >
             <v-img
-              :src="logo.image.url"
+              :src="logo.image.fileUrl"
               max-height="200px"
               max-width="150px"
             ></v-img>

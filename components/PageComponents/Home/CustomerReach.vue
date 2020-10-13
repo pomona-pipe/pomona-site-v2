@@ -5,7 +5,7 @@
       <v-row>
         <v-col>
           <v-img
-            :src="home[0].data.customer_reach_map.url"
+            :src="home[0].data.customer_reach_map.fileUrl"
             max-height="800px"
           ></v-img>
         </v-col>
