@@ -1,5 +1,5 @@
 // TODO: create types for api response data/payloads
-import { IPrismic } from '~/shims'
+import Prismic from '~/shims/prismic'
 
 interface IState {
   projects: object[]
@@ -18,7 +18,7 @@ export const mutations = {
   }
 }
 export const actions = {
-  async getProjects({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getProjects({ commit }: { commit: any }, $prismic: Prismic) {
     const byProjects = $prismic.predicates.at('document.type', 'projects')
     const projects = await $prismic.api.query(byProjects, {
       orderings: '[my.projects.completion_date desc]'

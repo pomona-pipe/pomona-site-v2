@@ -1,6 +1,6 @@
 import { Route } from 'vue-router/types'
 // TODO: create types for api response data/payloads
-import { IPrismic } from '~/shims'
+import Prismic from '~/shims/prismic'
 
 interface IState {
   routerHistory: Partial<Route>[]
@@ -45,7 +45,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async getMainNavigation({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getMainNavigation({ commit }: { commit: any }, $prismic: Prismic) {
     const byMainNavigation = $prismic.predicates.at(
       'document.type',
       'main_navigation'
@@ -71,7 +71,7 @@ export const actions = {
     })
     commit('setMainNavigation', mainNavigation)
   },
-  async getFooterNavigation({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getFooterNavigation({ commit }: { commit: any }, $prismic: Prismic) {
     const byFooterNavigation = $prismic.predicates.at(
       'document.type',
       'footer_navigation'

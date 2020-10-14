@@ -1,7 +1,7 @@
 import { uniqBy } from 'lodash'
 
 // TODO: create types for api response data/payloads
-import { IPrismic } from '~/shims'
+import Prismic from '~/shims/prismic'
 
 interface IState {
   productCategories: object[]
@@ -28,7 +28,7 @@ export const mutations = {
   }
 }
 export const actions = {
-  async getProductCategories({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getProductCategories({ commit }: { commit: any }, $prismic: Prismic) {
     const byCategories = $prismic.predicates.at(
       'document.type',
       'product_categories'
@@ -43,7 +43,7 @@ export const actions = {
   },
   async getProductsByCategory(
     { commit }: { commit: any },
-    { $prismic, catId }: { $prismic: IPrismic; catId: string }
+    { $prismic, catId }: { $prismic: Prismic; catId: string }
   ) {
     const byCategory = $prismic.predicates.at(
       'my.products.product_category',

@@ -1,5 +1,5 @@
 // TODO: create types for api response data/payloads
-import { IPrismic } from '~/shims'
+import Prismic from '~/shims/prismic'
 
 interface IState {
   employees: any []
@@ -16,7 +16,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async getEmployees({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getEmployees({ commit }: { commit: any }, $prismic: Prismic) {
     const byEmployees = $prismic.predicates.at(
       'document.type',
       'employees'

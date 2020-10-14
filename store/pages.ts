@@ -1,6 +1,5 @@
 // TODO: create types for api response data/payloads
-import { IPrismic } from '~/shims'
-import { result } from 'lodash'
+import Prismic from '~/shims/prismic'
 
 interface IState {
   home: any[]
@@ -47,7 +46,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async getHome({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getHome({ commit }: { commit: any }, $prismic: Prismic) {
     const byHome = $prismic.predicates.at('document.type', 'home_page')
     const home = await $prismic.api.query(byHome, {})
     commit(
@@ -55,7 +54,7 @@ export const actions = {
       home.results.map((result) => result)
     )
   },
-  async getAboutUs({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getAboutUs({ commit }: { commit: any }, $prismic: Prismic) {
     const byAboutUs = $prismic.predicates.at('document.type', 'about_us_page')
     const aboutUs = await $prismic.api.query(byAboutUs, {})
     commit(
@@ -63,7 +62,7 @@ export const actions = {
       aboutUs.results.map((result) => result)
     )
   },
-  async getTeam({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getTeam({ commit }: { commit: any }, $prismic: Prismic) {
     const byTeam = $prismic.predicates.at('document.type', 'team_page')
     const team = await $prismic.api.query(byTeam, {})
     commit(
@@ -71,7 +70,7 @@ export const actions = {
       team.results.map((result) => result)
     )
   },
-  async getContact({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getContact({ commit }: { commit: any }, $prismic: Prismic) {
     const byContact = $prismic.predicates.at('document.type', 'contact_page')
     const contact = await $prismic.api.query(byContact, {})
     commit(
@@ -79,7 +78,7 @@ export const actions = {
       contact.results.map((result) => result)
     )
   },
-  async getCategoryPage({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getCategoryPage({ commit }: { commit: any }, $prismic: Prismic) {
     const byCategoryPage = $prismic.predicates.at('document.type', 'category_page')
     const categoryPage = await $prismic.api.query(byCategoryPage, {})
     commit(
@@ -87,7 +86,7 @@ export const actions = {
       categoryPage.results.map((result) => result)
     )
   },
-  async getProjectListingPage({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getProjectListingPage({ commit }: { commit: any }, $prismic: Prismic) {
     const byProjectListingPage = $prismic.predicates.at('document.type', 'projects_page')
     const projectListingPage = await $prismic.api.query(byProjectListingPage, {})
     commit(
@@ -95,7 +94,7 @@ export const actions = {
       projectListingPage.results.map((result) => result)
     )
   },
-  async getApplicationsPage({ commit }: { commit: any }, $prismic: IPrismic) {
+  async getApplicationsPage({ commit }: { commit: any }, $prismic: Prismic) {
     const byapplicationsPage = $prismic.predicates.at('document.type', 'applications_page')
     const applicationsPage = await $prismic.api.query(byapplicationsPage, {})
     commit(
