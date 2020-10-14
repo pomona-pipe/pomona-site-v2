@@ -45,8 +45,8 @@ import { IPrismic, IPrismicDocument } from '~/shims'
     heroStyles() {
       return {
         'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
-          (this as any).$store.state.pages.applicationsPage[0].data.main_image
-            .url
+          (this as any).$store.state.pages.applicationsPage[0].data.hero_image
+            .fileUrl
         }")`,
         'background-position': 'center',
         'background-size': 'cover'
