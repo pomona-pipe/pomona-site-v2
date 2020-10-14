@@ -4,7 +4,7 @@ function createS3(Prefix?: string) {
   return new S3({
     endpoint: 's3.us-east-1.amazonaws.com',
     params: {
-      Bucket: 'pomona-website',
+      Bucket: 'pomona-dropbox',
       Prefix
     }
   })
