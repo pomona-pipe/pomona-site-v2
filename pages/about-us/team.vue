@@ -18,8 +18,7 @@
         <v-row>
           <v-col v-for="employee in employees" :key="employee.id" cols="12" sm="6" lg="3">
             <v-card hover outlined height="100%">
-              <v-img :src="employee.data.profile_image.url || placeholders.account" height="200px"></v-img>
-
+              <v-img :src="employee.data.profile_image ? employee.data.profile_image.fileUrl : placeholders.account" height="200px"></v-img>
               <v-card-title>{{ employee.data.name }}</v-card-title>
               <v-card-text>
                 {{ employee.data.job_title }}
