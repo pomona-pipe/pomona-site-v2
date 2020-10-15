@@ -34,7 +34,7 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
     heroStyles() {
       return {
         'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
-          (this as any).document.data.cover_image.url
+          (this as any).document.data.hero_image.fileUrl
         }")`,
         'background-position': 'center',
         'background-size': 'cover'

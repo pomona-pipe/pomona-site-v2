@@ -17,7 +17,7 @@
         <v-row>
           <v-col v-for="product in products" :key="product.data.id" cols="12" md="6" lg="3">
             <v-card :to="`./${uid}/${product.uid}`" outlined hover height="100%">
-              <v-img :src="product.data.cover_image.url || placeholders.file" height="200px"></v-img>
+              <v-img :src="product.data.hero_image.fileUrl || placeholders.file" height="200px"></v-img>
 
               <v-card-title>{{ product.data.name[0].text }}</v-card-title>
             </v-card>
@@ -42,7 +42,7 @@ import { IPrismic, IPrismicDocument } from '~/shims'
     heroStyles() {
       return {
         'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
-          (this as any).document.data.category_image.url
+          (this as any).document.data.hero_image.fileUrl
         }")`,
         'background-position': 'center',
         'background-size': 'cover'
