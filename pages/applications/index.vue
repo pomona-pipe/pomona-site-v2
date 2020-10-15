@@ -19,7 +19,7 @@
         <v-row>
           <v-col v-for="app in applications" :key="app.id" cols="12" sm="6" md="4" lg="3">
             <v-card :to="`/applications/${app.uid}`" hover outlined height="100%">
-              <v-img :src="app.data.hero_image.url || placeholders.file" height="200px"></v-img>
+              <v-img :src="app.data.hero_image.fileUrl || placeholders.file" height="200px"></v-img>
 
               <v-card-title>{{ app.data.name[0].text }}</v-card-title>
             </v-card>

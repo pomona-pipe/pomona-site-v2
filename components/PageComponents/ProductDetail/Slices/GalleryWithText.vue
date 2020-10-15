@@ -9,13 +9,13 @@
         <v-img
           v-if="slice.items.length === 1"
           height="500"
-          :src="slice.items[0].section_image.url || placeholders.file"
+          :src="slice.items[0].section_image.fileUrl || placeholders.file"
         ></v-img>
         <v-carousel v-else-if="slice.items.length > 1" show-arrows-on-hover>
           <v-carousel-item
             v-for="image in slice.items"
             :key="image.id"
-            :src="image.section_image.url"
+            :src="image.section_image.fileUrl"
           ></v-carousel-item>
         </v-carousel>
       </v-col>
