@@ -13,7 +13,6 @@
             :src="slice.primary.video_link.embed_url.replace('watch?v=', 'embed/')"
             allowfullscreen="true"
           ></iframe>
-          <!-- <prismic-embed :field="slice.primary.video_link" /> -->
         </v-responsive>
       </v-col>
     </v-row>
