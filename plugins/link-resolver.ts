@@ -72,6 +72,9 @@ export default function(doc: DocumentLink) {
     
     case 'technical_guides_page':
       return '/technical-guides'
+    
+    case 'services_page':
+      return '/services'
 
     default:
       return '/not-found'
