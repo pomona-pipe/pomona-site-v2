@@ -12,8 +12,8 @@
           :aspect-ratio="16 / 9"
         >
           <video width="100%" height="100%" controls controlsList="nodownload">
-              <source :src="slice.primary.video_link.fileUrl" type="video/mp4">
-          Your browser does not support the video tag.
+            <source :src="slice.primary.video_link.fileUrl" type="video/mp4">
+            Your browser does not support the video tag.
           </video>
         </v-responsive>
       </v-col>
@@ -23,15 +23,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
-import { find } from 'lodash'
-import { Route } from 'vue-router/types'
-import { IPrismic, IPrismicDocument } from '~/shims'
 @Component({
-  props: ['slice'],
-  computed: {
-    ...mapState('layout', ['placeholders'])
-  }
+  props: ['slice']
 })
 export default class DropboxVideo extends Vue {}
 </script>

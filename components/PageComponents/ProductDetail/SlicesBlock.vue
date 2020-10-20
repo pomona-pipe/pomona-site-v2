@@ -16,7 +16,7 @@
       <template v-if="slice.slice_type === 'video_with_text'">
         <VideoWithText :slice="slice" />
       </template>
-      <!-- Video with text Slice component  -->
+      <!-- Dropbox Video Slice component  -->
       <template v-if="slice.slice_type === 'dropbox_video'">
         <DropboxVideo :slice="slice" />
       </template>
