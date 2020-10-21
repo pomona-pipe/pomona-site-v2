@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { Router } from 'express'
 import nodemailer from 'nodemailer'
+import { camelCaseToTitle } from '../../tools'
 
 // create route and export to api
 const router = Router()
@@ -12,7 +13,7 @@ router.use('/forms/send-email', async (req, res) => {
     let htmlString = ''
     Object.entries(formData).forEach((entry) => {
       const [key, value] = entry
-      htmlString += `<p><strong>${formatFieldName(key)}:</strong>&nbsp;<span>${value}</span></p>`
+      htmlString += `<p><strong>${camelCaseToTitle(key)}:</strong>&nbsp;<span>${value}</span></p>`
     })
     return htmlString
   })()
@@ -37,16 +38,5 @@ router.use('/forms/send-email', async (req, res) => {
     else res.send(info)
   })
 })
-
-function formatFieldName(key: string) {
-  // convert camelCase to separate words
-  let friendlyName = key.replace(/([a-zA-Z])(?=[A-Z])/g, '$1 ')
-  // capitalize first letter of each word
-  friendlyName = friendlyName
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-  return friendlyName
-}
 
 export default router

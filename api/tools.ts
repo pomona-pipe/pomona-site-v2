@@ -137,3 +137,15 @@ export function getFileThumbnail(fileUrl: string, fileType: FileType, serverUrl:
   }
 }
 
+// used in forms endpoints
+export function camelCaseToTitle(camelString: string) {
+  // convert camelCase to separate words
+  const spaced = camelString.replace(/([a-zA-Z])(?=[A-Z])/g, '$1 ')
+  // capitalize first letter of each word
+  const title = spaced
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+  return title
+}
+

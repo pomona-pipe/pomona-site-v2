@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { Router } from 'express'
 import axios from 'axios'
+import { camelCaseToTitle } from '../../tools'
 
 // create route and export to api
 const router = Router()
@@ -11,7 +12,9 @@ router.use('/forms/slack-channel-post', async (req, res) => {
     let stringifiedForm = ''
     Object.entries(formData).forEach((entry, index, array) => {
       const [key, value] = entry
-      stringifiedForm += `${formatFieldName(key)}: ${value}`
+      // field name bolded with markdown
+      const formattedFieldName = `*${camelCaseToTitle(key)}*`
+      stringifiedForm += `${formattedFieldName}: ${value}`
       const lastIndex = array.length - 1
       if (index < lastIndex) stringifiedForm += '\n'
     })
