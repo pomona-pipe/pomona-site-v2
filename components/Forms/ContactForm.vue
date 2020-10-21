@@ -5,7 +5,7 @@
     method="post"
     @submit.prevent="handleSubmit"
   >
-    <input type="hidden" name="form-name" :value="formName" />
+    <input v-model="botField" type="hidden" name="bot-field" />
     <v-row>
       <!-- Name Section -->
       <v-col cols="12" sm="6" md="6">
@@ -339,6 +339,7 @@ const phone: CustomRule = (phone: string) => {
 })
 export default class ContactForm extends Vue {
   formName = 'Contact Form'
+  botField = ''
   submissionState: FormSubmissionState = {
     inProgress: false,
     success: false,
@@ -393,10 +394,17 @@ export default class ContactForm extends Vue {
   }
 
   async handleSubmit() {
+    // validate fields
     this.$v.$touch()
     if (this.$v.$error) {
       this.checkError()
       return
+    }
+
+    // block bot submission
+    if (this.botField) {
+      this.submissionState.error = true
+      return this.resetForm()
     }
 
     this.submissionState.inProgress = true
@@ -409,7 +417,10 @@ export default class ContactForm extends Vue {
     // post to slack and send email
     await Promise.all([
       // slack webhook url is a process.env var
-      axios.post('/api/forms/slack-channel-post', { webhook: 'CONTACT_FORM_SLACK_WEBHOOK', formData }),
+      axios.post('/api/forms/slack-channel-post', {
+        webhook: 'CONTACT_FORM_SLACK_WEBHOOK',
+        formData
+      }),
       axios.post('/api/forms/send-email', formData)
     ])
       .then(() => {
