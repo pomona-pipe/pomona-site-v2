@@ -404,30 +404,15 @@ export default class ContactForm extends Vue {
     this.submissionState.inProgress = true
 
     // post to Slack Channel: contact-form
-    const slackWebhookUrl =
-      'https://hooks.slack.com/services/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'
-    const data = (() => {
-      const form = {
-        'form': this.formName,
+    const data = {
+      webhook: 'SLACK_CONTACT_FORM_WEBHOOK',
+      form: {
+        formTitle: this.formName,
         ...this.fields
       }
-      let stringifiedForm = ''
-      Object.entries(form).forEach((entry, index, array) => {
-        const [key, value] = entry
-        stringifiedForm += `${formatFieldName(key)}: ${value}`
-        const lastIndex = array.length - 1
-        if(index < lastIndex) stringifiedForm += '\n'
-      })
-      return { 'text': stringifiedForm }
-    })()
+    }
     axios
-      .post(slackWebhookUrl, JSON.stringify(data), {
-        withCredentials: false,
-        transformRequest: [(data, headers) => {
-          delete headers.post["Content Type"]
-          return data
-        }]
-      })
+      .post('/api/forms/slack-channel-post', data)
       .then(() => {
         // eslint-disable-next-line no-console
         console.log('Form submitted!')
@@ -442,17 +427,6 @@ export default class ContactForm extends Vue {
       .finally(() => {
         this.submissionState.inProgress = false
       })
-
-      function formatFieldName(key: string) {
-        // convert camelCase to separate words
-        let friendlyName = key.replace(/([a-zA-Z])(?=[A-Z])/g, '$1 ')
-        // capitalize first letter of each word
-        friendlyName = friendlyName.split(' ')
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
-        // return bolded field name
-        return `*${friendlyName}*`
-      }
   }
 }
 </script>
