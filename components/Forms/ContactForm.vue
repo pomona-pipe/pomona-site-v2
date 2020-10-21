@@ -394,7 +394,7 @@ export default class ContactForm extends Vue {
       .join('&')
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     this.$v.$touch()
     if (this.$v.$error) {
       this.checkError()
@@ -403,16 +403,17 @@ export default class ContactForm extends Vue {
 
     this.submissionState.inProgress = true
 
-    // post to Slack Channel: contact-form
-    const data = {
-      webhook: 'SLACK_CONTACT_FORM_WEBHOOK',
-      form: {
-        formTitle: this.formName,
-        ...this.fields
-      }
+    const formData = {
+      formTitle: this.formName,
+      ...this.fields
     }
-    axios
-      .post('/api/forms/slack-channel-post', data)
+
+    // post to slack and send email
+    await Promise.all([
+      // slack webhook url is a process.env var
+      axios.post('/api/forms/slack-channel-post', { webhook: 'SLACK_CONTACT_FORM_WEBHOOK', formData }),
+      axios.post('/api/forms/send-email', formData)
+    ])
       .then(() => {
         // eslint-disable-next-line no-console
         console.log('Form submitted!')

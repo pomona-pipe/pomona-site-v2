@@ -6,10 +6,10 @@ import axios from 'axios'
 const router = Router()
 router.use('/forms/slack-channel-post', async (req, res) => {
   // post to Slack Channel: contact-form
-  const { form, webhook } = req.body
+  const { formData, webhook } = req.body
   const data = (() => {
     let stringifiedForm = ''
-    Object.entries(form).forEach((entry, index, array) => {
+    Object.entries(formData).forEach((entry, index, array) => {
       const [key, value] = entry
       stringifiedForm += `${formatFieldName(key)}: ${value}`
       const lastIndex = array.length - 1
