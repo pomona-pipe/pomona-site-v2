@@ -3,8 +3,6 @@
     :name="formName"
     :disabled="submissionState.inProgress"
     method="post"
-    data-netlify="true"
-    data-netlify-honeypot="bot-field"
     @submit.prevent="handleSubmit"
   >
     <input type="hidden" name="form-name" :value="formName" />
