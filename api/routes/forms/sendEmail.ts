@@ -17,18 +17,24 @@ router.use('/forms/send-email', async (req, res) => {
     })
     return htmlString
   })()
+  // node env vars
+  const {
+    CONTACT_FORM_SENDER_EMAIL,
+    CONTACT_FORM_SENDER_PASSWORD,
+    CONTACT_FORM_EMAIL_RECEPIENTS
+  } = process.env
   // create nodemailer transport instance
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'contact.pomonapp@gmail.com',
-      pass: process.env.EMAIL_CONTACT_FORM_PASSWORD
+      user: CONTACT_FORM_SENDER_EMAIL,
+      pass: CONTACT_FORM_SENDER_PASSWORD
     }
   })
   // compose email
   const mailOptions = {
-    from: 'contact.pomonapp@gmail.com',
-    to: formData.email,
+    from: CONTACT_FORM_SENDER_EMAIL,
+    to: CONTACT_FORM_EMAIL_RECEPIENTS,
     subject: `Pomona Contact Form - ${formData.subject}`,
     html: formHtml
   }
