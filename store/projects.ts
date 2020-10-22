@@ -21,7 +21,7 @@ export const actions = {
   async getProjects({ commit }: { commit: any }, $prismic: IPrismic) {
     const byProjects = $prismic.predicates.at('document.type', 'projects')
     const projects = await $prismic.api.query(byProjects, {
-      orderings: '[my.projects.completion_date desc]'
+      orderings: '[my.projects.overview_completion_date desc]'
     })
     commit(
       'setProjects',
