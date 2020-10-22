@@ -382,16 +382,7 @@ export default class ContactForm extends Vue {
     this.$v.$reset()
   }
 
-  encode(data: FormData) {
-    return Object.keys(data)
-      .map(
-        (key) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(
-            data[key as keyof FormData]!
-          )}`
-      )
-      .join('&')
-  }
+ 
 
   async handleSubmit() {
     // validate fields
