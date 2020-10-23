@@ -25,7 +25,7 @@ router.use('/forms/send-email', async (req, res) => {
   } = process.env
   // create nodemailer transport instance
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'hotmail',
     auth: {
       user: CONTACT_FORM_SENDER_EMAIL,
       pass: CONTACT_FORM_SENDER_PASSWORD
@@ -35,7 +35,7 @@ router.use('/forms/send-email', async (req, res) => {
   const mailOptions = {
     from: CONTACT_FORM_SENDER_EMAIL,
     to: CONTACT_FORM_EMAIL_RECEPIENTS,
-    subject: `Pomona Contact Form - ${formData.subject}`,
+    subject: `[Form Submission] ${formData.subject}`,
     html: formHtml
   }
   // send message

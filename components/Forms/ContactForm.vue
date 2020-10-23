@@ -5,6 +5,7 @@
     method="post"
     @submit.prevent="handleSubmit"
   >
+    <!-- Bot Field -->
     <input v-model="botField" type="hidden" name="bot-field" />
     <v-row>
       <!-- Name Section -->
@@ -381,8 +382,6 @@ export default class ContactForm extends Vue {
     }
     this.$v.$reset()
   }
-
- 
 
   async handleSubmit() {
     // validate fields
