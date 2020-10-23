@@ -25,11 +25,13 @@
         <!-- Desktop Navigation Menu -->
         <DesktopMenu v-show="!isMobile" />
         <!-- Search Icon -->
-        <v-btn icon>
+        <v-btn icon @click="isSearchOpen = true">
           <v-icon>{{ mdiMagnify }}</v-icon>
         </v-btn>
       </div>
     </div>
+    <!-- Search Bar -->
+    <SearchBar v-show="isSearchOpen" />
   </v-app-bar>
 </template>
 
@@ -65,19 +67,29 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
 import { mdiMenu, mdiMagnify } from '@mdi/js'
 import DesktopMenu from '~/components/Navigation/DesktopMenu.vue'
+import SearchBar from '~/components/Navigation/SearchBar.vue'
 
 @Component({
   components: {
-    DesktopMenu
+    DesktopMenu,
+    SearchBar
   },
   computed: {
-    ...mapState('layout', ['isMobile']),
+    ...mapState('layout', ['isMobile', 'isSearchOpen']),
     mobileDrawer: {
       get() {
         return this.$store.state.layout.mobileDrawer
       },
       set(value) {
         this.$store.commit('layout/setMobileDrawer', value)
+      }
+    },
+    isSearchOpen: {
+      get() {
+        return this.$store.state.layout.isSearchOpen
+      },
+      set(value) {
+        this.$store.commit('layout/setIsSearchOpen', value)
       }
     }
   }

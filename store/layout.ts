@@ -5,6 +5,7 @@ import { IPrismic } from '~/shims'
 interface IState {
   routerHistory: Partial<Route>[]
   isMobile: boolean | null
+  isSearchOpen: boolean
   mobileDrawer: boolean
   mainNavigation: any[]
   footerNavigation: any[]
@@ -14,6 +15,7 @@ interface IState {
 export const state: () => IState = () => ({
   routerHistory: [],
   isMobile: null,
+  isSearchOpen: false,
   mobileDrawer: false,
   mainNavigation: [],
   footerNavigation: [],
@@ -29,6 +31,9 @@ export const mutations = {
   },
   setIsMobile(state: IState, value: boolean) {
     state.isMobile = value
+  },
+  setIsSearchOpen(state: IState, value: boolean) {
+    state.isSearchOpen = value
   },
   setMobileDrawer(state: IState, value: boolean) {
     state.mobileDrawer = value
