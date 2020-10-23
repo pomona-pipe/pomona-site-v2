@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Router } from 'express'
-import nodemailer from 'nodemailer'
+import { SES, config } from 'aws-sdk'
 import { camelCaseToTitle } from '../../tools'
 
 // create route and export to api
@@ -13,36 +13,47 @@ router.use('/forms/send-email', async (req, res) => {
     let htmlString = ''
     Object.entries(formData).forEach((entry) => {
       const [key, value] = entry
-      htmlString += `<p><strong>${camelCaseToTitle(key)}:</strong>&nbsp;<span>${value}</span></p>`
+      htmlString += `<p><strong>${camelCaseToTitle(
+        key
+      )}:</strong>&nbsp;<span>${value}</span></p>`
     })
     return htmlString
   })()
   // node env vars
   const {
     CONTACT_FORM_SENDER_EMAIL,
-    CONTACT_FORM_SENDER_PASSWORD,
     CONTACT_FORM_EMAIL_RECEPIENTS
   } = process.env
-  // create nodemailer transport instance
-  const transporter = nodemailer.createTransport({
-    service: 'hotmail',
-    auth: {
-      user: CONTACT_FORM_SENDER_EMAIL,
-      pass: CONTACT_FORM_SENDER_PASSWORD
-    }
-  })
-  // compose email
-  const mailOptions = {
-    from: CONTACT_FORM_SENDER_EMAIL,
-    to: CONTACT_FORM_EMAIL_RECEPIENTS,
-    subject: `[Form Submission] ${formData.subject}`,
-    html: formHtml
+  // configure AWS
+  config.update({ region: 'us-east-1' })
+  // create sendEmail params
+  const params = {
+    Destination: {
+      ToAddresses: CONTACT_FORM_EMAIL_RECEPIENTS!.split(/,\s*/)
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: 'UTF-8',
+          Data: formHtml!
+        }
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: `[Form Submission] ${formData.subject}`
+      }
+    },
+    Source: CONTACT_FORM_SENDER_EMAIL!,
+    ReplyToAddresses: [
+      formData.email!
+    ]
   }
-  // send message
-  transporter.sendMail(mailOptions, function(err, info) {
-    if (err) res.send(err)
-    else res.send(info)
-  })
+  // create SES service object
+  const ses = new SES()
+  // send message with params
+  ses.sendEmail(params).promise()
+    .then((data) => res.send(data))
+    .catch((err) => res.send(err))
 })
 
 export default router
