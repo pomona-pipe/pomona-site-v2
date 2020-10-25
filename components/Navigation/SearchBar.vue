@@ -1,19 +1,18 @@
 <template>
-  <div id="search-bar" class="white px-4 py-2">
+  <div id="search-bar" class="white py-2">
     <!-- vuetify autocomplete component -->
     <v-text-field
+      ref="searchInput"
       id="searchInput"
       v-model="searchInput"
-      name="searchInput"
       height="80"
       placeholder="Search"
       light
       solo
       flat
-      autofocus
-      class="px-12"
+      hide-details
+      :class="{'pl-4': true, 'pr-13': true, 'slide-in': true, 'in': searchBar.open  && !searchBar.isClosing}"
     ></v-text-field>
-    <v-btn @click="isSearchOpen = false" id="close-search" icon><v-icon color="black">{{ mdiClose }}</v-icon></v-btn>
   </div>
 </template>
 
@@ -24,14 +23,24 @@
     left: 0;
     width: 100%;
     height: 96px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 100ms cubic-bezier(0.4, 0, 0.2, 1);
+    &.is-open, &.is-closing {
+      visibility: visible;
+      opacity: 1;
+    }
   }
-  #close-search {
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-    &:hover {
-      background-color: #f6f6f6;
+  .slide-in {
+    ::v-deep #searchInput {
+      transform: translateY(16px);
+      transition: transform 150ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    &.in {
+      ::v-deep #searchInput {
+        transform: translateY(0px);
+        pointer-events: all;
+      }
     }
   }
 </style>
@@ -39,23 +48,13 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
-import { mdiClose } from '@mdi/js'
 
 @Component({
   computed: {
-    ...mapState('layout', ['isSearchOpen']),
-    isSearchOpen: {
-      get() {
-        return this.$store.state.layout.isSearchOpen
-      },
-      set(value) {
-        this.$store.commit('layout/setIsSearchOpen', value)
-      }
-    }
+    ...mapState('layout', ['searchBar'])
   }
 })
 export default class SearchBar extends Vue {
-  mdiClose = mdiClose
   searchInput = ''
 }
 </script>

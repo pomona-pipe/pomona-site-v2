@@ -2,10 +2,15 @@ import { Route } from 'vue-router/types'
 // TODO: create types for api response data/payloads
 import { IPrismic } from '~/shims'
 
+interface SearchState {
+  open: boolean
+  isClosing: boolean
+}
+
 interface IState {
   routerHistory: Partial<Route>[]
   isMobile: boolean | null
-  isSearchOpen: boolean
+  searchBar: SearchState
   mobileDrawer: boolean
   mainNavigation: any[]
   footerNavigation: any[]
@@ -15,7 +20,10 @@ interface IState {
 export const state: () => IState = () => ({
   routerHistory: [],
   isMobile: null,
-  isSearchOpen: false,
+  searchBar: {
+    open: false,
+    isClosing: false
+  },
   mobileDrawer: false,
   mainNavigation: [],
   footerNavigation: [],
@@ -32,8 +40,8 @@ export const mutations = {
   setIsMobile(state: IState, value: boolean) {
     state.isMobile = value
   },
-  setIsSearchOpen(state: IState, value: boolean) {
-    state.isSearchOpen = value
+  setSearchBar(state: IState, value: SearchState) {
+    Object.assign(state.searchBar, value)
   },
   setMobileDrawer(state: IState, value: boolean) {
     state.mobileDrawer = value

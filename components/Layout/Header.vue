@@ -8,6 +8,7 @@
     dense
     prominent
   >
+    <!-- App Bar Content -->
     <div
       class="d-flex justify-space-between align-center flex-no-wrap appBarContent"
     >
@@ -25,13 +26,20 @@
         <!-- Desktop Navigation Menu -->
         <DesktopMenu v-show="!isMobile" />
         <!-- Search Icon -->
-        <v-btn icon @click="isSearchOpen = true">
+        <v-btn id="toggle-search-btn" icon :ripple="false" @click="toggleSearch()" >
           <v-icon>{{ mdiMagnify }}</v-icon>
+          <v-icon
+            v-ripple="{ center: true }"
+            id="close-search"
+            :class="{ 'collapsible-icon': true, 'icon-expanded': searchBar.open || searchBar.isClosing, 'is-closing': searchBar.isClosing }"
+            color="black"
+            >{{ mdiClose }}</v-icon
+          >
         </v-btn>
       </div>
     </div>
     <!-- Search Bar -->
-    <SearchBar v-show="isSearchOpen" />
+    <SearchBar ref="searchBar" :class="{'is-open': searchBar.open, 'is-closing': searchBar.isClosing}" />
   </v-app-bar>
 </template>
 
@@ -50,6 +58,31 @@
       opacity: 1;
     }
   }
+  #toggle-search-btn {
+    z-index: 1;
+  }
+  #close-search {
+    position: absolute;
+    top: 0px;
+    right: 12px;
+    border-radius: 50%;
+    &:hover {
+      background-color: #f6f6f6;
+    }
+    &.is-closing ::v-deep svg {
+      opacity: 0;
+    }
+  }
+  .collapsible-icon {
+    transition: transform 200ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(-90deg) scale(0.5);
+    transform-origin: center;
+    visibility: hidden;
+    &.icon-expanded {
+      transform: rotate(0deg) scale(1);
+      visibility: visible;
+    }
+  }
 }
 .pomona_logo {
   max-width: 100%;
@@ -64,8 +97,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { mapState } from 'vuex'
-import { mdiMenu, mdiMagnify } from '@mdi/js'
+import { mapState, mapMutations, mapActions } from 'vuex'
+import { mdiMenu, mdiMagnify, mdiClose } from '@mdi/js'
 import DesktopMenu from '~/components/Navigation/DesktopMenu.vue'
 import SearchBar from '~/components/Navigation/SearchBar.vue'
 
@@ -75,7 +108,7 @@ import SearchBar from '~/components/Navigation/SearchBar.vue'
     SearchBar
   },
   computed: {
-    ...mapState('layout', ['isMobile', 'isSearchOpen']),
+    ...mapState('layout', ['isMobile', 'searchBar']),
     mobileDrawer: {
       get() {
         return this.$store.state.layout.mobileDrawer
@@ -83,19 +116,35 @@ import SearchBar from '~/components/Navigation/SearchBar.vue'
       set(value) {
         this.$store.commit('layout/setMobileDrawer', value)
       }
-    },
-    isSearchOpen: {
-      get() {
-        return this.$store.state.layout.isSearchOpen
-      },
-      set(value) {
-        this.$store.commit('layout/setIsSearchOpen', value)
-      }
     }
   }
 })
 export default class Header extends Vue {
   mdiMenu = mdiMenu
   mdiMagnify = mdiMagnify
+  mdiClose = mdiClose
+
+  async toggleSearch() {
+    // build next state
+    const { open } = this.$store.state.layout.searchBar
+    let payload = {
+      open: !open
+    }
+    if(open) Object.assign(payload, { isClosing: true })
+    // toggle search bar
+    this.$store.commit('layout/setSearchBar', payload)
+    // after opening, focus search bar
+    if(payload.open){
+      setTimeout(() => {
+        ((this.$refs.searchBar as Vue).$children[0] as unknown as HTMLElement).focus()
+      }, 150)
+    }
+    // after closing, clear isClosing transition state
+    else {
+      setTimeout(() => {
+        this.$store.commit('layout/setSearchBar', { isClosing: false })
+      }, 100)
+    }
+  }
 }
 </script>
