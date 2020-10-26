@@ -11,19 +11,19 @@
       <v-row class="mt-12 text-center">
         <!-- prop 1 -->
         <v-col cols="12" md="4">
-          <v-icon size="150" color="yellow darken-3">{{ mdiDraw }}</v-icon>
+          <v-icon size="150" color="deep-purple accent-2">{{ mdiDraw }}</v-icon>
           <prismic-rich-text :field="home[0].data.prop_1_title" />
           <p>{{ home[0].data.prop_1_subtitle }}</p>
         </v-col>
         <!-- prop 2 -->
         <v-col cols="12" md="4">
-          <v-icon size="150" color="orange darken-2">{{ mdiTools }}</v-icon>
+          <v-icon size="150" color="deep-orange accent-2">{{ mdiTools }}</v-icon>
           <prismic-rich-text :field="home[0].data.prop_2_title" />
           <p>{{ home[0].data.prop_2_subtitle }}</p>
         </v-col>
         <!-- prop 3 -->
         <v-col cols="12" md="4">
-          <v-icon size="150" color="green darken-1">{{ mdiExcavator }}</v-icon>
+          <v-icon size="150" color="green accent-3">{{ mdiExcavator }}</v-icon>
           <prismic-rich-text :field="home[0].data.prop_3_title" />
           <p>{{ home[0].data.prop_3_subtitle }}</p>
         </v-col>
