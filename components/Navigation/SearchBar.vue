@@ -30,7 +30,11 @@
       <template v-slot:item="props">
         <tr>
           <td class="pa-4">
-            <nuxt-link :to="props.item.route" class="text-decoration-none" @click.native="clearSearch()">
+            <nuxt-link
+              :to="props.item.route"
+              class="text-decoration-none"
+              @click.native="clearSearch()"
+            >
               <div class="d-flex">
                 <v-img
                   :src="props.item.thumbnail"
@@ -41,7 +45,9 @@
                 ></v-img>
                 <div>
                   <div class="text-h6 white--text">{{ props.item.title }}</div>
-                  <div class="text-subtitle-1 grey--text text--lighten-1">{{ props.item.type }}</div>
+                  <div class="text-subtitle-1 grey--text text--lighten-1">
+                    {{ props.item.type }}
+                  </div>
                 </div>
               </div>
             </nuxt-link>
@@ -83,8 +89,11 @@
 </style>
 
 <script lang="ts">
+import { SearchString } from 'aws-sdk/clients/route53'
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
+import { IPrismic } from '~/shims'
+import linkResolver from '~/plugins/link-resolver'
 
 @Component({
   computed: {
@@ -106,35 +115,47 @@ export default class SearchBar extends Vue {
     },
     { text: 'Type', value: 'type' }
   ]
-  get searchResults() {
-    return [
-      {
-        thumbnail:
-          'https://d113q3lewv5kc2.cloudfront.net/images/Slipline_Aluminum_riser.jpg@80w_80h',
-        title: 'Sliplining',
-        type: 'Application',
-        route: '/applications/slip-lining'
-      },
-      {
-        thumbnail:
-          'https://d113q3lewv5kc2.cloudfront.net/images/Angier_Road_-_Fuquay_Varina_-_num6-L2_Aluminum_Box_Culvert_Inlet_View.jpg@80w_80h',
-        title: 'Angier Road',
-        type: 'Project',
-        route: '/projects/angier-road'
-      },
-      {
-        thumbnail:
-          'https://d113q3lewv5kc2.cloudfront.net/images/Ambrosio_Brothers_Rumford.jpg@80w_80h',
-        title: 'Rumford Fireplace',
-        type: 'Product',
-        route: '/products/crafted-clay/rumford-fireplaces'
-      }
-    ]
-  }
+  searchResults = []
+  
+
   clearSearch() {
     this.$store.commit('layout/setSearchBar', { open: false, isClosing: false })
     this.searchInput = ''
     console.log('search cleared')
+  }
+
+  async getPrismicSearchResults(query: string) {
+    const byFullText = (this as any).$prismic.predicates.fulltext(
+      'document',
+      query
+    )
+    const prismicSearchResults = await (this as any).$prismic.api.query(byFullText, {})
+    this.searchResults = prismicSearchResults.results.map((result: any) => {
+      const thumbnail = result.data.hero_image.thumbnail
+      const title = result.data.name[0].text
+      const type = result.type
+      const documentLink = {
+        id: result.id,
+        isBroken: false,
+        lang: '',
+        link_type: '',
+        slug: result.slugs[0],
+        tags: result.tags,
+        type: result.type,
+        uid: result.uid
+      }
+      const route = linkResolver(documentLink)
+      return {
+        thumbnail,
+        title,
+        type,
+        route
+      }
+    })
+  }
+
+  mounted() {
+    this.getPrismicSearchResults('aluminum headwalls')
   }
 }
 </script>
