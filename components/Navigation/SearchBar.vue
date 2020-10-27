@@ -23,6 +23,8 @@
       v-show="searchInput"
       :headers="searchHeaders"
       :items="searchResults"
+      :loading="isLoading"
+      loading-text="Loading... Please wait"
       hide-default-header
       hide-default-footer
       class="elevation-1"
@@ -90,8 +92,9 @@
 
 <script lang="ts">
 import { SearchString } from 'aws-sdk/clients/route53'
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
+import { debounce } from 'lodash'
 import { IPrismic } from '~/shims'
 import linkResolver from '~/plugins/link-resolver'
 
@@ -116,7 +119,25 @@ export default class SearchBar extends Vue {
     { text: 'Type', value: 'type' }
   ]
   searchResults = []
-  
+  isLoading = false
+  pendingTimeOut: NodeJS.Timeout | null = null
+
+  @Watch('searchInput',{deep: true})
+  async onSearchInputChange(query: string) {
+    // set loading to true
+    this.isLoading = true
+    if (this.pendingTimeOut) {
+      clearTimeout(this.pendingTimeOut)
+    }
+    this.pendingTimeOut = setTimeout(() => {
+      return new Promise(async (resolve) => {
+        await this.getPrismicSearchResults(query)
+        // set loading back to false
+        this.isLoading = false
+        resolve()
+      })
+    }, 3000)
+  }
 
   clearSearch() {
     this.$store.commit('layout/setSearchBar', { open: false, isClosing: false })
@@ -129,7 +150,10 @@ export default class SearchBar extends Vue {
       'document',
       query
     )
-    const prismicSearchResults = await (this as any).$prismic.api.query(byFullText, {})
+    const prismicSearchResults = await (this as any).$prismic.api.query(
+      byFullText,
+      {}
+    )
     this.searchResults = prismicSearchResults.results.map((result: any) => {
       const thumbnail = result.data.hero_image.thumbnail
       const title = result.data.name[0].text
@@ -154,8 +178,5 @@ export default class SearchBar extends Vue {
     })
   }
 
-  mounted() {
-    this.getPrismicSearchResults('aluminum headwalls')
-  }
 }
 </script>
