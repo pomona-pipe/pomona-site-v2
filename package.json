@@ -27,6 +27,7 @@
     "@types/node": "^14.6.0",
     "@types/prismic-dom": "^2.1.1",
     "@types/rimraf": "^3.0.0",
+    "algoliasearch": "^4.5.1",
     "aws-sdk": "^2.762.0",
     "crypto-js": "^4.0.0",
     "dropbox": "^5.2.1",
