@@ -3,7 +3,7 @@ import { Router } from 'express'
 import Prismic from 'prismic-javascript'
 import algoliaSearch from 'algoliasearch'
 import { get } from 'lodash'
-import { IPrismicDocument } from '../../../shims'
+import { Document } from 'prismic-javascript/d.ts/documents'
 
 // create route and export to api
 const router = Router()
@@ -24,7 +24,7 @@ router.use('/prismic/send-to-algolia', async (req, res) => {
   )
 
   // structure for prismic results for algolia
-  const algoliaReadyResults = results.map((document: IPrismicDocument) => {
+  const algoliaReadyResults = results.map((document: Document) => {
     const {
       data,
       tags,
@@ -52,7 +52,7 @@ router.use('/prismic/send-to-algolia', async (req, res) => {
   const algoliaClient = algoliaSearch(ALGOLIA_APP_ID!, ALGOLIA_ADMIN_KEY!)
 
   // create algolia search index
-  const algoliaIndex = algoliaClient.initIndex('POMONA_PAGES')
+  const algoliaIndex = algoliaClient.initIndex('PAGES')
 
   // send to algolia
   const algoliaObjectIds = await algoliaIndex.saveObjects(algoliaReadyResults)
