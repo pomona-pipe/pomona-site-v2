@@ -4,24 +4,22 @@ import Prismic from 'prismic-javascript'
 import algoliaSearch from 'algoliasearch'
 import { get } from 'lodash'
 import { Document } from 'prismic-javascript/d.ts/documents'
+import { getPrismicDocuments } from '../../functions/prismic'
 
 // create route and export to api
 const router = Router()
 router.use('/prismic/send-to-algolia', async (req, res) => {
   // fetch prismic documents
-  // FIXME: retrieve all documents (not just first page)
   // TODO: add prismic api token and options arg
   const prismicClient = await Prismic.getApi(
     'https://pomona.cdn.prismic.io/api/v2'
   )
-  const { results } = await prismicClient.query(
-    [
-      Prismic.Predicates.not('document.type', 'main_navigation'),
-      Prismic.Predicates.not('document.type', 'footer_navigation'),
-      Prismic.Predicates.not('document.type', 'employees')
-    ],
-    {}
-  )
+  const predicates = [
+    Prismic.Predicates.not('document.type', 'main_navigation'),
+    Prismic.Predicates.not('document.type', 'footer_navigation'),
+    Prismic.Predicates.not('document.type', 'employees')
+  ]
+  const results = await getPrismicDocuments(prismicClient, predicates)
 
   // structure for prismic results for algolia
   const algoliaReadyResults = results.map((document: Document) => {
