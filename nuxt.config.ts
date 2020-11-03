@@ -4,6 +4,16 @@ import theme from './settings/theme'
 export default {
   mode: 'universal',
   /*
+   ** Server-Side environment vars to pass to client
+   ** can access in UI thru either
+   ** 1. process.env.myEnvVarCamelCase
+   ** 2. context.env.myEnvVarCamelCase
+   */
+  env: {
+    algoliaAppId: process.env.ALGOLIA_APP_ID,
+    algoliaApiKey: process.env.ALGOLIA_API_KEY
+  },
+  /*
    ** Headers of the page
    */
   head: {
@@ -51,7 +61,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@plugins/prismic-links.client.ts'],
+  plugins: [
+    '@plugins/prismic-links.client.ts',
+    '@plugins/vue-instantsearch.ts'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -104,6 +117,7 @@ export default {
    ** Build configuration
    */
   build: {
+    transpile: ['vue-instantsearch', 'instantsearch.js/es'],
     /*
      ** You can extend webpack config here
      */
