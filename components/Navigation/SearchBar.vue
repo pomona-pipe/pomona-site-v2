@@ -33,11 +33,11 @@
         <div slot-scope="{ items }">
           <!-- results -->
           <v-list v-if="items.length > 0" three-line>
-            <!-- FIXME: use linkResolver for list-item link -->
             <v-list-item
               v-for="item in items"
               :key="item.objectID"
-              :to="item.slug"
+              :to="linkResolver(item.documentLink)"
+              @click.native="clearSearch()"
             >
               <v-list-item-avatar size="60" tile class="rounded">
                 <v-img :src="item.image" />
@@ -46,9 +46,8 @@
                 <v-list-item-title>
                   <ais-highlight :hit="item" attribute="title"></ais-highlight>
                 </v-list-item-title>
-                <!-- FIXME: replace slug with document type -->
                 <v-list-item-subtitle>
-                  <ais-highlight :hit="item" attribute="slug"></ais-highlight>
+                  in&nbsp;<ais-highlight :hit="item" attribute="type"></ais-highlight>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -114,5 +113,10 @@ export default class SearchBar extends Vue {
   searchQuery = ''
   searchClient = algoliasearch(process.env.algoliaAppId!, process.env.algoliaApiKey!)
   algoliaIndex = 'PAGES'
+  linkResolver = linkResolver
+  clearSearch() {
+    this.$store.commit('layout/setSearchBar', { open: false, isClosing: false })
+    this.searchQuery = ''
+  }
 }
 </script>

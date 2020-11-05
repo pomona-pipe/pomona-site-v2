@@ -149,3 +149,15 @@ export function camelCaseToTitle(camelString: string) {
   return title
 }
 
+// used in send-to-algolia endpoint
+export function snakeCaseToTitle(snakeString: string) {
+  // convert camelCase to separate words
+  const spaced = snakeString.replace('_', ' ')
+  // capitalize first letter of each word
+  const title = spaced
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+  return title
+}
+

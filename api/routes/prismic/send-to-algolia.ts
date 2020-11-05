@@ -5,6 +5,7 @@ import algoliaSearch from 'algoliasearch'
 import { get } from 'lodash'
 import { Document } from 'prismic-javascript/d.ts/documents'
 import { getPrismicDocuments } from '../../functions/prismic'
+import { snakeCaseToTitle } from '../../tools'
 
 // create route and export to api
 const router = Router()
@@ -26,6 +27,7 @@ router.use('/prismic/send-to-algolia', async (req, res) => {
     const {
       data,
       tags,
+      type,
       uid,
       first_publication_date,
       last_publication_date,
@@ -34,11 +36,22 @@ router.use('/prismic/send-to-algolia', async (req, res) => {
     // use lodash get to access deep properties
     const title = get(data, 'name[0].text')
     const image = get(data, 'hero_image.thumbnail')
+    const documentLink = {
+      id,
+      isBroken: false,
+      lang: '',
+      link_type: '',
+      slug: '',
+      tags,
+      type,
+      uid
+    }
     return {
       title,
       image,
+      type: snakeCaseToTitle(type),
       tags,
-      slug: uid,
+      documentLink,
       publication_date: first_publication_date,
       modified: last_publication_date,
       objectID: id
@@ -46,8 +59,8 @@ router.use('/prismic/send-to-algolia', async (req, res) => {
   })
 
   // create algolia client
-  const { ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY } = process.env
-  const algoliaClient = algoliaSearch(ALGOLIA_APP_ID!, ALGOLIA_ADMIN_KEY!)
+  const { ALGOLIA_APP_ID, ALGOLIA_API_KEY } = process.env
+  const algoliaClient = algoliaSearch(ALGOLIA_APP_ID!, ALGOLIA_API_KEY!)
 
   // create algolia search index
   const algoliaIndex = algoliaClient.initIndex('PAGES')
