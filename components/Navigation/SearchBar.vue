@@ -5,7 +5,7 @@
       :index-name="algoliaIndex"
     >
       <!-- search input -->
-      <ais-search-box>
+      <ais-search-box id="search-input">
         <div slot-scope="{ isSearchStalled, refine }">
           <v-text-field
             id="searchInput"
@@ -29,10 +29,10 @@
         </div>
       </ais-search-box>
       <!-- search results -->
-      <ais-hits v-if="searchQuery">
+      <ais-hits id="search-results" v-if="searchQuery">
         <div slot-scope="{ items }">
           <!-- results -->
-          <v-list v-if="items.length > 0" three-line>
+          <v-list dark v-if="items.length > 0" three-line>
             <v-list-item
               v-for="item in items"
               :key="item.objectID"
@@ -53,7 +53,7 @@
             </v-list-item>
           </v-list>
           <!-- no results -->
-          <v-list v-else>
+          <v-list v-else dark>
             <v-list-item>
               <v-list-item-title>No Results</v-list-item-title>
             </v-list-item>
@@ -78,6 +78,15 @@
   &.is-closing {
     visibility: visible;
     opacity: 1;
+  }
+  #search-input {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    padding: 8px 28px;
+    z-index: 1;
+    background-color: #ffffff;
   }
 }
 .slide-in {
