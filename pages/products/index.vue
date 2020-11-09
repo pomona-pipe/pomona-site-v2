@@ -21,7 +21,7 @@
             <v-card :to="`/products/${cat.uid}`" hover outlined height="100%">
               <v-img :src="cat.data.hero_image.fileUrl || placeholders.file" height="200px"></v-img>
 
-              <v-card-title>{{ cat.data.category_title[0].text }}</v-card-title>
+              <v-card-title>{{ cat.data.name[0].text }}</v-card-title>
             </v-card>
           </v-col>
         </v-row>

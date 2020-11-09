@@ -5,7 +5,7 @@
         <v-row align="center" class="fill-height">
           <v-col align="center">
             <div class="grey--text text--lighten-2">
-              <prismic-rich-text :field="document.data.category_title" />
+              <prismic-rich-text :field="document.data.name" />
             </div>
           </v-col>
         </v-row>
