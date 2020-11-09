@@ -47,7 +47,10 @@
                   <ais-highlight :hit="item" attribute="title"></ais-highlight>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  in&nbsp;<ais-highlight :hit="item" attribute="type"></ais-highlight>
+                  in&nbsp;<ais-highlight
+                    :hit="item"
+                    attribute="type"
+                  ></ais-highlight>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -89,6 +92,12 @@
     background-color: #ffffff;
   }
 }
+#search-results {
+  position: absolute;
+  top: 96px;
+  width: 100%;
+  left: 0px;
+}
 .slide-in {
   ::v-deep #searchInput {
     transform: translateY(16px);
@@ -120,7 +129,10 @@ import linkResolver from '~/plugins/link-resolver'
 })
 export default class SearchBar extends Vue {
   searchQuery = ''
-  searchClient = algoliasearch(process.env.algoliaAppId!, process.env.algoliaApiKey!)
+  searchClient = algoliasearch(
+    process.env.algoliaAppId!,
+    process.env.algoliaApiKey!
+  )
   algoliaIndex = 'PAGES'
   linkResolver = linkResolver
   clearSearch() {
