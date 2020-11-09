@@ -26,6 +26,9 @@ export default function(doc: DocumentLink) {
   const { uid } = doc
 
   switch (doc.type) {
+    case 'home_page':
+      return '/'
+      
     case 'category_page':
       return '/products'
 
@@ -75,6 +78,12 @@ export default function(doc: DocumentLink) {
     
     case 'services_page':
       return '/services'
+
+    case 'applications':
+      return `/applications/${uid}`
+
+    case 'applications_page':
+      return '/applications'
 
     default:
       return '/not-found'
