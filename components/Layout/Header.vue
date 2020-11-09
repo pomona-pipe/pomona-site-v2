@@ -168,7 +168,7 @@ export default class Header extends Vue {
     // after opening, focus search bar
     if (payload.open) {
       setTimeout(() => {
-        ;((this.$refs.searchBar as Vue).$refs
+        ((this.$refs.searchBar as Vue).$refs
           .searchInput as HTMLElement).focus()
       }, 150)
     }

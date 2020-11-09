@@ -59,8 +59,8 @@ router.use('/prismic/send-to-algolia', async (req, res) => {
   })
 
   // create algolia client
-  const { ALGOLIA_APP_ID, ALGOLIA_API_KEY } = process.env
-  const algoliaClient = algoliaSearch(ALGOLIA_APP_ID!, ALGOLIA_API_KEY!)
+  const { ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY } = process.env
+  const algoliaClient = algoliaSearch(ALGOLIA_APP_ID!, ALGOLIA_ADMIN_KEY!)
 
   // create algolia search index
   const algoliaIndex = algoliaClient.initIndex('PAGES')
