@@ -16,9 +16,7 @@ router.use('/prismic/send-to-algolia', async (req, res) => {
     'https://pomona.cdn.prismic.io/api/v2'
   )
   const predicates = [
-    Prismic.Predicates.not('document.type', 'main_navigation'),
-    Prismic.Predicates.not('document.type', 'footer_navigation'),
-    Prismic.Predicates.not('document.type', 'employees')
+    Prismic.Predicates.any('document.type', ['products', 'product_categories','projects', 'applications', 'services_page']),
   ]
   const results = await getPrismicDocuments(prismicClient, predicates)
 
