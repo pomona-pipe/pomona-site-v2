@@ -27,14 +27,14 @@
             >
               <v-img
                 :src="
-                  project.data.project_description_hero.fileUrl ||
+                  project.data.hero_image.fileUrl ||
                     placeholders.file
                 "
                 height="200px"
               ></v-img>
 
               <v-card-title>{{
-                project.data.project_name[0].text
+                project.data.name[0].text
               }}</v-card-title>
               <v-card-text class="text--primary">{{
                 project.data.project_description

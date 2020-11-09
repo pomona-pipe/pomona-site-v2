@@ -7,7 +7,7 @@
           <!-- Project site  -->
           <div>
             <p class="subtitle">Site:</p>
-            <p>{{ document.data.project_name[0].text }}</p>
+            <p>{{ document.data.name[0].text }}</p>
           </div>
           <!-- project Completion Date  -->
           <div>
