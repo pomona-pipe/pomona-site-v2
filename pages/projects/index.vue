@@ -16,26 +16,27 @@
     </section>
     <section>
       <v-container>
-        <v-row cols="12">
-          <v-col v-for="project in projects" :key="project.id" sm="6" lg="4">
+        <v-row>
+          <v-col
+            v-for="project in projects"
+            :key="project.id"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+          >
             <v-card
               :to="`/projects/${project.uid}`"
               hover
               outlined
               height="100%"
-              class="d-flex flex-column justify-space-between"
             >
               <v-img
-                :src="
-                  project.data.hero_image.fileUrl ||
-                    placeholders.file
-                "
+                :src="project.data.hero_image.fileUrl || placeholders.file"
                 height="200px"
               ></v-img>
 
-              <v-card-title>{{
-                project.data.name[0].text
-              }}</v-card-title>
+              <v-card-title>{{ project.data.name[0].text }}</v-card-title>
               <v-card-text class="text--primary">{{
                 project.data.project_description
               }}</v-card-text>
