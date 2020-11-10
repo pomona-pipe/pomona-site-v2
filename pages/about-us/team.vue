@@ -16,8 +16,8 @@
     <section>
       <v-container>
         <v-row>
-          <v-col v-for="employee in employees" :key="employee.id" cols="12" sm="6" lg="3">
-            <v-card hover outlined height="100%">
+          <v-col v-for="employee in employees" :key="employee.id" cols="12" sm="6" md="4" lg="3">
+            <v-card class="card" hover outlined height="100%" max-width="300px">
               <v-img :src="employee.data.profile_image ? employee.data.profile_image.fileUrl : placeholders.account" height="200px"></v-img>
               <v-card-title>{{ employee.data.name }}</v-card-title>
               <v-card-text>
@@ -40,6 +40,12 @@
     </section>
   </div>
 </template>
+
+<style lang="css" scoped>
+.card {
+  margin: auto;
+}
+</style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
