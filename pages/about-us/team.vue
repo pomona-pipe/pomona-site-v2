@@ -23,7 +23,10 @@
               <v-card-text>
                 {{ employee.data.job_title }}
                 <br />
-                {{ employee.data.territory }}
+                <span v-if="employee.data.territory">
+                  {{ employee.data.territory }}
+                  <br />
+                </span>
                 <a :href="`mailto:${employee.data.email_address}`">
                   {{
                   employee.data.email_address
