@@ -9,7 +9,9 @@
               <prismic-rich-text :field="aboutUs[0].data.hero_title" />
             </div>
             <div>
-              <p class="subtitle">{{ aboutUs[0].data.hero_subtitle[0].text }}</p>
+              <p class="subtitle">
+                {{ aboutUs[0].data.hero_subtitle[0].text }}
+              </p>
             </div>
           </v-col>
         </v-row>
@@ -19,16 +21,28 @@
     <section>
       <v-container>
         <v-row cols="12">
-          <v-col sm="10" offset-sm="1" class="text-center">
-            <prismic-rich-text :field="aboutUs[0].data.page_sections[0].primary.section_title" />
-            <prismic-rich-text :field="aboutUs[0].data.page_sections[0].primary.section_text" />
+          <v-col sm="10" offset-sm="1">
+            <prismic-rich-text
+              class="text-center"
+              :field="aboutUs[0].data.page_sections[0].primary.section_title"
+            />
+            <prismic-rich-text
+              class="body"
+              :field="aboutUs[0].data.page_sections[0].primary.section_text"
+            />
           </v-col>
         </v-row>
       </v-container>
     </section>
   </div>
 </template>
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.body {
+  width: 70%;
+  margin: auto;
+  padding: 10px;
+}
+</style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
