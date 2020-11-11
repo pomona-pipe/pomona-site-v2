@@ -156,7 +156,7 @@ export default class Header extends Vue {
   mdiMagnify = mdiMagnify
   mdiClose = mdiClose
 
-  toggleSearch() {
+  async toggleSearch() {
     // build next state
     const { open } = this.$store.state.layout.searchBar
     const payload = {
@@ -167,13 +167,13 @@ export default class Header extends Vue {
     this.$store.commit('layout/setSearchBar', payload)
     // after opening, focus search bar
     if (payload.open) {
-      return new Promise((resolve) => {
+      const timeout = new Promise((resolve) => {
         setTimeout(() => {
           resolve()
         }, 150)
-      }).then(() => {
-        ((this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement).focus()
       })
+      await timeout
+      ;((this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement).focus()
     }
     // after closing, clear isClosing transition state
     else {
