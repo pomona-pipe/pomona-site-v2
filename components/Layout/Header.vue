@@ -170,7 +170,7 @@ export default class Header extends Vue {
       const timeout = new Promise((resolve) => {
         setTimeout(() => {
           resolve()
-        }, 200)
+        }, 300)
       })
       await timeout
       ;((this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement).focus()
