@@ -21,13 +21,13 @@
     <section>
       <v-container>
         <v-row cols="12">
-          <v-col sm="10" offset-sm="1">
+          <v-col sm="10" lg="8" offset-sm="1" offset-lg="2">
             <prismic-rich-text
               class="text-center"
               :field="aboutUs[0].data.page_sections[0].primary.section_title"
             />
             <prismic-rich-text
-              class="body"
+              class="pa-3"
               :field="aboutUs[0].data.page_sections[0].primary.section_text"
             />
           </v-col>
@@ -36,13 +36,7 @@
     </section>
   </div>
 </template>
-<style lang="css" scoped>
-.body {
-  width: 70%;
-  margin: auto;
-  padding: 10px;
-}
-</style>
+<style lang="css" scoped></style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
@@ -72,7 +66,7 @@ export default class Index extends Vue {
       title: (this as any).aboutUs[0].data.hero_title[0].text
     }
   }
-  
+
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
     if (pageVisits() > 1) return
     await store.dispatch('pages/getAboutUs', $prismic)
