@@ -50,6 +50,12 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
 export default class Index extends Vue {
   document: IPrismicDocument | null = null
 
+  head() {
+    return {
+      title: (this as any).document.data.name[0].text
+    }
+  }
+
   async fetch({
     store,
     $prismic,
@@ -62,9 +68,11 @@ export default class Index extends Vue {
     const { uid } = params
 
     // if application exists in store, return
-    const storeApplication = find(store.state.applications.applications, { uid })
+    const storeApplication = find(store.state.applications.applications, {
+      uid
+    })
     if (storeApplication) return
-    
+
     // else, query application and add to store
     const result = await $prismic.api.getByUID('applications', uid)
     store.commit('applications/addApplication', result)

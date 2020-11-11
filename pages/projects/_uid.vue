@@ -39,8 +39,7 @@ import FullGallery from '~/components/PageComponents/ProjectDetailSections/FullG
     Background,
     OurSolution,
     FullGallery
-  },
-
+  }
 })
 export default class DetailPage extends Vue {
 
@@ -63,6 +62,5 @@ export default class DetailPage extends Vue {
     const result = await $prismic.api.getByUID('projects', uid)
     store.commit('projects/addProject', result)
   }
-
 }
 </script>

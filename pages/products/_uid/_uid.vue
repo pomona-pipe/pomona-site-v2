@@ -45,6 +45,12 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
 export default class DetailPage extends Vue {
   document: IPrismicDocument | null = null
 
+  head() {
+    return {
+      title: (this as any).document.data.name[0].text
+    }
+  }
+
   async fetch({
     store,
     $prismic,

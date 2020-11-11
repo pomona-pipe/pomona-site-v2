@@ -78,6 +78,12 @@ import { IPrismic } from '~/shims'
   }
 })
 export default class Index extends Vue {
+  head() {
+    return {
+      title: (this as any).projectListingPage[0].data.main_title[0].text
+    }
+  }
+
   formatDateString(dateString: string) {
     return moment(dateString).format('MMMM Do YYYY')
   }

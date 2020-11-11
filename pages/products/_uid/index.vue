@@ -15,9 +15,27 @@
       <v-container>
         <!-- template for product category cards -->
         <v-row>
-          <v-col v-for="product in products" :key="product.data.id" cols="12" md="6" lg="3">
-            <v-card :to="`./${uid}/${product.uid}`" outlined hover height="100%">
-              <v-img :src="product.data.hero_image ? product.data.hero_image.fileUrl : placeholders.file" height="200px"></v-img>
+          <v-col
+            v-for="product in products"
+            :key="product.data.id"
+            cols="12"
+            md="6"
+            lg="3"
+          >
+            <v-card
+              :to="`./${uid}/${product.uid}`"
+              outlined
+              hover
+              height="100%"
+            >
+              <v-img
+                :src="
+                  product.data.hero_image
+                    ? product.data.hero_image.fileUrl
+                    : placeholders.file
+                "
+                height="200px"
+              ></v-img>
 
               <v-card-title>{{ product.data.name[0].text }}</v-card-title>
             </v-card>
@@ -52,6 +70,12 @@ import { IPrismic, IPrismicDocument } from '~/shims'
 })
 export default class ProductCategoryPage extends Vue {
   document: IPrismicDocument | null = null
+
+  head() {
+    return {
+      title: (this as any).document.data.name[0].text
+    }
+  }
 
   // product cards
   get products() {

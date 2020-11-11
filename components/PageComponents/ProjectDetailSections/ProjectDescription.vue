@@ -41,11 +41,16 @@ import { IPrismic, IPrismicDocument } from '~/shims'
 export default class ProjectDescription extends Vue {
   document: IPrismicDocument | null = null
 
+   head() {
+    return {
+      title: (this as any).document.data.name[0].text
+    }
+  }
+
   formatDateString(dateString: string) {
     return moment(dateString).format('MMMM Do YYYY')
   }
-
-
+  
   // fetch project from store and copy to component
   created() {
     const uid = this.$route.params.uid

@@ -67,6 +67,12 @@ import { IPrismic } from '~/shims'
   }
 })
 export default class Index extends Vue {
+  head() {
+    return {
+      title: (this as any).aboutUs[0].data.hero_title[0].text
+    }
+  }
+  
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
     if (pageVisits() > 1) return
     await store.dispatch('pages/getAboutUs', $prismic)
