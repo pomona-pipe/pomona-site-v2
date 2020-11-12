@@ -167,10 +167,15 @@ export default class Header extends Vue {
     this.$store.commit('layout/setSearchBar', payload)
     // after opening, focus search bar
     if (payload.open) {
-      setTimeout(() => {
-        ((this.$refs.searchBar as Vue).$refs
-          .searchInput as HTMLElement).focus()
-      }, 150)
+      const timeout = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve()
+        }, 150)
+      })
+      await timeout
+      this.$nextTick(() => {
+        ((this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement).focus()
+      })
     }
     // after closing, clear isClosing transition state
     else {
