@@ -129,7 +129,7 @@ button {
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import { mdiMenu, mdiMagnify, mdiClose } from '@mdi/js'
 import DesktopMenu from '~/components/Navigation/DesktopMenu.vue'
 import SearchBar from '~/components/Navigation/SearchBar.vue'
@@ -174,14 +174,13 @@ export default class Header extends Vue {
         }, 500)
       })
       await timeout
-      searchInput.autofocus = true
+      this.$store.commit('layout/setSearchBar', { autofocus: true })
       searchInput.focus()
     }
     // close in UI
     else {
       setTimeout(() => {
-        searchInput.autofocus = false
-        this.$store.commit('layout/setSearchBar', { isClosing: false })
+        this.$store.commit('layout/setSearchBar', { autofocus: false, isClosing: false })
       }, 100)
     }
   }
