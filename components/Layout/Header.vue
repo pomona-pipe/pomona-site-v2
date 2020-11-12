@@ -171,7 +171,7 @@ export default class Header extends Vue {
       const timeout = new Promise((resolve) => {
         setTimeout(() => {
           resolve()
-        }, 150)
+        }, 500)
       })
       await timeout
       searchInput.autofocus = true
