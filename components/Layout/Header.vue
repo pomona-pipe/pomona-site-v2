@@ -159,28 +159,28 @@ export default class Header extends Vue {
   async toggleSearch() {
     // build next state
     const { open } = this.$store.state.layout.searchBar
-    let payload = {
+    const payload = {
       open: !open
     }
     if (open) Object.assign(payload, { isClosing: true })
     // toggle search bar
     this.$store.commit('layout/setSearchBar', payload)
-    // after opening, focus search bar
+    const searchInput = (this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement
+    // open in UI
     if (payload.open) {
       const timeout = new Promise((resolve) => {
         setTimeout(() => {
           resolve()
-        }, 500)
+        }, 150)
       })
       await timeout
-      const searchBarComponent = (this.$refs.searchBar as Vue)
-      searchBarComponent.$nextTick(() => {
-        (searchBarComponent.$refs.searchInput as HTMLElement).focus()
-      })
+      searchInput.autofocus = true
+      searchInput.focus()
     }
-    // after closing, clear isClosing transition state
+    // close in UI
     else {
       setTimeout(() => {
+        searchInput.autofocus = false
         this.$store.commit('layout/setSearchBar', { isClosing: false })
       }, 100)
     }
