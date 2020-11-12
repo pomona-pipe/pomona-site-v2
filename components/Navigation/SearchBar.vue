@@ -6,8 +6,17 @@
     >
       <!-- search input -->
       <ais-search-box id="search-input">
-        <div slot-scope="{ isSearchStalled, refine }">
+        <div
+          slot-scope="{ isSearchStalled, refine }"
+          :class="{
+            'pl-4': true,
+            'pr-13': true,
+            'slide-in': true,
+            in: searchBar.open && !searchBar.isClosing
+          }"
+        >
           <v-text-field
+            v-show="searchBar.open"
             id="searchInput"
             ref="searchInput"
             v-model="searchQuery"
@@ -17,12 +26,8 @@
             solo
             flat
             hide-details
-            :class="{
-              'pl-4': true,
-              'pr-13': true,
-              'slide-in': true,
-              in: searchBar.open && !searchBar.isClosing
-            }"
+            autofocus
+            background-color="transparent"
             @input="refine(searchQuery)"
           />
           <span :hidden="!isSearchStalled">Loading...</span>
@@ -100,15 +105,11 @@
   left: 0px;
 }
 .slide-in {
-  ::v-deep #searchInput {
-    transform: translateY(16px);
-    transition: transform 150ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  transform: translateY(16px);
+  transition: transform 150ms 0ms cubic-bezier(0.4, 0, 0.2, 1);
   &.in {
-    ::v-deep #searchInput {
-      transform: translateY(0px);
-      pointer-events: all;
-    }
+    transform: translateY(0px);
+    pointer-events: all;
   }
 }
 </style>
