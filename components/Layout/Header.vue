@@ -173,8 +173,9 @@ export default class Header extends Vue {
         }, 150)
       })
       await timeout
-      this.$nextTick(() => {
-        ((this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement).focus()
+      const searchBarComponent = (this.$refs.searchBar as Vue)
+      searchBarComponent.$nextTick(() => {
+        (searchBarComponent.$refs.searchInput as HTMLElement).focus()
       })
     }
     // after closing, clear isClosing transition state
