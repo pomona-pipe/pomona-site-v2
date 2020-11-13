@@ -169,13 +169,11 @@ export default class Header extends Vue {
     // open in UI
     if (payload.open) {
       this.$nextTick(() => {
-        searchInput.setAttribute('autofocus', 'autofocus')
         searchInput.focus()
       })
     }
     // close in UI
     else {
-      searchInput.removeAttribute('autofocus')
       setTimeout(() => {
         this.$store.commit('layout/setSearchBar', { isClosing: false })
       }, 100)
