@@ -17,7 +17,6 @@
             solo
             flat
             hide-details
-            :autofocus="searchBar.autofocus"
             :class="{
               'pl-4': true,
               'pr-13': true,

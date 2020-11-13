@@ -166,13 +166,13 @@ export default class Header extends Vue {
     // toggle search bar
     this.$store.commit('layout/setSearchBar', payload)
     const searchInput = document.getElementById('searchInput')!
-    // open in UI
+    // after opening, focus search bar
     if (payload.open) {
       this.$nextTick(() => {
         searchInput.focus()
       })
     }
-    // close in UI
+    // after closing, clear isClosing transition state
     else {
       setTimeout(() => {
         this.$store.commit('layout/setSearchBar', { isClosing: false })
