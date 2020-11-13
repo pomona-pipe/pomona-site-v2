@@ -4,7 +4,6 @@ import { IPrismic } from '~/shims'
 
 interface SearchState {
   open: boolean
-  autofocus: boolean
   isClosing: boolean
 }
 
@@ -23,7 +22,6 @@ export const state: () => IState = () => ({
   isMobile: null,
   searchBar: {
     open: false,
-    autofocus: false,
     isClosing: false
   },
   mobileDrawer: false,

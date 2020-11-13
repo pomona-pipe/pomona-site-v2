@@ -156,7 +156,7 @@ export default class Header extends Vue {
   mdiMagnify = mdiMagnify
   mdiClose = mdiClose
 
-  async toggleSearch() {
+  toggleSearch() {
     // build next state
     const { open } = this.$store.state.layout.searchBar
     const payload = {
@@ -165,22 +165,19 @@ export default class Header extends Vue {
     if (open) Object.assign(payload, { isClosing: true })
     // toggle search bar
     this.$store.commit('layout/setSearchBar', payload)
-    const searchInput = (this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement
+    const searchInput = document.getElementById('searchInput')!
     // open in UI
     if (payload.open) {
-      this.$store.commit('layout/setSearchBar', { autofocus: true })
-      const timeout = new Promise((resolve) => {
-        setTimeout(() => {
-          resolve()
-        }, 500)
+      this.$nextTick(() => {
+        searchInput.setAttribute('autofocus', 'autofocus')
+        searchInput.focus()
       })
-      await timeout
-      this.$nextTick(() => { searchInput.focus() })
     }
     // close in UI
     else {
+      searchInput.removeAttribute('autofocus')
       setTimeout(() => {
-        this.$store.commit('layout/setSearchBar', { autofocus: false, isClosing: false })
+        this.$store.commit('layout/setSearchBar', { isClosing: false })
       }, 100)
     }
   }
