@@ -168,14 +168,14 @@ export default class Header extends Vue {
     const searchInput = (this.$refs.searchBar as Vue).$refs.searchInput as HTMLElement
     // open in UI
     if (payload.open) {
+      this.$store.commit('layout/setSearchBar', { autofocus: true })
       const timeout = new Promise((resolve) => {
         setTimeout(() => {
           resolve()
         }, 500)
       })
       await timeout
-      this.$store.commit('layout/setSearchBar', { autofocus: true })
-      searchInput.focus()
+      this.$nextTick(() => { searchInput.focus() })
     }
     // close in UI
     else {
