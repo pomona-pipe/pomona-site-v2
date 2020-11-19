@@ -3,9 +3,20 @@ import moment from 'moment'
 import { s3ListFiles, s3UploadFile, s3DeleteFiles } from './aws'
 import { dropbox } from '../data'
 import { getFileInfo, getSanitizedFileName } from '../tools'
-import {listDropboxFiles} from './dropbox'
+import { listDropboxFiles } from './dropbox'
 
-export async function updateS3FromDropbox() {
+interface S3Upload {
+  uploadPath: string
+  fileBuffer: Buffer
+  contentType: ContentType
+}
+
+interface S3FileUploadResults {
+  newFiles: S3Upload[]
+  updatedFiles: S3Upload[]
+}
+
+export default async function s3UpdateFromDropbox() {
 
   const dropboxFiles = (await listDropboxFiles()).map((file) => {
     const fileExtensionLower = file.name.substr((file.name.lastIndexOf('.') + 1)).toLowerCase()
@@ -19,18 +30,25 @@ export async function updateS3FromDropbox() {
    **   1. File does not exist on S3
    **   2. File has been updated on Dropbox
    */
-  await updateNewFiles(dropboxFiles, s3Files)
+  const uploaded = await updateNewFiles(dropboxFiles, s3Files)
 
   // Delete files from S3 if removed from Dropbox
-  await updateDeletions(dropboxFiles, s3Files)
+  const deleted = await updateDeletions(dropboxFiles, s3Files)
+
+  return {
+    uploaded,
+    deleted
+  }
 }
 
 async function updateNewFiles(
   dropboxFiles: DropboxTypes.files.FileMetadataReference[],
   s3Files: S3ObjectList
 ) {
-  let newFileCount = 0
-  let updatedFileCount = 0
+  const newFileUploadResult: S3FileUploadResults = {
+    newFiles: [],
+    updatedFiles: []
+  }
   for (const dropboxFile of dropboxFiles) {
     const dropboxPath = dropboxFile.path_lower!
     const dropboxModified = dropboxFile.client_modified
@@ -47,7 +65,6 @@ async function updateNewFiles(
       isUploaded = true
       // if dropbox modified is after s3 modified, file should be updated
       if(moment(dropboxModified).isAfter(s3File.LastModified)) {
-        console.log(`dropboxModified: ${dropboxModified}, s3Modified: ${s3File.LastModified}`)
         isUpdated = true
       }
       // stop checking s3 files since match was found
@@ -58,28 +75,27 @@ async function updateNewFiles(
     const fileBuffer = ((await dropbox.filesDownload({
       path: dropboxPath
     })) as any).fileBinary as Buffer
-    await s3UploadFile({
+    const s3Upload: S3Upload = {
       uploadPath: s3UploadPath,
       fileBuffer,
       contentType: contentType
-    })
+    }
+    await s3UploadFile(s3Upload)
     if(isUpdated) {
-      updatedFileCount++
-      console.log(`${s3UploadPath} updated on S3`)
+      newFileUploadResult.updatedFiles.push(s3Upload)
     } else {
-      newFileCount++
-      console.log(`${s3UploadPath} uploaded to S3`)
+      newFileUploadResult.newFiles.push(s3Upload)
     }
   }
-  console.log(`\n${newFileCount} files added to S3\n${updatedFileCount} files updated on S3`)
+  return newFileUploadResult
 }
 
 async function updateDeletions(dropboxFiles: DropboxTypes.files.FileMetadataReference[], s3Files: S3ObjectList) {
-  let deleteCount = 0
+  const deletedFileResult: S3ObjectList = []
   // if no files exist on S3, return
   const doS3FilesExist = s3Files.length > 0
   if(!doS3FilesExist) {
-    return console.log(`${deleteCount} files deleted from S3`)
+    return deletedFileResult
   }
   // else, delete files if necessary
   const deleteFromS3: string[] = []
@@ -93,15 +109,11 @@ async function updateDeletions(dropboxFiles: DropboxTypes.files.FileMetadataRefe
     )
     if (!isOnDropbox) {
       deleteFromS3.push(s3File.Key!)
-      deleteCount++
+      deletedFileResult.push(s3File)
     }
   }
-  if (deleteCount > 0) {
+  if (deleteFromS3.length > 0) {
     await s3DeleteFiles(deleteFromS3)
-    console.log('\n')
-    deleteFromS3.forEach((file) => {
-      console.log(`${file} deleted from S3`)
-    })
   }
-  console.log(`\n${deleteCount} files deleted from S3`)
+  return deletedFileResult
 }

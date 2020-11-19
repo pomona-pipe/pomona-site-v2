@@ -1,4 +1,5 @@
 import express from 'express'
+import updateS3FromDropbox from './routes/s3UpdateFromDropbox'
 import images from './routes/prismic/images'
 import pdfs from './routes/prismic/pdfs'
 import docs from './routes/prismic/docs'
@@ -19,7 +20,16 @@ app.use(
 app.use(express.json())
 
 // add routes
-app.use(images, pdfs, docs, videos, sendToAlgolia, slackChannelPost, sendEmail)
+app.use(
+  updateS3FromDropbox,
+  images,
+  pdfs,
+  docs,
+  videos,
+  sendToAlgolia,
+  slackChannelPost,
+  sendEmail
+)
 
 // Export express app
 export default app
