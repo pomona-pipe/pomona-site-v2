@@ -1,10 +1,12 @@
-import S3, { ObjectIdentifierList } from 'aws-sdk/clients/s3'
+import S3, { ObjectIdentifierList, Prefix } from 'aws-sdk/clients/s3'
+
+const Bucket = 'pomona-dropbox'
 
 function createS3(Prefix?: string) {
   return new S3({
     endpoint: 's3.us-east-1.amazonaws.com',
     params: {
-      Bucket: 'pomona-dropbox',
+      Bucket,
       Prefix
     }
   })
@@ -27,14 +29,16 @@ export async function s3DeleteFiles(filePaths: string[]) {
   return deleteResponse
 }
 
-export async function s3ListFiles() {
-  const s3 = createS3()
+// TODO: allow for more than 1000 files by passing a continuation token
+export async function s3ListFiles(Prefix?: Prefix) {
+  const s3 = createS3();
   const filesResponse = s3
-    .listObjectsV2()
+    .listObjectsV2({ Bucket, Prefix })
     .promise()
     .then((data) => data.Contents!.filter((item) => {
       const isFile = !item.Key!.endsWith('/')
-      return isFile
+      const isThumbnail = item.Key!.includes('@')
+      return isFile && !isThumbnail
     }))
   return filesResponse
 }

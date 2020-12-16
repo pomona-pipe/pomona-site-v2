@@ -1,5 +1,16 @@
 import { Request } from 'express'
 
+export function paginate(
+  files: any[],
+  page: number,
+  resultsLimit: number
+) {
+  const start = page * resultsLimit - resultsLimit
+  const end = start + resultsLimit
+  const pageResults = files.slice(start, end)
+  return pageResults
+}
+
 export function getServerUrl(request: Request) {
   const serverUrl =
     process.env.NODE_ENV === 'development'

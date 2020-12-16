@@ -46,6 +46,15 @@ type ContentType =
   | 'text/csv'
   | 'text'
 
+type S3UploadFolder =
+| 'images'
+| 'videos'
+| 'pdfs'
+| 'docs'
+| 'spreadsheets'
+| 'powerpoints'
+| 'other-files'
+
 interface FileInfo {
   type: FileType
   contentType: ContentType
