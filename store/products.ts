@@ -49,7 +49,9 @@ export const actions = {
       'my.products.product_category',
       catId
     )
-    const product = await $prismic.api.query(byCategory, {})
+    const product = await $prismic.api.query(byCategory, {
+      orderings: '[my.products.order_number]'
+    })
     commit(
       'addProducts',
       product.results.map((result) => result)
