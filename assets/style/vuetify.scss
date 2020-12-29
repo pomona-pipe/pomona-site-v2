@@ -3,9 +3,16 @@
 ** Overwrites default values of vuetify scss vars
 */
 
-// vuetify overwrites
+// vuetify font overwrites
 $body-font-family: 'Open Sans', sans-serif;
 $heading-font-family: 'Poppins', sans-serif;
+
+
+//vuetify container padding overwrite 
+$container-padding-x: 16px;
+
+// vuetify button font overwrite
+$btn-text-transform: 'capitalize';
 
 // default colors
 @import '~/node_modules/vuetify/src/styles/settings/_colors.scss';
