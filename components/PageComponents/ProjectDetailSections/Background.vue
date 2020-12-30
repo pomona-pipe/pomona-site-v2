@@ -1,16 +1,14 @@
 <template>
   <section class="page">
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="6">
-          <h2>Background</h2>
-          <prismic-rich-text :field="document.data.background_paragraph" />
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-img :src="document.data.background_image.fileUrl"></v-img>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row class="mx-0">
+      <v-col class="px-0" order-md="2" cols="11" offset="1" md="5">
+        <v-img class="rounded-l-xl" :src="document.data.background_image.fileUrl"></v-img>
+      </v-col>
+      <v-col class="pl-0" order-md="1" cols="10" offset="1" md="5">
+        <h2>Background</h2>
+        <prismic-rich-text :field="document.data.background_paragraph" />
+      </v-col>
+    </v-row>
   </section>
 </template>
 
