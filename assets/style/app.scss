@@ -79,4 +79,10 @@ p:empty {
   .subtitle {
     font-size: 1.56rem;
   }
+  section {
+    padding: 7rem 0;
+    &.hero {
+      padding-top: calc(7rem + 96px);
+    }
+  }
 }
