@@ -15,7 +15,7 @@
         >
       </a>
     </p>
-    <p>
+    <p class="mb-0">
       <v-icon class="mr-1" >{{ mdiFax }}</v-icon>
       <span>336&centerdot;292&centerdot;2251</span>
     </p>

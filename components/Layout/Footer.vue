@@ -1,19 +1,32 @@
 <template>
-  <v-footer class="d-block py-2" dark color="#303030">
+  <v-footer class="d-block pa-0" dark color="#303030">
     <v-container>
+      <!-- Company Logo -->
       <v-row>
-        <!-- Company Logo -->
         <v-col class="text-center text-sm-left">
           <nuxt-link to="/">
             <img src="/images/logo_xlarge.png" class="pomona_logo" />
           </nuxt-link>
         </v-col>
       </v-row>
-      <v-divider></v-divider>
+
+      <!-- Divider -->
+      <v-row>
+        <v-col>
+          <v-divider />
+        </v-col>
+      </v-row>
+
       <!-- Company address and Page links -->
       <FooterMenu />
 
-      <v-divider></v-divider>
+      <!-- Divider -->
+      <v-row>
+        <v-col>
+          <v-divider />
+        </v-col>
+      </v-row>
+
       <!-- Social Media Icons -->
       <v-row class="text-center">
         <v-col>
@@ -53,7 +66,14 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-divider></v-divider>
+
+      <!-- Divider -->
+      <v-row>
+        <v-col>
+          <v-divider />
+        </v-col>
+      </v-row>
+
       <!-- legal info -->
       <v-row class="text-center">
         <v-col
@@ -78,6 +98,7 @@
   }
 }
 footer {
+  font-size: 0.89rem;
   color: #bdbdbd !important;
 }
 .pomona_logo {
@@ -109,6 +130,5 @@ export default class Footer extends Vue {
   mdiTwitter = mdiTwitter
   mdiLinkedin = mdiLinkedin
   mdiYoutube = mdiYoutube
-
 }
 </script>

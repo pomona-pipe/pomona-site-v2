@@ -1,7 +1,7 @@
 <template>
   <span>
     <!-- Desktop Layout -->
-      <v-row id="desktop-footer" class="hidden-xs-only" align="center" justify="space-between">
+      <v-row id="desktop-footer" class="hidden-xs-only" justify="space-between">
         <v-col class="flex-grow-0">
           <!-- Address and contact info -->
           <CompanyAddress />
@@ -17,7 +17,7 @@
           <Group2Links />
         </v-col>
       </v-row>
-    
+
 
     <!-- Mobile Layout -->
       <v-row id="mobile-footer" cols="12" class="hidden-sm-and-up" >
@@ -36,7 +36,7 @@
         <v-col>
           <v-divider></v-divider>
         </v-col>
-        
+
         <v-col>
           <Group2Links />
         </v-col>
@@ -51,7 +51,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  
+
 }
 
 .col > * {
