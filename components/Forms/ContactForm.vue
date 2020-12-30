@@ -143,6 +143,7 @@
       </v-col>
       <v-col>
         <v-btn
+          rounded
           block
           large
           :disabled="submissionState.inProgress"

@@ -1,5 +1,5 @@
 <template>
-  <div id="contact-page" class="page">
+  <div id="contact-page" class="page hero-overlap">
     <!-- Hero -->
     <section class="hero" :style="heroStyles">
       <v-container>
@@ -16,8 +16,10 @@
     <section>
       <v-container>
         <v-row>
-          <v-col cols="12" md="10" offset-md="1" lg="8" offset-lg="2">
-            <ContactForm />
+          <v-col cols="12" lg="10" offset-lg="1">
+            <v-card elevation="8" class="pa-4 pa-lg-6 rounded-xl">
+              <ContactForm />
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -48,7 +50,7 @@ import ContactForm from '~/components/Forms/ContactForm.vue'
   }
 })
 export default class Index extends Vue {
-   head() {
+  head() {
     return {
       title: (this as any).contact[0].data.main_title[0].text
     }

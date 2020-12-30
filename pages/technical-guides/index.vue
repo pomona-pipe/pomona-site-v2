@@ -1,5 +1,5 @@
 <template>
-  <div id="technical-guides-page" class="page">
+  <div id="technical-guides-page" class="page hero-overlap">
     <!-- Hero -->
     <section class="hero" :style="heroStyles">
       <v-container>
@@ -19,27 +19,24 @@
       <v-container>
         <!-- template for downloadable documents -->
         <v-row>
-          <v-col
-            v-for="file in technicalGuidesPage[0].data.all_documents"
-            :key="file.id"
-            cols="12"
-            sm="4"
-            md="3"
-            lg="2"
-          >
-            <v-card
-              target="_blank"
-              :href="`${file.document.fileUrl}`"
-              hover
-              outlined
-              height="100%"
-            >
-              <v-img
-                :src="file.document.thumbnail || placeholders.file"
-                height="200px"
-              ></v-img>
-
-              <v-card-title>{{ file.document.fileName }}</v-card-title>
+          <v-col cols="12" lg="10" offset-lg="1">
+            <v-card elevation="8" class="pa-2 pa-lg-4 rounded-xl">
+              <v-list rounded>
+                <v-list-item
+                  v-for="file in technicalGuidesPage[0].data.all_documents"
+                  :key="file.id"
+                  target="_blank"
+                  :href="`${file.document.fileUrl}`"
+                >
+                  <v-list-item-icon>
+                    <v-icon color="red">{{ mdiFilePdf }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="`${file.document.fileName}`">
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
             </v-card>
           </v-col>
         </v-row>
@@ -54,6 +51,7 @@ import { Store, mapState } from 'vuex'
 import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
 import ContactForm from '~/components/Forms/ContactForm.vue'
+import { mdiFilePdf } from '@mdi/js'
 
 @Component({
   computed: {
@@ -71,6 +69,9 @@ import ContactForm from '~/components/Forms/ContactForm.vue'
   }
 })
 export default class Index extends Vue {
+  // Material Design Pdf Icon
+  mdiFilePdf = mdiFilePdf
+
   head() {
     return {
       title: (this as any).technicalGuidesPage[0].data.main_title[0].text

@@ -65,6 +65,38 @@ p:empty {
   height: 1em;
 }
 
+//Layout for Mobile Contact & Technical Pages
+.hero-overlap {
+  .hero {
+    padding-bottom: 2.25rem;
+  }
+  .hero + section {
+    background-color: #fafafa;
+    padding-top: 0;
+    .container {
+      padding-top: 0;
+      padding-bottom: 0;
+      .col-12 {
+        padding-top: 0;
+        padding-bottom: 0;
+        .v-card {
+          margin-top: -1.5rem;
+        }
+      }
+    }
+  }
+}
+
+//Layout for Desktop Contact & Technical Pages
+@media screen and (min-width: 768px) {
+  .hero-overlap .hero {
+    padding-bottom: 10.5rem;
+  }
+  .hero-overlap .hero + section .container .col-12 .v-card {
+    margin-top: -7rem;
+  }
+}
+
 @media screen and (min-width: 768px) {
   :root {
     font-size: 18px;
