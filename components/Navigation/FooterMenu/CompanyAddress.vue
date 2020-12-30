@@ -1,7 +1,7 @@
 <template>
   <address>
     <div class="d-flex align-start">
-      <v-icon class="mt-1">{{ mdiMapMarker }}</v-icon>
+      <v-icon class="mt-1 mr-1">{{ mdiMapMarker }}</v-icon>
       <p>
         4611 Dundas Dr.
         <br />Greensboro, NC 27407
@@ -9,14 +9,14 @@
     </div>
     <p>
       <a class="text-decoration-none" href="tel:3362928060">
-        <v-icon medium>{{ mdiPhone }}</v-icon>
+        <v-icon class="mr-1">{{ mdiPhone }}</v-icon>
         <span class="text-decoration-underline"
           >336&centerdot;292&centerdot;8060</span
         >
       </a>
     </p>
     <p>
-      <v-icon medium>{{ mdiFax }}</v-icon>
+      <v-icon class="mr-1" >{{ mdiFax }}</v-icon>
       <span>336&centerdot;292&centerdot;2251</span>
     </p>
   </address>

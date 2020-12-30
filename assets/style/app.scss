@@ -66,18 +66,17 @@ p:empty {
 }
 
 @media screen and (min-width: 768px) {
-  
-  section p {
-    font-size: 1.25rem;
+  :root {
+    font-size: 18px;
     line-height: 1.7;
   }
   h1 {
-    font-size: 3.75rem;
+    font-size: 3.33rem;
   }
   h2 {
-    font-size: 2.75rem;
+    font-size: 2.44rem;
   }
   .subtitle {
-    font-size: 1.75rem;
+    font-size: 1.56rem;
   }
 }
