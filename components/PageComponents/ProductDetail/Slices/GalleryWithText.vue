@@ -7,11 +7,12 @@
       </v-col>
       <v-col cols="12" md="6" :order-md="index % 2 === 0 ? 1 : 2">
         <v-img
+          class="rounded-xl"
           v-if="slice.items.length === 1"
           height="500"
           :src="slice.items[0].section_image ? slice.items[0].section_image.fileUrl : placeholders.file"
         ></v-img>
-        <v-carousel v-else-if="slice.items.length > 1" show-arrows-on-hover>
+        <v-carousel class="rounded-xl" v-else-if="slice.items.length > 1" show-arrows-on-hover>
           <v-carousel-item
             v-for="image in slice.items"
             :key="image.id"
