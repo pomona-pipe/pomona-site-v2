@@ -85,7 +85,7 @@ export default class Index extends Vue {
   }
 
   formatDateString(dateString: string) {
-    return moment(dateString).format('MMMM Do YYYY')
+    return moment(dateString).format('MMMM YYYY')
   }
 
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {

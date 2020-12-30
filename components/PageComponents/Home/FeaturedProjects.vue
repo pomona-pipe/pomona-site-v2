@@ -70,7 +70,7 @@ import moment from 'moment'
 })
 export default class FeaturedProjects extends Vue {
   formatDateString(dateString: string) {
-    return moment(dateString).format('MMMM Do YYYY')
+    return moment(dateString).format('MMMM YYYY')
   }
 }
 </script>
