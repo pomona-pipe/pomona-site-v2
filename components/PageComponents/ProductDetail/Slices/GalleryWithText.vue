@@ -18,6 +18,7 @@
           show-arrows-on-hover
         >
           <v-carousel-item
+          class="rounded-xl"
             v-for="image in slice.items"
             :key="image.id"
             :src="image.section_image.fileUrl"
