@@ -48,10 +48,9 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
+import { mdiFilePdf } from '@mdi/js'
 import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
-import ContactForm from '~/components/Forms/ContactForm.vue'
-import { mdiFilePdf } from '@mdi/js'
 
 @Component({
   computed: {
@@ -74,7 +73,14 @@ export default class Index extends Vue {
 
   head() {
     return {
-      title: (this as any).technicalGuidesPage[0].data.main_title[0].text
+      title: (this as any).technicalGuidesPage[0].data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).technicalGuidesPage[0].data.meta_description
+        }
+      ]
     }
   }
 

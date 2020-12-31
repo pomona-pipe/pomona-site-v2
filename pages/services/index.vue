@@ -94,7 +94,14 @@ import { IPrismic } from '~/shims'
 export default class Index extends Vue {
   head() {
     return {
-      title: (this as any).services[0].data.hero_title[0].text
+      title: (this as any).services[0].data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).services[0].data.meta_description
+        }
+      ]
     }
   }
 

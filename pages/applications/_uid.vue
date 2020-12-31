@@ -19,12 +19,10 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import { Route } from 'vue-router/types'
-import pageVisits from '~/services/pageVisits'
 import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
 import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
@@ -52,7 +50,14 @@ export default class Index extends Vue {
 
   head() {
     return {
-      title: (this as any).document.data.name[0].text
+      title: (this as any).document.data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).document.data.meta_description
+        }
+      ]
     }
   }
 

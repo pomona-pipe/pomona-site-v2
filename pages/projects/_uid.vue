@@ -1,10 +1,10 @@
 <template>
   <div class="page">
-    <ProjectDescription />
-    <Overview />
-    <Background />
-    <OurSolution />
-    <FullGallery />
+    <ProjectDescription :document="document" />
+    <Overview :document="document" />
+    <Background :document="document" />
+    <OurSolution :document="document" />
+    <FullGallery :document="document" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
+import { Store } from 'vuex'
 import { Route } from 'vue-router/types'
 import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
@@ -42,6 +42,26 @@ import FullGallery from '~/components/PageComponents/ProjectDetailSections/FullG
   }
 })
 export default class DetailPage extends Vue {
+  document: IPrismicDocument | null = null
+
+  head() {
+    return {
+      title: (this as any).document.data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).document.data.meta_description
+        }
+      ]
+    }
+  }
+
+  // fetch project from store and copy to component
+  created() {
+    const uid = this.$route.params.uid
+    this.document = find(this.$store.state.projects.projects, { uid })
+  }
 
   async fetch({
     store,

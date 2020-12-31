@@ -17,24 +17,13 @@
   </section>
 </template>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
-import { Route } from 'vue-router/types'
-import { find } from 'lodash'
-import { IPrismic, IPrismicDocument } from '~/shims'
 
-@Component({})
-export default class FullGallery extends Vue {
-  document: IPrismicDocument | null = null
-
-  // fetch project from store and copy to component
-  created() {
-    const uid = this.$route.params.uid
-    this.document = find(this.$store.state.projects.projects, { uid })
-  }
-}
+@Component({
+  props: ['document']
+})
+export default class FullGallery extends Vue {}
 </script>

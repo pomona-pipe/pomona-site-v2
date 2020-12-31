@@ -16,9 +16,24 @@
     <section>
       <v-container>
         <v-row>
-          <v-col v-for="employee in employees" :key="employee.id" cols="12" sm="6" md="4" lg="3" xl="2">
+          <v-col
+            v-for="employee in employees"
+            :key="employee.id"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+            xl="2"
+          >
             <v-card class="card" hover outlined height="100%" max-width="300px">
-              <v-img :src="employee.data.profile_image ? employee.data.profile_image.fileUrl : placeholders.account" height="200px"></v-img>
+              <v-img
+                :src="
+                  employee.data.profile_image
+                    ? employee.data.profile_image.fileUrl
+                    : placeholders.account
+                "
+                height="200px"
+              ></v-img>
               <v-card-title>{{ employee.data.name }}</v-card-title>
               <v-card-text>
                 {{ employee.data.job_title }}
@@ -28,9 +43,7 @@
                   <br />
                 </span>
                 <a :href="`mailto:${employee.data.email_address}`">
-                  {{
-                  employee.data.email_address
-                  }}
+                  {{ employee.data.email_address }}
                 </a>
               </v-card-text>
             </v-card>
@@ -71,9 +84,16 @@ import { IPrismic } from '~/shims'
   }
 })
 export default class Index extends Vue {
-   head() {
+  head() {
     return {
-      title: (this as any).team[0].data.main_title[0].text
+      title: (this as any).team[0].data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).team[0].data.meta_description
+        }
+      ]
     }
   }
 

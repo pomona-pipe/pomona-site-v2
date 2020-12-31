@@ -20,7 +20,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
+import { Store } from 'vuex'
 import { find } from 'lodash'
 import { Route } from 'vue-router/types'
 import { IPrismic, IPrismicDocument } from '~/shims'
@@ -47,7 +47,14 @@ export default class DetailPage extends Vue {
 
   head() {
     return {
-      title: (this as any).document.data.name[0].text
+      title: (this as any).document.data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).document.data.meta_description
+        }
+      ]
     }
   }
 

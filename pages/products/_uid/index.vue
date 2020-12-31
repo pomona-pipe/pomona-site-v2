@@ -73,7 +73,14 @@ export default class ProductCategoryPage extends Vue {
 
   head() {
     return {
-      title: (this as any).document.data.name[0].text
+      title: (this as any).document.data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).document.data.meta_description
+        }
+      ]
     }
   }
 

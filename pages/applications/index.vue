@@ -17,9 +17,24 @@
       <v-container>
         <!-- template for product category cards -->
         <v-row>
-          <v-col v-for="app in applications" :key="app.id" cols="12" sm="6" md="4" lg="3">
-            <v-card :to="`/applications/${app.uid}`" hover outlined height="100%">
-              <v-img :src="app.data.hero_image.fileUrl || placeholders.file" height="200px"></v-img>
+          <v-col
+            v-for="app in applications"
+            :key="app.id"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+          >
+            <v-card
+              :to="`/applications/${app.uid}`"
+              hover
+              outlined
+              height="100%"
+            >
+              <v-img
+                :src="app.data.hero_image.fileUrl || placeholders.file"
+                height="200px"
+              ></v-img>
 
               <v-card-title>{{ app.data.name[0].text }}</v-card-title>
             </v-card>
@@ -34,7 +49,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
 import pageVisits from '~/services/pageVisits'
-import { IPrismic, IPrismicDocument } from '~/shims'
+import { IPrismic } from '~/shims'
 
 @Component({
   components: {},
@@ -55,12 +70,19 @@ import { IPrismic, IPrismicDocument } from '~/shims'
   }
 })
 export default class Index extends Vue {
- head() {
+  head() {
     return {
-      title: (this as any).applicationsPage[0].data.main_title[0].text
+      title: (this as any).applicationsPage[0].data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).applicationsPage[0].data.meta_description
+        }
+      ]
     }
   }
-  
+
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
     if (pageVisits() > 1) return
     await store.dispatch('pages/getApplicationsPage', $prismic)

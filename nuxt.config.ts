@@ -19,7 +19,9 @@ export default {
   head: {
     title: '',
     titleTemplate: (titleChunk: string) => {
-      return titleChunk ? `${titleChunk} - Pomona Pipe Products` : 'Pomona Pipe Products'
+      return titleChunk
+        ? `${titleChunk} - Pomona Pipe Products`
+        : 'Pomona Pipe Products'
     },
     meta: [
       { charset: 'utf-8' },
@@ -27,7 +29,7 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
+        content: ''
       }
     ],
     link: [
