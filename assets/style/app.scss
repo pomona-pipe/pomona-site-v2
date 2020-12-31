@@ -87,6 +87,10 @@ p:empty {
   }
 }
 
+.img-overflow-mask {
+  mask-image: radial-gradient(white, black);
+}
+
 //Layout for Desktop Contact & Technical Pages
 @media screen and (min-width: 768px) {
   .hero-overlap .hero {
