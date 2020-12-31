@@ -4,7 +4,7 @@
       <h2 class="text-center">Full Gallery</h2>
       <v-row justify="center" class="fill-height">
         <v-col cols="12" align="start">
-          <v-carousel class="rounded-xl" show-arrows-on-hover>
+          <v-carousel class="rounded-xl img-overflow-mask" show-arrows-on-hover>
             <v-carousel-item
               v-for="image in document.data.image_gallery"
               :key="image.id"
