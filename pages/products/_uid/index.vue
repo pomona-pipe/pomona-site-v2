@@ -2,6 +2,15 @@
   <div>
     <section class="hero" :style="heroStyles">
       <v-container>
+        <v-row>
+          <v-col>
+            <v-breadcrumbs dark :items="breadcrumbs">
+              <template v-slot:divider>
+                <v-icon>{{ mdiChevronRight }}</v-icon>
+              </template>
+            </v-breadcrumbs>
+          </v-col>
+        </v-row>
         <v-row align="center" class="fill-height">
           <v-col align="center">
             <div class="grey--text text--lighten-2">
@@ -53,6 +62,7 @@ import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import pageVisits from '~/services/pageVisits'
 import { IPrismic, IPrismicDocument } from '~/shims'
+import { mdiChevronRight } from '@mdi/js'
 
 @Component({
   computed: {
@@ -70,6 +80,9 @@ import { IPrismic, IPrismicDocument } from '~/shims'
 })
 export default class ProductCategoryPage extends Vue {
   document: IPrismicDocument | null = null
+  breadcrumbs: IBreadcrumb[] | null = null
+
+  mdiChevronRight = mdiChevronRight
 
   head() {
     return {
@@ -128,6 +141,22 @@ export default class ProductCategoryPage extends Vue {
       this.$store.state.products.productCategories,
       (category) => category.uid === uid
     )
+    this.breadcrumbs = [
+      {
+        exact: true,
+        text: 'Products',
+        to: {
+          path: '/products'
+        }
+      },
+      {
+        exact: true,
+        text: this.document!.data.name[0].text,
+        to: {
+          path: `/products/${this.document!.uid}`
+        }
+      }
+    ]
   }
 }
 </script>
