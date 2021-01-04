@@ -43,6 +43,15 @@ a {
   font-family: $button-font-family;
 }
 
+//Breadcrumbs
+.v-breadcrumbs__item {
+  color: var(--v-primary-base) !important;
+}
+
+.v-breadcrumbs__item--disabled{
+ color: #e0e0e0 !important;
+}
+
 // page sections
 section {
   padding: 1.5rem 0;
