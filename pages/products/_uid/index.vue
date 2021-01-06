@@ -1,18 +1,15 @@
 <template>
   <div>
     <section class="hero" :style="heroStyles">
+      <v-breadcrumbs dark :items="breadcrumbs">
+        <template v-slot:divider>
+          <v-icon small>{{ mdiChevronRight }}</v-icon>
+        </template>
+      </v-breadcrumbs>
+
       <v-container>
-        <v-row>
+        <v-row align="center" class="fill-height text-center">
           <v-col>
-            <v-breadcrumbs dark :items="breadcrumbs">
-              <template v-slot:divider>
-                <v-icon>{{ mdiChevronRight }}</v-icon>
-              </template>
-            </v-breadcrumbs>
-          </v-col>
-        </v-row>
-        <v-row align="center" class="fill-height">
-          <v-col align="center">
             <div class="grey--text text--lighten-2">
               <prismic-rich-text :field="document.data.name" />
             </div>
