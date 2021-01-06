@@ -2,13 +2,17 @@
   <div>
     <!-- Hero Section  -->
     <section class="hero" :style="heroStyles">
+      <v-breadcrumbs dark :items="breadcrumbs">
+        <template v-slot:divider>
+          <v-icon small>{{ mdiChevronRight }}</v-icon>
+        </template>
+      </v-breadcrumbs>
+
       <v-container>
         <v-row align="center" class="fill-height">
           <v-col align="center">
             <div class="grey--text text--lighten-2">
               <prismic-rich-text :field="document.data.name" />
-            </div>
-            <div>
               <p class="subtitle">{{ document.data.description[0].text }}</p>
             </div>
           </v-col>
@@ -24,6 +28,8 @@ import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
 import { Route } from 'vue-router/types'
 import { IPrismic, IPrismicDocument } from '~/shims'
+import { mdiChevronRight } from '@mdi/js'
+import parseNameFromUid from '~/services/uidToPageName'
 import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
 
 @Component({
@@ -44,6 +50,10 @@ import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.v
 })
 export default class DetailPage extends Vue {
   document: IPrismicDocument | null = null
+  breadcrumbs: IBreadcrumb[] | null = null
+
+  mdiChevronRight = mdiChevronRight
+  parseNameFromUid = parseNameFromUid
 
   head() {
     return {
@@ -75,6 +85,36 @@ export default class DetailPage extends Vue {
   created() {
     const uid = this.$route.params.uid
     this.document = find(this.$store.state.products.products, { uid })
+
+    const categoryBreadCrumbTitle = parseNameFromUid(
+      this.document!.data.product_category.uid
+    )
+
+    this.breadcrumbs = [
+      {
+        exact: true,
+        text: 'Products',
+        to: {
+          path: '/products'
+        }
+      },
+      {
+        exact: true,
+        text: categoryBreadCrumbTitle,
+        to: {
+          path: `/products/${this.document!.data.product_category.uid}`
+        }
+      },
+      {
+        exact: true,
+        text: this.document!.data.name[0].text,
+        to: {
+          path: `/products/${this.document!.data.product_category.uid}/${
+            this.document!.uid
+          }`
+        }
+      }
+    ]
   }
 }
 </script>
