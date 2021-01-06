@@ -44,8 +44,22 @@ a {
 }
 
 //Breadcrumbs
+.v-breadcrumbs {
+  position: absolute;
+  padding: 0px 16px !important;
+  top: 112px;
+  left: 16px;
+  white-space: nowrap; 
+  width: 100%; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  display: block !important;
+  list-style-type: none !important;
+}
+
 .v-breadcrumbs__item {
   color: var(--v-primary-base) !important;
+  display: inline-block !important;
 }
 
 .v-breadcrumbs__item--disabled{
