@@ -1,6 +1,7 @@
 <template>
   <div>
     <section class="hero" :style="heroStyles">
+      <!-- breadcrumbs nav -->
       <v-breadcrumbs dark :items="breadcrumbs">
         <template v-slot:divider>
           <v-icon small>{{ mdiChevronRight }}</v-icon>
