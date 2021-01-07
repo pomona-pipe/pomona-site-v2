@@ -19,7 +19,9 @@ export default {
   head: {
     title: '',
     titleTemplate: (titleChunk: string) => {
-      return titleChunk ? `${titleChunk} - Pomona Pipe Products` : 'Pomona Pipe Products'
+      return titleChunk
+        ? `${titleChunk} - Pomona Pipe Products`
+        : 'Pomona Pipe Products'
     },
     meta: [
       { charset: 'utf-8' },
@@ -80,7 +82,8 @@ export default {
     '@/modules/crawler',
     '@nuxtjs/style-resources',
     '@nuxtjs/axios',
-    '@nuxtjs/prismic'
+    '@nuxtjs/prismic',
+    '@nuxtjs/sitemap'
   ],
   // vuetify config
   vuetify: {
@@ -97,6 +100,17 @@ export default {
     endpoint: 'https://pomona.cdn.prismic.io/api/v2',
     linkResolver: '@/plugins/link-resolver.ts',
     htmlSerializer: '@/plugins/html-serializer.ts'
+  },
+  // @nuxtjs/sitemap module config
+  sitemap: {
+    hostname: 'https://www.pomonapipeproducts.com',
+    gzip: true,
+    exclude: ['/preview'],
+    defaults: {
+      changefreq: 'daily',
+      priority: 1,
+      lastmod: new Date()
+    }
   },
   /*
    ** Axios module configuration
