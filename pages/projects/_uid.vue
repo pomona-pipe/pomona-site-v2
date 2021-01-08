@@ -42,6 +42,8 @@ import FullGallery from '~/components/PageComponents/ProjectDetailSections/FullG
   }
 })
 export default class DetailPage extends Vue {
+  document: IPrismicDocument | null = null
+
   head() {
     return {
       title: (this as any).document.data.title_tag,
@@ -53,6 +55,12 @@ export default class DetailPage extends Vue {
         }
       ]
     }
+  }
+
+  // fetch project from store and copy to component
+  created() {
+    const uid = this.$route.params.uid
+    this.document = find(this.$store.state.projects.projects, { uid })
   }
 
   async fetch({
