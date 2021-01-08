@@ -1,5 +1,6 @@
 import { Configuration } from 'webpack'
 import theme from './settings/theme'
+import sitemapRouteGenerator from './modules/sitemapRouteGenerator'
 
 export default {
   mode: 'universal',
@@ -72,7 +73,11 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
+  buildModules: [
+    '@nuxt/typescript-build',
+    '@nuxtjs/vuetify',
+    '@modules/sitemapRouteGenerator'
+  ],
   /*
    ** Nuxt.js modules
    */
@@ -105,6 +110,9 @@ export default {
   sitemap: {
     hostname: 'https://www.pomonapipeproducts.com',
     gzip: true,
+    routes: async () => {
+      return await sitemapRouteGenerator()
+    },
     exclude: ['/preview'],
     defaults: {
       changefreq: 'daily',
