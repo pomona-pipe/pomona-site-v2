@@ -10,6 +10,7 @@ export default async function() {
     'products',
     'projects',
     'applications'
+    // NOTE: add employees if bio pages are ever added
   ]
 
   // query routes for each content type
