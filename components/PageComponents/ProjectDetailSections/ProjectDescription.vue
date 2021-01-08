@@ -49,6 +49,7 @@ import { IPrismic, IPrismicDocument } from '~/shims'
 export default class ProjectDescription extends Vue {
   document: IPrismicDocument | null = null
   breadcrumbs: IBreadcrumb[] | null = null
+
   mdiChevronRight = mdiChevronRight
 
   formatDateString(dateString: string) {
@@ -59,6 +60,7 @@ export default class ProjectDescription extends Vue {
   created() {
     const uid = this.$route.params.uid
     this.document = find(this.$store.state.projects.projects, { uid })
+
     this.breadcrumbs = [
       {
         exact: true,

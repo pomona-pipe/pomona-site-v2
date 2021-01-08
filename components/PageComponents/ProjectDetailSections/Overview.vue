@@ -72,13 +72,17 @@ import { find } from 'lodash'
 import moment from 'moment'
 import { IPrismic, IPrismicDocument } from '~/shims'
 import parseNameFromUid from '~/services/uidToPageName.ts'
+
 @Component({})
 export default class Overview extends Vue {
   document: IPrismicDocument | null = null
+
   parseNameFromUid = parseNameFromUid
+
   formatDateString(dateString: string) {
     return moment(dateString).format('MMMM Do YYYY')
   }
+
   // fetch project from store and copy to component
   created() {
     const uid = this.$route.params.uid
