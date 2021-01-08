@@ -66,17 +66,23 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { Store, mapState } from 'vuex'
+import { Route } from 'vue-router/types'
+import { find } from 'lodash'
 import moment from 'moment'
+import { IPrismic, IPrismicDocument } from '~/shims'
 import parseNameFromUid from '~/services/uidToPageName.ts'
-
-@Component({
-  props: ['document']
-})
+@Component({})
 export default class Overview extends Vue {
+  document: IPrismicDocument | null = null
   parseNameFromUid = parseNameFromUid
-
   formatDateString(dateString: string) {
     return moment(dateString).format('MMMM Do YYYY')
+  }
+  // fetch project from store and copy to component
+  created() {
+    const uid = this.$route.params.uid
+    this.document = find(this.$store.state.projects.projects, { uid })
   }
 }
 </script>
