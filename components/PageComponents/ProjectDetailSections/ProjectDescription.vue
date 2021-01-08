@@ -30,8 +30,9 @@ import { Store, mapState } from 'vuex'
 import { Route } from 'vue-router/types'
 import { find } from 'lodash'
 import moment from 'moment'
-import { IPrismic, IPrismicDocument } from '~/shims'
 import { mdiChevronRight } from '@mdi/js'
+import { IPrismic, IPrismicDocument } from '~/shims'
+
 @Component({
   computed: {
     heroStyles() {
