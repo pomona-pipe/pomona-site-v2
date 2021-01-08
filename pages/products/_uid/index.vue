@@ -19,7 +19,8 @@
             v-for="product in products"
             :key="product.data.id"
             cols="12"
-            md="6"
+            sm="6"
+            md="4"
             lg="3"
           >
             <v-card
