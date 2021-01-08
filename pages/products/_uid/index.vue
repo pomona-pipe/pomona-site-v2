@@ -1,68 +1,168 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <v-container>
-        <!-- check product categories exists -->
-        <div>
-          <h1>{{ pageName }}</h1>
-        </div>
-        <v-layout v-if="products.length > 0" row wrap column justify-center align-center>
-          <!-- template for product category cards -->
-          <v-container fluid grid-list-sm>
-            <v-layout row wrap class="align-stretch">
-              <v-flex v-for="product in products" :key="product.data.id" xs12 md6 lg3>
-                <v-hover v-slot:default="{ hover }" open-delay="200">
-                  <v-card
-                    :to="`./${pageUid}/${product.uid}`"
-                    :elevation="hover ? 16 : 2"
-                    class="mx-auto"
-                    max-width="344"
-                    height="100%"
-                  >
-                    <v-img :src="product.data.cover_image.url" height="200px"></v-img>
+  <div>
+    <section class="hero" :style="heroStyles">
+      <!-- breadcrumbs nav -->
+      <v-breadcrumbs dark :items="breadcrumbs">
+        <template v-slot:divider>
+          <v-icon small>{{ mdiChevronRight }}</v-icon>
+        </template>
+      </v-breadcrumbs>
 
-                    <v-card-title>{{ product.data.name[0].text }}</v-card-title>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-layout>
+      <v-container>
+        <v-row align="center" class="fill-height text-center">
+          <v-col>
+            <div class="grey--text text--lighten-2">
+              <prismic-rich-text :field="document.data.name" />
+            </div>
+          </v-col>
+        </v-row>
       </v-container>
-    </v-flex>
-  </v-layout>
+    </section>
+    <section>
+      <v-container>
+        <!-- template for product category cards -->
+        <v-row>
+          <v-col
+            v-for="product in products"
+            :key="product.data.id"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+          >
+            <v-card
+              :to="`./${uid}/${product.uid}`"
+              outlined
+              hover
+              height="100%"
+            >
+              <v-img
+                :src="
+                  product.data.hero_image
+                    ? product.data.hero_image.fileUrl
+                    : placeholders.file
+                "
+                height="200px"
+              ></v-img>
+
+              <v-card-title>{{ product.data.name[0].text }}</v-card-title>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { Route } from 'vue-router/types'
 import { Store, mapState } from 'vuex'
 import { find } from 'lodash'
-import { IPrismic } from '~/shims'
+import pageVisits from '~/services/pageVisits'
+import { IPrismic, IPrismicDocument } from '~/shims'
+import { mdiChevronRight } from '@mdi/js'
 
 @Component({
   computed: {
-    ...mapState('layout', ['pageUid', 'pageName'])
+    ...mapState('layout', ['placeholders']),
+    heroStyles() {
+      return {
+        'background-image': `linear-gradient(to right top, rgba(36, 36, 36, 0.9), rgba(25, 32, 72, 0.7)), url("${
+          (this as any).document.data.hero_image.fileUrl
+        }")`,
+        'background-position': 'center',
+        'background-size': 'cover'
+      }
+    }
   }
 })
 export default class ProductCategoryPage extends Vue {
+  document: IPrismicDocument | null = null
+  breadcrumbs: IBreadcrumb[] | null = null
+
+  mdiChevronRight = mdiChevronRight
+
+  head() {
+    return {
+      title: (this as any).document.data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).document.data.meta_description
+        }
+      ]
+    }
+  }
+
+  // product cards
   get products() {
-    const category = this.$store.state.layout.pageName
     return this.$store.state.products.products.filter(
-      (product: any) => product.data.product_category === category
+      (product: any) =>
+        product.data.product_category.uid === this.$route.params.uid
     )
   }
 
-  async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
-    const category = store.state.layout.pageName
-    const productsExist = find(
-      store.state.products.products,
-      (product) => product.data.product_category === category
+  // for product card links
+  get uid() {
+    return this.$route.params.uid
+  }
+
+  async fetch({
+    store,
+    $prismic,
+    params
+  }: {
+    store: Store<any>
+    $prismic: IPrismic
+    params: Route['params']
+  }) {
+    // return if page has been visited
+    if (pageVisits() > 1) return
+
+    const { uid } = params
+
+    // get product category - either from store or by querying prismic
+    let cat = find(
+      store.state.products.productCategories,
+      (category) => category.uid === uid
     )
-    if (productsExist) return
+    if (!cat) {
+      cat = await $prismic.api.getByUID('product_categories', uid)
+      store.commit('products/addProductCategory', cat)
+    }
+
+    // get products by category id
+    const catId = cat.id
     await store.dispatch('products/getProductsByCategory', {
       $prismic,
-      category
+      catId
     })
+  }
+
+  created() {
+    const uid = this.$route.params.uid
+    this.document = find(
+      this.$store.state.products.productCategories,
+      (category) => category.uid === uid
+    )
+    this.breadcrumbs = [
+      {
+        exact: true,
+        text: 'Products',
+        to: {
+          path: '/products'
+        }
+      },
+      {
+        exact: true,
+        text: this.document!.data.name[0].text,
+        to: {
+          path: `/products/${this.document!.uid}`
+        }
+      }
+    ]
   }
 }
 </script>

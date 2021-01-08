@@ -1,68 +1,54 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm6 md4 lg3 xl3>
-      
-      <v-container>
-        <h1>Home</h1>
-        <!-- check product categories exists -->
-        <v-layout
-          v-if="productCategories.length > 0"
-          row
-          wrap
-          column
-          justify-center
-          align-center
-        >
-          <!-- template for product category cards -->
-          <v-container fluid grid-list-lg>
-            <v-layout row wrap class="align-stretch">
-              <v-flex
-                v-for="cat in productCategories"
-                :key="cat.id"
-                xs12
-                sm6
-                md4
-                lg3
-                xl3
-              >
-                <v-hover v-slot:default="{ hover }" open-delay="200">
-                  <v-card
-                    :to="`/products/${cat.uid}`"
-                    :elevation="hover ? 16 : 2"
-                    class="mx-auto"
-                    max-width="344"
-                    height="100%"
-                  >
-                    <v-img :src="cat.data.category_image.url" height="200px"></v-img>
-
-                    <v-card-title>{{
-                      cat.data.category_title[0].text
-                    }}</v-card-title>
-                  </v-card>
-                </v-hover>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-layout>
-      </v-container>
-    </v-flex>
-  </v-layout>
+  <div class="page">
+    <Hero />
+    <ValueProp />
+    <CustomerReach />
+    <SupplierLogo />
+    <FeaturedProjects />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
+import pageVisits from '~/services/pageVisits'
 import { IPrismic } from '~/shims'
+import Hero from '~/components/PageComponents/Home/Hero.vue'
+import ValueProp from '~/components/PageComponents/Home/ValueProp.vue'
+import CustomerReach from '~/components/PageComponents/Home/CustomerReach.vue'
+import SupplierLogo from '~/components/PageComponents/Home/SupplierLogo.vue'
+import FeaturedProjects from '~/components/PageComponents/Home/FeaturedProjects.vue'
 
 @Component({
-  components: {},
+  components: {
+    Hero,
+    ValueProp,
+    CustomerReach,
+    SupplierLogo,
+    FeaturedProjects
+  },
   computed: {
-    ...mapState('products', ['productCategories'])
+    ...mapState('pages', ['home'])
   }
 })
 export default class Index extends Vue {
+  head() {
+    return {
+      title: (this as any).home[0].data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).home[0].data.meta_description
+        }
+      ]
+    }
+  }
+
   async fetch({ store, $prismic }: { store: Store<any>; $prismic: IPrismic }) {
-    await store.dispatch('products/getProductCategories', $prismic)
+    if (pageVisits() > 1) return
+    await store.dispatch('pages/getHome', $prismic)
+    await store.dispatch('projects/getProjects', $prismic)
   }
 }
 </script>

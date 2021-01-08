@@ -1,32 +1,47 @@
+import { Route } from 'vue-router/types'
 // TODO: create types for api response data/payloads
 import { IPrismic } from '~/shims'
 
+interface SearchState {
+  open: boolean
+  isClosing: boolean
+}
+
 interface IState {
-  pageUid: string | null
-  pageName: string | null
+  routerHistory: Partial<Route>[]
   isMobile: boolean | null
+  searchBar: SearchState
   mobileDrawer: boolean
   mainNavigation: any[]
+  footerNavigation: any[]
+  placeholders: { [key: string]: string }
 }
 
 export const state: () => IState = () => ({
-  pageUid: null,
-  pageName: null,
+  routerHistory: [],
   isMobile: null,
+  searchBar: {
+    open: false,
+    isClosing: false
+  },
   mobileDrawer: false,
-  mainNavigation: []
+  mainNavigation: [],
+  footerNavigation: [],
+  placeholders: {
+    account: '/images/placeholders/account.svg',
+    file: '/images/placeholders/file-image.svg'
+  }
 })
 
 export const mutations = {
-  setPageUid(state: IState, payload: string) {
-    const pageUid = payload.split('/').slice(-1)[0] || 'home'
-    state.pageUid = pageUid
-  },
-  setPageName(state: IState, payload: string) {
-    state.pageName = parseNameFromUid(payload)
+  updateRouterHistory(state: IState, payload: Partial<Route>) {
+    state.routerHistory.push(payload)
   },
   setIsMobile(state: IState, value: boolean) {
     state.isMobile = value
+  },
+  setSearchBar(state: IState, value: SearchState) {
+    Object.assign(state.searchBar, value)
   },
   setMobileDrawer(state: IState, value: boolean) {
     state.mobileDrawer = value
@@ -36,6 +51,9 @@ export const mutations = {
   },
   setMainNavigation(state: IState, payload: any[]) {
     state.mainNavigation = payload
+  },
+  setFooterNavigation(state: IState, payload: any[]) {
+    state.footerNavigation = payload
   }
 }
 
@@ -65,21 +83,16 @@ export const actions = {
       return option
     })
     commit('setMainNavigation', mainNavigation)
+  },
+  async getFooterNavigation({ commit }: { commit: any }, $prismic: IPrismic) {
+    const byFooterNavigation = $prismic.predicates.at(
+      'document.type',
+      'footer_navigation'
+    )
+    const footerNavigation = await $prismic.api.query(byFooterNavigation, {})
+    commit(
+      'setFooterNavigation',
+      footerNavigation.results.map((result) => result)
+    )
   }
-}
-
-function parseNameFromUid(uid: string) {
-  const words = uid.split('-')
-  const conversions: { [key: string]: string } = {
-    and: '&'
-  }
-  words.forEach((word, index) => {
-    // capitalize first letter
-    words[index] = word.charAt(0).toUpperCase() + word.substr(1)
-    // convert key words to symbols
-    if (Object.keys(conversions).includes(word)) {
-      words[index] = conversions[word]
-    }
-  })
-  return words.join(' ')
 }

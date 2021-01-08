@@ -1,40 +1,86 @@
 <template>
-  <section>
-    <v-row cols="12">
-      <v-col sm="6">
-        <v-img :src="document.data.project_image.detail_page.url"></v-img>
-      </v-col>
-      <v-col sm="6">
-        <h1 align="center">{{ document.data.project_name[0].text}}</h1>
-        <h4>{{ formatDateString(document.data.completion_date) }} in {{ document.data.project_location[0].text }}</h4>
-        <div v-for="element in document.data.project_summary" :key="element.id">
-            <p>{{ element.text }}</p>
-        </div>
-        
-      </v-col>
-    </v-row>
-  </section>
+  <div class="page">
+    <ProjectDescription />
+    <Overview />
+    <Background />
+    <OurSolution />
+    <FullGallery />
+  </div>
 </template>
+
+<style lang="scss">
+.img-float-md {
+  width: 55%;
+  &.float-md-left {
+    margin: 0 16px 16px 0;
+  }
+  &.float-md-right {
+    margin: 0 0 16px 16px;
+  }
+}
+</style>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import { Store, mapState } from 'vuex'
+import { Store } from 'vuex'
+import { Route } from 'vue-router/types'
 import { find } from 'lodash'
-import moment from 'moment'
 import { IPrismic, IPrismicDocument } from '~/shims'
+import ProjectDescription from '~/components/PageComponents/ProjectDetailSections/ProjectDescription.vue'
+import Overview from '~/components/PageComponents/ProjectDetailSections/Overview.vue'
+import Background from '~/components/PageComponents/ProjectDetailSections/Background.vue'
+import OurSolution from '~/components/PageComponents/ProjectDetailSections/OurSolution.vue'
+import FullGallery from '~/components/PageComponents/ProjectDetailSections/FullGallery.vue'
+
 @Component({
-  ...mapState('layout', ['pageUid', 'pageName'])
+  components: {
+    ProjectDescription,
+    Overview,
+    Background,
+    OurSolution,
+    FullGallery
+  }
 })
 export default class DetailPage extends Vue {
   document: IPrismicDocument | null = null
 
-  formatDateString(dateString: string) {
-    return moment(dateString).format('MMMM Do YYYY')
+  head() {
+    return {
+      title: (this as any).document.data.title_tag,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: (this as any).document.data.meta_description
+        }
+      ]
+    }
   }
-  // retrieve correct project document from store
+
+  // fetch project from store and copy to component
   created() {
-    const pageUid = this.$store.state.layout.pageUid
-    this.document = find(this.$store.state.projects.projects, ['uid', pageUid])
+    const uid = this.$route.params.uid
+    this.document = find(this.$store.state.projects.projects, { uid })
+  }
+
+  async fetch({
+    store,
+    $prismic,
+    params
+  }: {
+    store: Store<any>
+    $prismic: IPrismic
+    params: Route['params']
+  }) {
+    const { uid } = params
+
+    // if project exists in store, return
+    const storeProject = find(store.state.projects.projects, { uid })
+    if (storeProject) return
+
+    // else, query project and add to store
+    const result = await $prismic.api.getByUID('projects', uid)
+    store.commit('projects/addProject', result)
   }
 }
 </script>

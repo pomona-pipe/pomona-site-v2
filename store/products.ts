@@ -1,5 +1,6 @@
-// TODO: create types for api response data/payloads
+import { uniqBy } from 'lodash'
 
+// TODO: create types for api response data/payloads
 import { IPrismic } from '~/shims'
 
 interface IState {
@@ -13,11 +14,17 @@ export const state = () => ({
 })
 
 export const mutations = {
+  addProductCategory(state: IState, payload: object) {
+    state.productCategories = uniqBy(
+      state.productCategories.concat([payload]),
+      'id'
+    )
+  },
   setProductCategories(state: IState, payload: object[]) {
     state.productCategories = payload
   },
-  addProduct(state: IState, payload: object[]) {
-    state.products = state.products.concat(payload)
+  addProducts(state: IState, payload: object[]) {
+    state.products = uniqBy(state.products.concat(payload), 'id')
   }
 }
 export const actions = {
@@ -26,7 +33,9 @@ export const actions = {
       'document.type',
       'product_categories'
     )
-    const productCategories = await $prismic.api.query(byCategories, {orderings: '[my.product_categories.order_number]'})
+    const productCategories = await $prismic.api.query(byCategories, {
+      orderings: '[my.product_categories.order_number]'
+    })
     commit(
       'setProductCategories',
       productCategories.results.map((result) => result)
@@ -34,15 +43,17 @@ export const actions = {
   },
   async getProductsByCategory(
     { commit }: { commit: any },
-    { $prismic, category }: { $prismic: IPrismic; category: string }
+    { $prismic, catId }: { $prismic: IPrismic; catId: string }
   ) {
     const byCategory = $prismic.predicates.at(
       'my.products.product_category',
-      category
+      catId
     )
-    const product = await $prismic.api.query(byCategory, {})
+    const product = await $prismic.api.query(byCategory, {
+      orderings: '[my.products.order_number]'
+    })
     commit(
-      'addProduct',
+      'addProducts',
       product.results.map((result) => result)
     )
   }

@@ -1,13 +1,15 @@
 <template>
-  <v-app v-resize="checkIsMobile" :class="{ 'no-scroll': mobileDrawer }">
+  <v-app
+    v-resize="checkIsMobile"
+    :class="{ 'no-scroll': mobileDrawer && isMobile }"
+  >
     <Header />
     <MobileDrawer v-show="isMobile" />
     <!-- Application Content -->
-    <v-main >
-      <v-container fluid class="py-0">
-        <nuxt />
-      </v-container>
+    <v-main>
+      <nuxt />
     </v-main>
+    <Footer />
   </v-app>
 </template>
 <style lang="css" scoped>
@@ -25,14 +27,17 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Store, mapState } from 'vuex'
+import { Route } from 'vue-router/types'
 import { IPrismic } from '~/shims'
 import Header from '~/components/Layout/Header.vue'
+import Footer from '~/components/Layout/Footer.vue'
 import MobileDrawer from '~/components/Navigation/MobileDrawer.vue'
 
 @Component({
   components: {
     Header,
-    MobileDrawer
+    MobileDrawer,
+    Footer
   },
   computed: {
     ...mapState('layout', ['mainNavigation', 'isMobile']),
@@ -57,13 +62,34 @@ export default class DefaultLayout extends Vue {
     store,
     $prismic
   }: {
-    route: any
+    route: Route
     store: Store<any>
     $prismic: IPrismic
   }) {
-    store.commit('layout/setPageUid', route.path)
-    store.commit('layout/setPageName', store.state.layout.pageUid)
+    // update router history: matched property excluded since it causes app to crash
+    const {
+      path,
+      name,
+      hash,
+      query,
+      params,
+      fullPath,
+      redirectedFrom,
+      meta
+    } = route
+    store.commit('layout/updateRouterHistory', {
+      path,
+      name,
+      hash,
+      query,
+      params,
+      fullPath,
+      redirectedFrom,
+      meta
+    })
+    if (store.state.layout.routerHistory.length > 1) return
     await store.dispatch('layout/getMainNavigation', $prismic)
+    await store.dispatch('layout/getFooterNavigation', $prismic)
   }
 }
 </script>

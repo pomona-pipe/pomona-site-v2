@@ -2,7 +2,7 @@
   <div id="desktop-menu">
     <v-menu
       v-for="navOption in mainNavigation"
-      :key="navOption.primary.link.id"
+      :key="`desktop-${navOption.primary.link.id}`"
       open-on-hover
       bottom
       offset-y
@@ -12,8 +12,9 @@
         <v-btn
           :nuxt="true"
           :to="{ path: `/${navOption.primary.link.uid}` }"
-          color="#303030"
+          color="transparent"
           dark
+          depressed
           height="48px"
           v-on="on"
           >{{ navOption.primary.label[0].text }}</v-btn
@@ -21,10 +22,10 @@
       </template>
 
       <!-- Repeat Section -->
-      <v-list v-if="navOption.items.length > 0">
+      <v-list v-if="navOption.items.length > 0" rounded>
         <v-list-item
           v-for="subNavOption in navOption.items"
-          :key="subNavOption.sub_nav_link.id"
+          :key="`desktop-${subNavOption.sub_nav_link.id}`"
           :nuxt="true"
           :to="{
             path:
@@ -33,7 +34,7 @@
                 : `/${navOption.primary.link.uid}/${subNavOption.sub_nav_link.uid}`
           }"
           text
-          rounded
+          dense
           active-class="deep-purple--text text--accent-4"
           exact
         >

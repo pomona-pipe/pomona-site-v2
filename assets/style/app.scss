@@ -1,10 +1,147 @@
 /*
 ** main application styles
-** use variables from variables.scss file
+** can use variables from variables.scss file: e.g. $custom-color
+** can also use vuetify theme vars: var(--v-primary-base)
 */
-// html {
-//   font-size: $font-size-root;
-// }
+
+// headings
+h1 {
+  font-family: $heading-font-family;
+  font-size: 2.75rem;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+h2 {
+  font-family: $heading-font-family;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+h3 {
+  font-family: $heading-font-family;
+  font-size: 1.75rem;
+}
+h4 {
+  font-family: $heading-font-family;
+  font-size: 1.4rem;
+}
+h5 {
+  font-family: $heading-font-family;
+  font-size: 1.2rem;
+}
+h6 {
+  font-family: $subheading-font-family;
+  font-size: 1rem;
+}
+.subtitle {
+  font-family: $subheading-font-family;
+  font-size: 1.5rem;
+}
+
+//Buttons
+a {
+  font-family: $button-font-family;
+}
+
+//Breadcrumbs
+.v-breadcrumbs {
+  position: absolute;
+  padding: 0px 16px !important;
+  top: 112px;
+  left: 0px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block !important;
+  li {
+    display: inline !important;
+    .v-breadcrumbs__item {
+      color: var(--v-primary-lighten3) !important;
+      display: inline !important;
+      &.v-breadcrumbs__item--disabled {
+        color: #e0e0e0 !important;
+      }
+    }
+  }
+}
+
+// page sections
+section {
+  padding: 1.5rem 0;
+  &:nth-child(2n + 1) {
+    background-color: #fafafa;
+  }
+  &.hero {
+    padding-top: calc(1.5rem + 96px);
+    color: #ffffff;
+  }
+}
+
+// cards
+.v-card__title {
+  word-break: break-word !important;
+}
+
+// prismic
 p:empty {
   height: 1em;
+}
+
+//Layout for Mobile Contact & Technical Pages
+.hero-overlap {
+  .hero {
+    padding-bottom: 2.25rem;
+  }
+  .hero + section {
+    background-color: #fafafa;
+    padding-top: 0;
+    .container {
+      padding-top: 0;
+      padding-bottom: 0;
+      .col-12 {
+        padding-top: 0;
+        padding-bottom: 0;
+        .v-card {
+          margin-top: -1.5rem;
+        }
+      }
+    }
+  }
+}
+
+.img-overflow-mask {
+  mask-image: radial-gradient(white, black);
+}
+
+//Layout for Desktop Contact & Technical Pages
+@media screen and (min-width: 768px) {
+  .hero-overlap .hero {
+    padding-bottom: 10.5rem;
+  }
+  .hero-overlap .hero + section .container .col-12 .v-card {
+    margin-top: -7rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  h1 {
+    font-size: 3.33rem;
+  }
+  h2 {
+    font-size: 2.44rem;
+  }
+  .subtitle {
+    font-size: 1.56rem;
+  }
+  section {
+    padding: 7rem 0;
+    &.hero {
+      padding-top: calc(7rem + 96px);
+    }
+  }
 }

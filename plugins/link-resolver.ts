@@ -18,22 +18,6 @@ interface DocumentLink {
   uid: string
 }
 
-function parseUidFromName(uid: string) {
-  const words = uid.split(' ')
-  const conversions: { [key: string]: string } = {
-    '&': 'and'
-  }
-  words.forEach((word, index) => {
-    // convert first letter to lowercase
-    words[index] = word.charAt(0).toLowerCase() + word.substr(1)
-    // convert symbols to words
-    if (Object.keys(conversions).includes(word)) {
-      words[index] = conversions[word]
-    }
-  })
-  return words.join('-')
-}
-
 export default function(doc: DocumentLink) {
   if (doc.isBroken) {
     return '/not-found'
@@ -42,6 +26,12 @@ export default function(doc: DocumentLink) {
   const { uid } = doc
 
   switch (doc.type) {
+    case 'home_page':
+      return '/'
+      
+    case 'category_page':
+      return '/products'
+
     case 'product_categories':
       return `/products/${uid}`
 
@@ -51,9 +41,9 @@ export default function(doc: DocumentLink) {
         ;(window.$nuxt as any).$prismic.api
           .getByUID('products', uid)
           .then((result: Document) => {
-            const productLink = `/products/${parseUidFromName(
-              result!.data.product_category
-            )}/${uid}`
+            const productLink = `/products/${
+              result!.data.product_category.uid
+            }/${uid}`
             const productAnchorTags = document.querySelectorAll(
               'a[href*="product_category"]'
             )
@@ -68,14 +58,34 @@ export default function(doc: DocumentLink) {
       // initial href value - overwritten after api call
       return `/products/product_category/${uid}`
 
+    case 'projects_page':
+      return '/projects'
+
     case 'projects':
       return `/projects/${uid}`
 
+    case 'about_us_page':
+      return '/about-us'
+
     case 'contact_page':
+      return '/about-us/contact'
+
     case 'team_page':
-      return `/about-us/${uid}`
+      return '/about-us/team'
+    
+    case 'technical_guides_page':
+      return '/technical-guides'
+    
+    case 'services_page':
+      return '/services'
+
+    case 'applications':
+      return `/applications/${uid}`
+
+    case 'applications_page':
+      return '/applications'
 
     default:
-      return `/${uid}`
+      return '/not-found'
   }
 }
