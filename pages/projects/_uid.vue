@@ -1,10 +1,10 @@
 <template>
   <div class="page">
-    <ProjectDescription :document="document" />
-    <Overview :document="document" />
-    <Background :document="document" />
-    <OurSolution :document="document" />
-    <FullGallery :document="document" />
+    <ProjectDescription />
+    <Overview />
+    <Background />
+    <OurSolution />
+    <FullGallery />
   </div>
 </template>
 
