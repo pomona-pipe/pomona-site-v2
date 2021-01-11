@@ -30,7 +30,11 @@ const productCategoryRedirects: Redirects = {
   craftedClay: {
     paths: ['/products/masonry.php'],
     redirect: '/products/crafted-clay'
-  }
+  },
+  stormwaterFiltration: {
+    paths: ['/before/newdocument6.htm'],
+    redirect: '/products/stormwater-filtration'
+  },
 }
 
 // Products
@@ -106,7 +110,8 @@ const productRedirects: Redirects = {
     paths: [
       '/products/pondriser-root.php',
       '/products/sw_pondriser.php',
-      '/products/wc_pondriser.php'
+      '/products/wc_pondriser.php',
+      '/before/newdocument5.htm'
     ],
     redirect: '/products/water-control-structures/pond-riser'
   },
@@ -146,7 +151,7 @@ const productRedirects: Redirects = {
 // Applications
 const applicationRedirects: Redirects = {
   sliplining: {
-    paths: ['/products/sliplining.php'],
+    paths: ['/products/sliplining.php', '/before/product2.htm'],
     redirect: '/applications/slip-lining'
   },
   tunnels: {
@@ -189,7 +194,8 @@ export default function(context: Context) {
         '/products.php',
         '/products/geo-synthetics.php',
         '/products/geo-tensar.php',
-        '/products/geotextiles.php'
+        '/products/geotextiles.php',
+        '/before/catalog.htm'
       ],
       redirect: '/products'
     },
