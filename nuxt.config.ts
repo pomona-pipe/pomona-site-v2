@@ -88,7 +88,8 @@ export default {
     '@nuxtjs/style-resources',
     '@nuxtjs/axios',
     '@nuxtjs/prismic',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots'
   ],
   /*
    ** Nuxt.js router
@@ -125,6 +126,11 @@ export default {
       priority: 1,
       lastmod: new Date()
     }
+  },
+  // @nuxtjs/robots module config
+  robots: {
+    UserAgent: '*',
+    Disallow: '/preview',
   },
   /*
    ** Axios module configuration
