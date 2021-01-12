@@ -3,11 +3,7 @@
     <!-- Hero Section  -->
     <section class="hero" :style="heroStyles">
       <!-- breadcrumbs nav -->
-      <v-breadcrumbs dark :items="breadcrumbs">
-        <template v-slot:divider>
-          <v-icon small>{{ mdiChevronRight }}</v-icon>
-        </template>
-      </v-breadcrumbs>
+     <Breadcrumb :breadcrumbs="breadcrumbs"/>
       <v-container>
         <v-row align="center" class="fill-height">
           <v-col align="center">
@@ -32,11 +28,12 @@ import { Route } from 'vue-router/types'
 import { find } from 'lodash'
 import { IPrismic, IPrismicDocument } from '~/shims'
 import SlicesBlock from '~/components/PageComponents/ProductDetail/SlicesBlock.vue'
-import { mdiChevronRight } from '@mdi/js'
+import Breadcrumb from '~/components/Navigation/Breadcrumbs.vue'
 
 @Component({
   components: {
-    SlicesBlock
+    SlicesBlock,
+    Breadcrumb,
   },
   computed: {
     ...mapState('layout', ['placeholders']),
@@ -55,8 +52,6 @@ import { mdiChevronRight } from '@mdi/js'
 export default class Index extends Vue {
   document: IPrismicDocument | null = null
   breadcrumbs: IBreadcrumb[] | null = null
-
-  mdiChevronRight = mdiChevronRight
 
   head() {
     return {

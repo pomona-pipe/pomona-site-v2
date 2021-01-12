@@ -1,12 +1,7 @@
 <template>
   <section class="hero" :style="heroStyles">
     <!-- breadcrumbs nav -->
-    <v-breadcrumbs dark :items="breadcrumbs">
-      <template v-slot:divider>
-        <v-icon small>{{ mdiChevronRight }}</v-icon>
-      </template>
-    </v-breadcrumbs>
-
+    <Breadcrumb :breadcrumbs="breadcrumbs"/>
     <v-container>
       <v-row align="center" class="fill-height">
         <v-col align="center">
@@ -30,10 +25,13 @@ import { Store, mapState } from 'vuex'
 import { Route } from 'vue-router/types'
 import { find } from 'lodash'
 import moment from 'moment'
-import { mdiChevronRight } from '@mdi/js'
 import { IPrismic, IPrismicDocument } from '~/shims'
+import Breadcrumb from '~/components/Navigation/Breadcrumbs.vue'
 
 @Component({
+  components: {
+    Breadcrumb,
+  },
   computed: {
     heroStyles() {
       return {
@@ -49,8 +47,6 @@ import { IPrismic, IPrismicDocument } from '~/shims'
 export default class ProjectDescription extends Vue {
   document: IPrismicDocument | null = null
   breadcrumbs: IBreadcrumb[] | null = null
-
-  mdiChevronRight = mdiChevronRight
 
   formatDateString(dateString: string) {
     return moment(dateString).format('MMMM Do YYYY')
