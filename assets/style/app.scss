@@ -44,6 +44,18 @@ a {
 }
 
 //Breadcrumbs
+
+//mobile
+#mobileBreadcrumb {
+  position: absolute;
+  padding: 0px 16px !important;
+  top: 112px;
+  left: 0px;
+  a {
+    color: var(--v-primary-lighten3) !important;
+  }
+}
+// desktop
 .v-breadcrumbs {
   position: absolute;
   padding: 0px 16px !important;
