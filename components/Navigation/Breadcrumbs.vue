@@ -11,7 +11,7 @@
     <!-- Mobile breadcrumb -->
     <span id="mobileBreadcrumb" v-show="isMobile">
       <v-icon dark small>{{ mdiChevronLeft }}</v-icon>
-      <nuxt-link :to="mobileBreadcrumb.to">Previous Page</nuxt-link>
+      <nuxt-link :to="mobileBreadcrumb.to">{{ mobileBreadcrumb.text }}</nuxt-link>
     </span>
   </div>
 </template>
