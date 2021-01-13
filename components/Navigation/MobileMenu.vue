@@ -17,7 +17,9 @@
         <v-list-item
           two-line
           :nuxt="true"
-          :to="`/${navOption.primary.link.uid}`"
+          :to="{
+            path: linkResolver(navOption.primary.link)
+          }"
           class="pr-4 pl-6"
           active-class="primary--text"
         >
@@ -41,10 +43,7 @@
           :key="`mobile-${subNavOption.sub_nav_link.id}`"
           :nuxt="true"
           :to="{
-            path:
-              navOption.primary.link.uid === subNavOption.sub_nav_link.uid
-                ? `/${navOption.primary.link.uid}`
-                : `/${navOption.primary.link.uid}/${subNavOption.sub_nav_link.uid}`
+            path: linkResolver(subNavOption.sub_nav_link)
           }"
           class="pl-8"
           two-line
@@ -69,6 +68,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
 import { mdiHome } from '@mdi/js'
+import linkResolver from '~/plugins/link-resolver'
 
 @Component({
   computed: {
@@ -76,6 +76,7 @@ import { mdiHome } from '@mdi/js'
   }
 })
 export default class MobileMenu extends Vue {
+  linkResolver = linkResolver
   mdiHome = mdiHome
 }
 </script>

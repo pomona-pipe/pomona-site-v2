@@ -12,7 +12,7 @@
         <v-btn
           class="rounded-pill"
           :nuxt="true"
-          :to="{ path: `/${navOption.primary.link.uid}` }"
+          :to="{ path: linkResolver(navOption.primary.link) }"
           color="transparent"
           dark
           depressed
@@ -29,14 +29,11 @@
           :key="`desktop-${subNavOption.sub_nav_link.id}`"
           :nuxt="true"
           :to="{
-            path:
-              navOption.primary.link.uid === subNavOption.sub_nav_link.uid
-                ? `/${navOption.primary.link.uid}`
-                : `/${navOption.primary.link.uid}/${subNavOption.sub_nav_link.uid}`
+            path: linkResolver(subNavOption.sub_nav_link)
           }"
           text
           dense
-          active-class="deep-purple--text text--accent-4"
+          active-class="primary--text"
           exact
         >
           <v-list-item-title>
@@ -53,11 +50,14 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 import { mapState } from 'vuex'
+import linkResolver from '~/plugins/link-resolver'
 
 @Component({
   computed: {
     ...mapState('layout', ['mainNavigation'])
   }
 })
-export default class DesktopMenu extends Vue {}
+export default class DesktopMenu extends Vue {
+  linkResolver = linkResolver
+}
 </script>
