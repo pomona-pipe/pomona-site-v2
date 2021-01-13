@@ -15,7 +15,7 @@
       >
         <!-- Mobile Hamburger Menu Button -->
         <v-app-bar-nav-icon
-          v-show="isMobile"
+          class="hidden-lg-and-up"
           default="mdiMenu"
           @click.stop="mobileDrawer = !mobileDrawer"
         ></v-app-bar-nav-icon>
@@ -25,7 +25,7 @@
         </nuxt-link>
         <div class="d-flex">
           <!-- Desktop Navigation Menu -->
-          <DesktopMenu v-show="!isMobile" />
+          <DesktopMenu class="hidden-md-and-down" />
         </div>
       </div>
     </v-app-bar>
