@@ -10,6 +10,7 @@
       <!-- Non-repeat Section -->
       <template v-slot:activator="{ on }">
         <v-btn
+          class="rounded-pill"
           :nuxt="true"
           :to="{ path: `/${navOption.primary.link.uid}` }"
           color="transparent"
