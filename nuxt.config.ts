@@ -139,7 +139,7 @@ export default {
     config: {
       send_page_view: false,
     },
-    debug: true,
+    debug: false,
   },
 
   /*
