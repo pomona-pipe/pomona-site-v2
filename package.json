@@ -18,6 +18,7 @@
     "@nuxt/http": "^0.5.12",
     "@nuxt/typescript-runtime": "^1.0.0",
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/google-gtag": "^1.0.4",
     "@nuxtjs/prismic": "^1.2.1",
     "@nuxtjs/robots": "^2.4.2",
     "@nuxtjs/sitemap": "^2.4.0",

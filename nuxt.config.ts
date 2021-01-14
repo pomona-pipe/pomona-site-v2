@@ -89,7 +89,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/prismic',
     '@nuxtjs/sitemap',
-    '@nuxtjs/robots'
+    '@nuxtjs/robots',
+    '@nuxtjs/google-gtag'
   ],
   /*
    ** Nuxt.js router
@@ -132,6 +133,15 @@ export default {
     UserAgent: '*',
     Disallow: '/preview',
   },
+  // @nuxtjs/google-gtag module config
+  'google-gtag': {
+    id: 'G-RZJQCE20Y7',
+    config: {
+      send_page_view: false,
+    },
+    debug: true,
+  },
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
