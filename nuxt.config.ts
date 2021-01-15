@@ -35,24 +35,6 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap'
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap'
-      }
     ]
   },
   /*
@@ -62,7 +44,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/style/app.scss'],
+  css: ['~/assets/fonts/openSans.css','~/assets/fonts/playfairDisplay.css','~/assets/fonts/poppins.css','~/assets/fonts/roboto.css', '~/assets/style/app.scss'],
   /*
    ** Plugins to load before mounting the App
    */
